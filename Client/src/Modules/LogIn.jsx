@@ -22,7 +22,8 @@ function LogIn() {
 
   const navigate = useNavigate();
   async function submit() {
-    navigate("/TaskManager");
+    navigate("/WorkSpaces")
+    //navigate("/TaskManager?id=123&somethingElse=abc");
   }
   useEffect(() => {});
 const {theme}=useTheme();

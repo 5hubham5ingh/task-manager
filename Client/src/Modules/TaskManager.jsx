@@ -1,5 +1,5 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "./Component/Theme/Theme";
 
 function TaskManager() {
@@ -12,6 +12,13 @@ function TaskManager() {
   const { theme } = useTheme();
   const inputRef = useRef();
   const buttons = [" ✔️ ", " ❌ ", " ✏️ "];
+
+  //Load tasks
+  useEffect(()=>{
+    const url = new URLSearchParams(window.location.search);
+    const id = url.get("id");
+    console.log(id)
+  },[])
   const addTask = () => {
     //send put request
     //if response is success then add the task to the task state array using id send by the server as response.
