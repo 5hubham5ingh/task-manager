@@ -85,14 +85,16 @@ export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
     const { theme } = useTheme();
     const workSpaceNameRef = useRef(null);
     const workSpaceDescriptionRef = useRef(null);
-    const [error,setError] = useState('');
-    const handleSubmit = ()=>{
+    const [error, setError] = useState('');
+    const handleSubmit = () => {
         console.log(workSpaceNameRef.current.target)
-        if(workSpaceNameRef.current.value === '') {setError('Name is required!');
-        return}
+        if (workSpaceNameRef.current.value === '') {
+            setError('Name is required!');
+            return
+        }
         //Sent request to add new workSpace
-        const workSpace={name: workSpaceNameRef.current.value, description: workSpaceDescriptionRef.current.value}
-        console.log('workSpace: ',workSpace)
+        const workSpace = { name: workSpaceNameRef.current.value, description: workSpaceDescriptionRef.current.value?workSpaceDescriptionRef.current.value:null }
+        console.log('workSpace: ', workSpace)
     }
     return (
         <Box direction="column"
@@ -112,10 +114,10 @@ export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
                 spacing="2vw">
                 <Typography sx={headingStyle} variant="h6">Add new Workplace</Typography>
                 <TextField label='Name'
-                ref={workSpaceNameRef}
-                error={Boolean(error)}
-                helperText={error}
-                fullwidth sx={textFieldStyle} />
+                    inputRef={workSpaceNameRef}
+                    error={Boolean(error)}
+                    helperText={error}
+                    fullwidth sx={textFieldStyle} />
                 <TextField label='Description' ref={workSpaceDescriptionRef} fullwidth sx={textFieldStyle} />
                 <Button
                     variant="contained"
