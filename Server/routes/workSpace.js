@@ -6,7 +6,7 @@ workSpaceRoute.post('/',createWorkSpace);
 
 workSpaceRoute.post('/:id', createTask);
 
-workSpaceRoute.delete('/')
+workSpaceRoute.delete('/:id', deleteWorkSpace);
 
 workSpaceRoute.get('/',getListOfAllWorkSpaces);
 

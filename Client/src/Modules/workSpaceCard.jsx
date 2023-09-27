@@ -17,13 +17,15 @@ export default function WorkSpaceCard({ workSpace }) {
         navigate(`/TaskManager?id=${workSpace._id}`)
     }
     return (
-        <Card sx={{ minWidth: 250, backgroundImage:`linear-gradient(${theme},rgb(140, 140, 243))` }} >
+        <Card sx={{ backgroundImage:`linear-gradient(${theme},rgb(140, 140, 243))`, minHeight:'200px' }} >
             <CardContent onClick={openWorkSpace}>
                 <Typography variant='h4'>{workSpace.name}</Typography>
                 <Typography variant='p'>{workSpace.createdBy}</Typography>
                 <Divider sx={{ borderColor: 'black' }} />
-                <Typography variant='subtitle2'>Description: <Typography variant='p'>{workSpace.description}</Typography></Typography>
-                <Typography variant='subtitle2'>Participents: {workSpace.participents.map((name) => <Typography variant='p'> {`${name}, `} </Typography>)} </Typography>
+                <Typography variant='h6' >Description: </Typography>
+                <Typography variant='subtitle2' paragraph={true} sx={{ width: '100%' }}> {workSpace.description}</Typography>
+                <Typography variant='h6' >Participants: </Typography>
+                <Typography  variant='p'   paragraph={true} sx={{ width: '100%'  }} > {workSpace.participants.map((name) => `${name}, ` )}</Typography> 
             </CardContent>
         </Card>
     );

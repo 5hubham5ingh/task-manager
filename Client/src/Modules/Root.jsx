@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import "./Styles/Root.css";
+
 import { SET_Theme_Button, useTheme } from "./Component/Theme/Theme";
 
 function Root() {
@@ -26,4 +26,5 @@ const rootStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  overflow:'auto'
 };

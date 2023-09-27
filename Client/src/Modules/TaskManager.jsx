@@ -1,6 +1,7 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "./Component/Theme/Theme";
+import { BackGround } from "./Component/Background";
 
 function TaskManager() {
   const [tasks, setTasks] = useState([
@@ -11,7 +12,7 @@ function TaskManager() {
   ]);
   const { theme } = useTheme();
   const inputRef = useRef();
-  const buttons = [" ✔️ ", " ❌ ", " ✏️ "];
+  const buttons = [" ✔️ ", " ❌ ", " ℹ️ "];
 
   //Load tasks
   useEffect(()=>{
@@ -38,7 +39,7 @@ function TaskManager() {
     removeTask(id);
   };
 
-  const editTask=(id)=>{
+  const info=(id)=>{
     
   }
 
@@ -48,11 +49,14 @@ function TaskManager() {
         break;
       case " ❌ ": removeTask(id)
         break;
-      case " ✏️ ": editTask(id)
+      case " ℹ️ ": info(id)
         break;
     }
   }
   return (
+    <BackGround itemAlignment='center'>
+
+    
     <Stack
       direction="column"
       sx={{
@@ -96,6 +100,11 @@ function TaskManager() {
             key={task.id}
           >
             {task.task}
+            <Stack direction='row' justifyContent='space-between'>
+
+            <Typography variant="subtitle2">Assigned by: </Typography>
+            <Typography variant="subtitle2">12/12/23 </Typography>
+            </Stack>
           </Typography>
           {buttons.map((button, index) => {
             return (
@@ -158,6 +167,7 @@ function TaskManager() {
         </Button>
       </Stack>
     </Stack>
+    </BackGround>
   );
 }
 
@@ -169,3 +179,5 @@ const buttonStyle = {
 
   height: "50px",
 };
+
+

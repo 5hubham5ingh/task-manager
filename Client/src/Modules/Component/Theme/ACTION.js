@@ -1,4 +1,4 @@
 export const ACTION={
-    DARK:'#02132e',
+    DARK:'#0b3252',
     LIGHT: '#abdaed'
 }

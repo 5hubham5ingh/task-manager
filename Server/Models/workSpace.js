@@ -6,6 +6,9 @@ export const workSpaceSchema = Schema({
         type: String,
         required: true
     },
+    description:{
+        type: String
+    },
     owner:{
         type: String,
         required: true
