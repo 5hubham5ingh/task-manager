@@ -42,7 +42,7 @@ export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
     >
       <BluredBackground onClick={closeModal} />
       <Stack
-        sx={{ backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))` }}
+        sx={{ backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))` ,borderRadius:'20px'}}
         component="form"
         className="form"
         p="2vw"

@@ -5,4 +5,5 @@ export const modalStyle= {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    
   };

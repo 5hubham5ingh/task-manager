@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { useTheme } from './Theme/Theme';
 import { useNavigate } from 'react-router-dom';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function WorkSpaceCard({ workSpace }) {
     const { theme } = useTheme();
@@ -23,7 +23,8 @@ export default function WorkSpaceCard({ workSpace }) {
                 <Typography variant='h6' >Description: </Typography>
                 <Typography variant='subtitle2' paragraph={true} sx={{ width: '100%' }}> {workSpace.description}</Typography>
                 <Typography variant='h6' >Participants: </Typography>
-                <Typography variant='p' paragraph={true} sx={{ width: '100%' }} > {workSpace.participants.map((name) => `${name}, `)}</Typography>
+                <Typography variant='p' paragraph={true} sx={{ width: '100%' }} > {workSpace.participants.map((name) => `${name}, `)} <DeleteIcon /></Typography>
+               
             </CardContent>
         </Card>
     );

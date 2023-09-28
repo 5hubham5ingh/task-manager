@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { textFieldStyle } from '../Styles/TextField';
+import { Paper } from '@mui/material';
 
 function sleep(duration) {
   return new Promise((resolve) => {
@@ -52,7 +53,7 @@ export default function SelectParticipants({ participants }) {
       PaperComponent={({ children }) => (
         <Paper style={{ background: "#abdaed" }}>{children}</Paper>
       )}
-      sx={{ background: '#abdaed' }}
+      sx={{ background: 'transparent',borderRadius:'20px' }}
       open={open}
       multiple={true}
       onOpen={() => {
