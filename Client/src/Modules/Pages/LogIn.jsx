@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Styles/Form.css";
+import "../Styles/Form.css";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { userDetailsValidationSchema } from "./Utils/schema";
-import CheckBox from "./Component/CheckBox";
-import { useTheme } from "./Component/Theme/Theme";
+import { userDetailsValidationSchema } from "../Utils/schema";
+import CheckBox from "../Components/CheckBox";
+import { useTheme } from "../Components/Theme/Theme";
 
 function LogIn() {
   const initialParameters = {

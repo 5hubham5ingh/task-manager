@@ -1,7 +1,7 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { useTheme } from "./Component/Theme/Theme";
-import { BackGround } from "./Component/Background";
+import { useTheme } from "../Components/Theme/Theme";
+import { BackGround } from "../Components/Background";
 
 function TaskManager() {
   const [tasks, setTasks] = useState([

@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { SnackBarContextProvider } from './Modules/SnackBar/SnackBar';
+import { SnackBarContextProvider } from './Modules/Component/SnackBar/SnackBar';
 import ThemeProvider from './Modules/Component/Theme/Theme';
 
 
@@ -13,13 +13,13 @@ root.render(
   <React.StrictMode>
     <ThemeProvider>
 
-    <SnackBarContextProvider>
+      <SnackBarContextProvider>
 
-    <BrowserRouter>
-    <App />
-    </BrowserRouter>
- 
-    </SnackBarContextProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+
+      </SnackBarContextProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
