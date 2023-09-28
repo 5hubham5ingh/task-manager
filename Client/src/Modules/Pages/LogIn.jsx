@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../Styles/Form.css";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import "../Styles/Form.js";
+import { Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { userDetailsValidationSchema } from "../Utils/schema";
 import CheckBox from "../Components/CheckBox";
 import { useTheme } from "../Components/Theme/Theme";
+import { Button } from "@mui/material";
+import { textFieldStyle } from "../Styles/TextField";
+import { buttonStyle } from "../Styles/Button";
+import { headingStyle } from "../Styles/Heading";
+import { formStyle } from "../Styles/Form.js";
 
 function LogIn() {
   const initialParameters = {
@@ -25,14 +30,13 @@ function LogIn() {
     navigate("/WorkSpaces")
     //navigate("/TaskManager?id=123&somethingElse=abc");
   }
-  useEffect(() => {});
-const {theme}=useTheme();
+  useEffect(() => { });
+  const { theme } = useTheme();
   return (
     <Stack
       direction="column"
-      sx={{ backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))`}}
+      sx={{ ...formStyle, backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))` }}
       component="form"
-      className="form"
       p="2vw"
       spacing="2vw"
     >
@@ -90,24 +94,6 @@ const {theme}=useTheme();
 
 export default LogIn;
 
-const textFieldStyle = {
-  "& .MuiOutlinedInput-root.Mui-focused fieldset": { borderColor: "darkBlue" },
-  "& label.Mui-focused": { color: "darkBlue" },
-};
-
-const headingStyle = {
-  color: "#3268a8",
-  padding: 0,
-  margin: 0,
-};
-
-const buttonStyle = {
-  "&:hover": {
-    backgroundColor: "darkBlue",
-  },
-  backgroundColor: "#3268a8",
-  marginLeft: "auto",
-};
 
 const initialValues = {
   userName: "",
