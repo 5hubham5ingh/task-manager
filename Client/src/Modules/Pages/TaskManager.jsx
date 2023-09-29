@@ -74,7 +74,6 @@ function TaskManager() {
               key={task.id}
             >
               {task.body}
-
               <Stack sx={{ marginTop: '1%' }} direction='row' justifyContent='space-between'>
                 <Typography sx={{ color: "#abdaed" }} variant="body2">Assigned by: {task.createdBy} </Typography>
                 <Typography sx={{ color: "#abdaed" }} variant="body2">{task.isCompleted ? 'Complete' : 'Pending'}</Typography>
@@ -103,8 +102,6 @@ function TaskManager() {
                 onClick={() => taskComplete(task.id)}
               ><CheckIcon />
               </Button>}
-
-
           </Stack>
         ))}
 
