@@ -10,14 +10,14 @@ export const workSpaceSchema = Schema({
         type: String
     },
     owner:{
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true
     },
     task:{
         type: [taskSchema]
     },
     participants:{
-        type: String
+        type: [Schema.Types.ObjectId]
     }
 });
 

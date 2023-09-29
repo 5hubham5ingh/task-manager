@@ -1,19 +1,17 @@
 import { Schema, model } from "mongoose";
-import { taskSchema } from "./task.js";
-import { workSpaceSchema } from "./workSpace.js";
 
 const userSchema = Schema({
-    userName:{
+    userName: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
+    password: {
         type: String,
         required: true
     },
-    password:{
-        type: String,
-        required: true
-    },
-    workSpaces:[workSpaceSchema]
-},{
+    workSpaces: [{ type: Schema.Types.ObjectId }]
+}, {
     timestamps: true
-})
+});
 
-export const User = model('users',userSchema)
+export const User = model('user', userSchema);
