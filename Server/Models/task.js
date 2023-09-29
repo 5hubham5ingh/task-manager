@@ -5,7 +5,7 @@ export const taskSchema = Schema(
     body: { type: String, required: true },
     isCompleted:{type: Boolean},
     createdBy: {type: String, required: true},
-    completedBy: {true: String}
+    completedBy: {type: String}
   },
   {
     timestamps: true,

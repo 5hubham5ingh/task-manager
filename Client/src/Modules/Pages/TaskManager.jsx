@@ -1,31 +1,33 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../Components/Theme/Theme";
 import { BackGround } from "../Components/Background";
-
+import { bodyStyle, footerStyle, headingStyle, tasksStyle, addNewTaskInputField, buttonStyle } from "../Styles/TaskManager";
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteIcon from '@mui/icons-material/Delete';
 function TaskManager() {
   const [tasks, setTasks] = useState([
-    { id: "1", task: "a" },
-    { id: "2", task: "a" },
-    { id: "3", task: "a" },
-    { id: "4", task: "a" },
+    { id: "1", body: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda, eos architecto iure sed totam optio rerum voluptates quo quos deleniti atque consequuntur est, repudiandae illo modi esse illum, perspiciatis id.', isCompleted: true, completedBy: "cd", createdBy: 'fd' },
+    { id: "2", body: "a", isCompleted: true, completedBy: "cd", createdBy: 'fd' },
+    { id: "3", body: "a", isCompleted: false, completedBy: "cd", createdBy: 'fd' },
+    { id: "4", body: "a", isCompleted: true, completedBy: "cd", createdBy: 'fd' }
   ]);
   const { theme } = useTheme();
   const inputRef = useRef();
-  const buttons = [" ✔️ ", " ❌ ", " ℹ️ "];
+
 
   //Load tasks
-  useEffect(()=>{
+  useEffect(() => {
     const url = new URLSearchParams(window.location.search);
     const id = url.get("id");
     console.log(id)
-  },[])
+  }, [])
   const addTask = () => {
     //send put request
     //if response is success then add the task to the task state array using id send by the server as response.
     setTasks((tasks) => [
       ...tasks,
-      { id: tasks.length, task: inputRef.current },
+      { id: tasks.length, body: inputRef.current, isCompleted: false, createdBy: 'sd', },
     ]);
   };
 
@@ -39,145 +41,107 @@ function TaskManager() {
     removeTask(id);
   };
 
-  const info=(id)=>{
-    
-  }
-
-  const handleClick = (e,id)=>{
-    switch(e.target.name){
-      case " ✔️ ": taskComplete(id)
-        break;
-      case " ❌ ": removeTask(id)
-        break;
-      case " ℹ️ ": info(id)
-        break;
-    }
-  }
+ 
   return (
     <BackGround itemAlignment='center'>
 
-    
-    <Stack
-      direction="column"
-      sx={{
-        width: "100vw",
-        height: "80vh",
-        padding: "2vw",
-        overflowY: "scroll",
-      }}
-    >
-      <Typography
-        variant="h4"
-        sx={{
-          marginLeft: "1vw",
-          color: "#3268a8",
-          position: "fixed",
-          top: "2vh",
-        }}
+      {/* Body */}
+      <Stack
+        direction="column"
+        sx={bodyStyle}
       >
-        Tasks
-      </Typography>
-
-      {tasks.map((task, index) => (
-        <Stack
-          key={index}
-          direction="row"
-          spacing="1vw"
-          margin="1vw"
-          sx={{ alignItems: "center" }}
+        {/* heading */}
+        <Typography
+          variant="h4"
+          sx={headingStyle}
         >
-          <Typography
-            variant="h6"
-            sx={{
-              color: "white",
-              width: "90%",
-              padding: "1vw",
-              paddingLeft: "2vw",
-              borderRadius: "20px",
-              backgroundImage: `linear-gradient(${theme},#3268a8)`,
-              overflowWrap: "break-word",
-            }}
-            key={task.id}
-          >
-            {task.task}
-            <Stack direction='row' justifyContent='space-between'>
+          Tasks
+        </Typography>
 
-            <Typography variant="subtitle2">Assigned by: </Typography>
-            <Typography variant="subtitle2">12/12/23 </Typography>
-            </Stack>
-          </Typography>
-          {buttons.map((button, index) => {
-            return (
+        {/* Content */}
+        {tasks.map((task, index) => (
+          <Stack
+            key={index}
+            direction="row"
+            spacing="1vw"
+            margin="1vw"
+            sx={{ alignItems: "center" }}
+          >
+            {/* Task */}
+            <Typography
+              variant="string"
+              sx={{ ...tasksStyle, backgroundImage: `linear-gradient(${theme},#3268a8)`, }}
+              key={task.id}
+            >
+              {task.body}
+
+              <Stack sx={{ marginTop: '1%' }} direction='row' justifyContent='space-between'>
+                <Typography sx={{ color: "#abdaed" }} variant="body2">Assigned by: {task.createdBy} </Typography>
+                <Typography sx={{ color: "#abdaed" }} variant="body2">{task.isCompleted ? 'Complete' : 'Pending'}</Typography>
+              </Stack>
+            </Typography>
+
+            {/* Buttons */}
+
+            {task.isCompleted ?
               <Button
-              name={button}
-              taskId={task.id}
+                taskId={task.id}
                 sx={{
                   ...buttonStyle,
                   backgroundImage: `linear-gradient(${theme},#3268a8)`,
                 }}
-                onClick={(e)=>handleClick(e,task.id)}
+                onClick={(e) => removeTask(task.id)}
               >
-                {button}
+                <DeleteIcon />
               </Button>
-            );
-          })}
-        </Stack>
-      ))}
+              : <Button
+                taskId={task.id}
+                sx={{
+                  ...buttonStyle,
+                  backgroundImage: `linear-gradient(${theme},#3268a8)`,
+                }}
+                onClick={() => taskComplete(task.id)}
+              ><CheckIcon />
+              </Button>}
 
-      <Stack
-        direction="row"
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          width: "98vw",
-          marginBottom: "1vw",
-          alignItems: "center",
-        }}
-      >
-        <TextField
-          onChange={(e) => {
-            inputRef.current = e.target.value;
-          }}
-          placeholder="Add new task."
-          sx={{
-            marginLeft: "1vw",
-            marginRight: "1vw",
-            paddingLeft: "1vw",
-            backgroundImage: `linear-gradient(${theme},#3268a8)`,
-            borderRadius: "20px",
-          }}
-          inputProps={{
-            style: {
-              color: "white",
-            },
-          }}
-          fullWidth
-        />
-        <Button
-          onClick={addTask}
-          variant="contained"
-          size="small"
-          sx={{
-            ...buttonStyle,
-            backgroundImage: `linear-gradient(${theme},#3268a8)`,
-          }}
+
+          </Stack>
+        ))}
+
+        {/* Footer */}
+        <Stack
+          direction="row"
+          sx={footerStyle}
         >
-          {" "}
-          +{" "}
-        </Button>
+          <TextField
+            onChange={(e) => {
+              inputRef.current = e.target.value;
+            }}
+            placeholder="Add new task."
+            sx={{ ...addNewTaskInputField, backgroundImage: `linear-gradient(${theme},#3268a8)` }}
+
+            fullWidth
+          />
+          <Button
+            onClick={addTask}
+            variant="contained"
+            size="small"
+            sx={{
+              ...buttonStyle,
+              backgroundImage: `linear-gradient(${theme},#3268a8)`,
+            }}
+          >
+            {" "}
+            +{" "}
+          </Button>
+        </Stack>
       </Stack>
-    </Stack>
     </BackGround>
   );
 }
 
 export default TaskManager;
 
-const buttonStyle = {
-  marginRight: "1vw",
-  borderRadius: "20px",
 
-  height: "50px",
-};
 
 
