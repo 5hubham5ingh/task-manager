@@ -15,9 +15,9 @@ export const bodyStyle={
   export const tasksStyle = {
     color: "#deeaff",
     width: "90%",
-    padding:'1vw',
-    paddingRight: "2vw",
-    paddingLeft: "2vw",
+    padding:'1vh',
+    paddingRight: "2vh",
+    paddingLeft: "2vh",
     borderRadius: "20px",
     overflowWrap: "break-word",
   };
@@ -35,16 +35,17 @@ export const bodyStyle={
     marginRight: "1vw",
     paddingLeft: "1vw",
     borderRadius: "20px",
-    '& .MuiOutlinedInput-root': {
+    '& .MuiOutlinedInput-root': { 
       '& fieldset': {
-        border: 0
+        border: '0'
       },
       '&:focus fieldset': {
         border: '0'
       },
       '&:hover fieldset': {
         border: '0 '
-      }}
+      }},
+     
   }
 
   export const buttonStyle = {

@@ -33,7 +33,18 @@ export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
         : null,
       participants:workSpaceParticipantsRef.current
     };
-    console.log("workSpace: ", workSpace);
+    addNewWorkSpace(  {
+      id: 1,
+      name: "WorkSpace",
+      description:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
+      createdBy: "XYZ",
+      participants: ["a", "b", "c", "d"],
+      timeOfCreation: "12/02/2023",
+   
+    });
+
+    closeModal();
   };
   return (
     <Box

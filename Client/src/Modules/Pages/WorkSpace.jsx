@@ -14,11 +14,17 @@ export default function WorkSpace() {
   const [addNewWorkSpace, setAddNewWorkSpace] = useState(false);
   const { theme } = useTheme();
 
-  const updateWorkSpaces = (newWorkSpace) => {
+  const addWorkSpaces = (newWorkSpace) => {
     setWorkSpaces((oldWorkSpaces) => {
-      return { ...oldWorkSpaces, newWorkSpace };
+      return [ ...oldWorkSpaces, newWorkSpace ];
     });
   };
+
+  const removeWorkSpace = (workSpaceId)=>{
+    setWorkSpaces((workSpaces)=>{
+      return workSpaces.filter((workSpace)=> workSpace.id !== workSpaceId)
+    })
+  }
   const closeAddNewWorkSpaceModal = () => setAddNewWorkSpace(false);
   return (
     <>
@@ -33,13 +39,10 @@ export default function WorkSpace() {
             justifyContent="center"
             alignItems="center"
             spacing={2}
-
-            item
             md={3}
-            key={workSpaces.length + 1}
+            key={ 100}
             sx={{
               backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))`,
-
               p: '40px'
             }}
             onClick={() => setAddNewWorkSpace(true)}
@@ -49,13 +52,13 @@ export default function WorkSpace() {
           </Stack>
 
           {workSpaces.map((workSpace, index) => {
-            return <WorkSpaceCard key={index} workSpace={workSpace} />;
+            return <WorkSpaceCard key={index} workSpace={workSpace} removeWorkSpace={removeWorkSpace} />;
           })}
         </Masonry>
       </BackGround>
       {addNewWorkSpace && (
         <AddNewWorkSpaceModal
-          addNewWorkSpace={updateWorkSpaces}
+          addNewWorkSpace={addWorkSpaces}
           closeModal={closeAddNewWorkSpaceModal}
         />
       )}
@@ -66,133 +69,119 @@ export default function WorkSpace() {
 function initialValues() {
   return [
     {
-      _id: 1,
+      id: 1,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 2,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 3,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 4,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 5,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 6,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 7,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 8,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 9,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 0,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 11,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     }, {
-      _id: 1,
+      id: 12,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     },
     {
-      _id: 1,
+      id: 13,
       name: "WorkSpace",
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     },
 
     {
-      _id: 1,
+      id: 14,
       name: "WorkSpace",
       description: "saasdsjdjfsfshdsahdhsdas",
       createdBy: "XYZ",
       participants: ["a", "b", "c", "d"],
       timeOfCreation: "12/02/2023",
-      lastModified: "",
     },
 
   ];
