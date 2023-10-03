@@ -16,7 +16,7 @@ export const workspaceSchema = Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    task:{
+    tasks:{
         type: [taskSchema]
     },
     participants:{

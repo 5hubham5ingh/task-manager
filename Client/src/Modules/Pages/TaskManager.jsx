@@ -1,4 +1,4 @@
-import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "../Components/Theme/Theme";
 import { BackGround } from "../Components/Background";
@@ -85,6 +85,7 @@ function TaskManager() {
             {task.isCompleted ?
               <Button
                 taskId={task.id}
+                disabled={task.createdBy === 'currentUser'}
                 sx={{
                   ...buttonStyle,
                   backgroundImage: `linear-gradient(${theme},#3268a8)`,

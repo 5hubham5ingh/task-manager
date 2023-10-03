@@ -28,14 +28,14 @@ export async function sendTaskList(request, response) {
 // Add a task to a workspace
 export async function addTask(request, response) {
   try {
-    const { userId, workspaceId } = request.params;
+    const { workspaceId } = request.params;
     const task = request.body;
 
     // Find the workspace by its ID and update it by pushing the new task into the 'tasks' array
     const updatedWorkspace = await Workspace.findOneAndUpdate(
       { _id: workspaceId },
       { $push: { tasks: task } },
-      { new: true, fields: { tasks: 1 } } // To return only the 'tasks' field
+      { new: true } 
     );
 
     // Check if the workspace was found and updated
@@ -43,7 +43,6 @@ export async function addTask(request, response) {
       response.status(404).json({ message: "Workspace not found" });
       return;
     }
-
     // Extract the newly added task from the updated workspace
     const newTask = updatedWorkspace.tasks.slice(-1)[0]; // Get the last element (new task)
 
@@ -58,7 +57,7 @@ export async function addTask(request, response) {
 
 
 
-// Update a task in a workspace
+// Update a task in a workspace to mark it as complete
 export async function updateTask(request, response) {
   try {
     const { workspaceId, taskId } = request.params;
@@ -72,9 +71,9 @@ export async function updateTask(request, response) {
       },
       { 
         $set: {
-          'tasks.$.title': updatedTaskData.title, // Update specific task properties
-          'tasks.$.description': updatedTaskData.description,
-          // Add more properties as needed
+          'tasks.$.isCompleted': updatedTaskData.isCompleted, 
+          'tasks.$.completedBy': updatedTaskData.completedBy,
+         
         }
       },
       { new: true } // To return the updated document
@@ -99,7 +98,7 @@ export async function updateTask(request, response) {
 }
 
 
-// Delete a task from a workspace
+// Delete a task from a workspace , only creator can delete a task
 export async function deleteTask(request, response) {
   try {
     const { workspaceId, taskId } = request.params;
@@ -133,41 +132,4 @@ export async function deleteTask(request, response) {
 }
 
 
-// Edit a task to mark it as complete and assign a name to 'completedBy'
-export async function editTask(request, response) {
-  try {
-    const { workspaceId, taskId } = request.params;
-    const { taskCompleted, completedBy } = request.body; // New task properties
 
-    // Find the workspace by its ID and update the specific task within the 'tasks' array
-    const updatedWorkspace = await Workspace.findOneAndUpdate(
-      { 
-        _id: workspaceId,
-        'tasks._id': taskId, // Match the task by its unique identifier (e.g., task ID)
-      },
-      { 
-        $set: {
-          'tasks.$.isCompleted': taskCompleted, // Update 'isCompleted' property
-          'tasks.$.completedBy': completedBy, // Update 'completedBy' property
-        }
-      },
-      { new: true } // To return the updated document
-    );
-
-    // Check if the workspace and task were found and updated
-    if (!updatedWorkspace) {
-      response.status(404).json({ message: "Workspace or Task not found" });
-      return;
-    }
-
-    // Find the updated task within the updated workspace
-    const updatedTask = updatedWorkspace.tasks.find(task => task._id.toString() === taskId);
-
-    // Respond with a success message and the updated task
-    response.status(200).json({ message: "Task updated successfully", task: updatedTask });
-  } catch (error) {
-    // Handle errors
-    console.error("Error while editing the task.", error);
-    response.status(500).json({ message: 'Internal Server Error' });
-  }
-}
