@@ -1,13 +1,16 @@
 import { Schema, model } from "mongoose";
-import { taskSchema } from "./task";
+import { taskSchema } from "./task.js";
 
-export const workSpaceSchema = Schema({
+export const workspaceSchema = Schema({
     name:{
         type: String,
+        min:2,
+        max: 50,
         required: true
     },
     description:{
-        type: String
+        type: String,
+        max: 500
     },
     owner:{
         type: Schema.Types.ObjectId,
@@ -21,4 +24,4 @@ export const workSpaceSchema = Schema({
     }
 });
 
-export const WorkSpace = model('WorkSpace',workSpaceSchema);
+export const Workspace = model('Workspace',workspaceSchema);

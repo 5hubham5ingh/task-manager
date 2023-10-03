@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
+
 import LogIn from "./Modules/Pages/LogIn";
 import SignUp from "./Modules/Pages/SignUp";
 import TaskManager from "./Modules/Pages/TaskManager";

@@ -14,11 +14,11 @@ export const bodyStyle={
 
   export const tasksStyle = {
     color: "#deeaff",
-    width: "90%",
+    width: "100%",
     padding:'1vh',
     paddingRight: "2vh",
     paddingLeft: "2vh",
-    borderRadius: "20px",
+    borderRadius: "10px",
     overflowWrap: "break-word",
   };
 
@@ -34,7 +34,7 @@ export const bodyStyle={
     marginLeft: "1vw",
     marginRight: "1vw",
     paddingLeft: "1vw",
-    borderRadius: "20px",
+    borderRadius: "10px",
     '& .MuiOutlinedInput-root': { 
       '& fieldset': {
         border: '0'

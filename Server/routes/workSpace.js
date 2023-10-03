@@ -1,32 +1,19 @@
 import { Router } from "express";
+import {addTask, deleteTask, editTask, sendTaskList, updateTask} from "../controllers/workspace.js"
 
-export const workSpaceRoute = Router();
+export const workSpaceRoutes = Router(); 
 
-workSpaceRoute.post('/',createWorkSpace);
+// open one work space / task manager
+workSpaceRoutes.get("/:workspaceId", sendTaskList);
 
-workSpaceRoute.post('/:id', createTask);
+// Create new task
+workSpaceRoutes.post("/:userId/:workspaceId", addTask); 
 
-workSpaceRoute.delete('/:id', deleteWorkSpace);
+// Update task
+workSpaceRoutes.patch("/:workspaceId/:taskId", updateTask);
 
-workSpaceRoute.get('/',getListOfAllWorkSpaces);
+//delete task
+workSpaceRoutes.delete("/:workspaceId/:taskId", deleteTask);
 
-workSpaceRoute.get('/:id',openOneWorkSpace);
-
-
-function getListOfAllWorkSpaces(request,response){
-    try{
-
-    }
-    catch(error){
-        console.log('Error in getting list of all work spaces',error)
-    }
-}
-
-function openOneWorkSpace(request,response){
-    try{
-
-    }
-    catch(error){
-        console.log("Error in opening one work space.", error)
-    }
-}
+// edit task , to mark it complete
+workSpaceRoutes.put('/:workspaceId/:taskId',editTask)

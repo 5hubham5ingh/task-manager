@@ -1,23 +1,24 @@
-import express, { request, response } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import { config } from "dotenv";
-
 import cors from "cors";
 import {booksRouter }from "./routes/booksRoutes.js";
-import { logInRouter } from "./routes/login.js";
-import { signUpRouter } from "./routes/signUp.js";
+import { authRoutes } from "./routes/auth.js";
+import { workSpaceRoutes } from "./routes/workSpace.js";
+import { userRoutes } from "./routes/user.js";
 config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 
-app.use('/books',booksRouter)
+app.use('/books',booksRouter);
 
-app.use('/logIn',logInRouter)
+app.use('/auth',authRoutes);
 
-app.use('/',signUpRouter)
+app.use('/user',userRoutes);
 
+app.use('/workspace', workSpaceRoutes);
 
 
 app.get("/", (request, response) => {
@@ -25,10 +26,13 @@ app.get("/", (request, response) => {
     return response.status(234).send("Welcome to mern stack tutorial");
   });
 
-const mongoDBURL = process.env.MONGO_URI;
+const mongoDbUri = process.env.MONGO_URI;
 const PORT = process.env.PORT;
 mongoose
-  .connect(mongoDBURL)
+  .connect(mongoDbUri,{
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  })
   .then(() => {
     console.log("Connected to DB");
     app.listen(PORT, () => {
