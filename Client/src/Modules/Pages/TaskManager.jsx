@@ -5,7 +5,7 @@ import { BackGround } from "../Components/Background";
 import { bodyStyle, footerStyle, headingStyle, tasksStyle, addNewTaskInputField, buttonStyle } from "../Styles/TaskManager";
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
-function TaskManager() {
+function TaskManager({match}) {
   const [tasks, setTasks] = useState([
     { id: "1", body: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda, eos architecto iure sed totam optio rerum voluptates quo quos deleniti atque consequuntur est, repudiandae illo modi esse illum, perspiciatis id.', isCompleted: true, completedBy: "cd", createdBy: 'fd' },
     { id: "2", body: "a", isCompleted: true, completedBy: "cd", createdBy: 'fd' },
@@ -18,8 +18,7 @@ function TaskManager() {
 
   //Load tasks
   useEffect(() => {
-    const url = new URLSearchParams(window.location.search);
-    const id = url.get("id");
+    const {id} = match.params;
     console.log(id)
   }, [])
   const addTask = () => {
