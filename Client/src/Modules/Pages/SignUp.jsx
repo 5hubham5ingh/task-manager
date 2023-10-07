@@ -9,6 +9,7 @@ import { textFieldStyle } from "../Styles/TextField";
 import { buttonStyle } from "../Styles/Button";
 import { headingStyle } from "../Styles/Heading";
 import { formStyle } from "../Styles/Form.js";
+import { signUp } from "../Authentication/User/userSlice.js";
 function SignUp() {
   const { errors, handleSubmit, handleBlur, handleChange, values, touched } =
     useFormik(initialParameters);
@@ -78,7 +79,7 @@ function SignUp() {
 
 export default SignUp;
 
-async function submit(values) { console.log(values) }
+async function submit(values) { console.log(values); signUp(values) }
 
 const initialValues = {
   userName: "",
