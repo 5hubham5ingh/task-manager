@@ -1,8 +1,9 @@
-import { lazy } from "react";
-import { BackGround } from "../Components/Background";
-import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes";
-import { Route } from "react-router-dom";
+import { lazy } from "react"
+import { BackGround } from "../Components/Background"
+import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes"
+import { Route } from "react-router-dom"
 import Home from '../Pages/Home'
+
 const SignUp = lazy(() => import("../Pages/SignUp"));
 const LogIn = lazy(() => import('../Pages/LogIn'));
 
