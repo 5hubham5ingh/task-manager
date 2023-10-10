@@ -7,10 +7,10 @@ function App() {
   return (
     <>
       <Snackbar />
-    \
-        <PublicRoutes />
-        <PrivateRoutes />
-      \
+      <Routes>
+        {PublicRoutes()}
+        {PrivateRoutes()}
+      </Routes>
     </>
   );
 }
