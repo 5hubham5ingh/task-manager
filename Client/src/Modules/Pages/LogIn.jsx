@@ -12,6 +12,7 @@ import { buttonStyle } from "../Styles/Button";
 import { headingStyle } from "../Styles/Heading";
 import { formStyle } from "../Styles/Form.js";
 import { login } from "../Authentication/User/userSlice.js";
+import { useDispatch } from "react-redux";
 function LogIn() {
   const initialParameters = {
     initialValues: initialValues,
@@ -26,9 +27,14 @@ function LogIn() {
   const checkBoxRef = useRef();
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
   async function submit(values) {
-    navigate("/WorkSpaces");
-    login(values);
+    
+    dispatch(login(values));
+    setTimeout(()=> {navigate("/WorkSpaces/1234");},1000)
+   
     //navigate("/TaskManager?id=123&somethingElse=abc");
   }
   useEffect(() => { });

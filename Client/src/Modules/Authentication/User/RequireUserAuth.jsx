@@ -1,19 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import { BackGround } from '../../Components/Background';
 
 function RequireUserAuth() {
-  const user = useSelector((state) => state.user);
+  const user = useSelector(state=>state.user);
 
-  return (
 
-    user ? <Outlet /> :
-     <BackGround itemAlignment='center'>
-       <h1>Please login first.</h1>
-     </BackGround>
-    
+  if(user) return <BackGround itemAlignment='center'><Outlet/></BackGround>;
+  else return <Navigate to='/logIn'/>;
 
-  )
+
+  //return <BackGround itemAlignment='center'><Outlet/></BackGround>
 }
 
 export default RequireUserAuth;

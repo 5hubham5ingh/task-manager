@@ -9,12 +9,11 @@ const WorkSpace = lazy(() => import("../Pages/WorkSpace"));
 function PrivateRoutes() {
     return (
         <Route path="/" element={<RequireUserAuth />}>
-            <Route>
+           
             {RenderSuspenseRoute ({path:"TaskManager/:workspaceId", element:<TaskManager /> })}
-            </Route>
-            <Route>
+           
             {RenderSuspenseRoute ({path:"Workspaces/:userId", element:<WorkSpace /> })}
-            </Route>
+           
         </Route>
     )
 }

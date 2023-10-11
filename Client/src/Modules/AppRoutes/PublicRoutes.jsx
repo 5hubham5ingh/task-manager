@@ -11,7 +11,7 @@ function PublicRoutes() {
   return (
 
     <Route path="/" element={<BackGround itemAlignment="center" />}>
-      <Route index element={<Home />} />
+      <Route index path='Home' element={<Home />} />
 
       {RenderSuspenseRoute({ path: "LogIn", element: <LogIn /> })}
 
