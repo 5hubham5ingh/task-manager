@@ -12,7 +12,7 @@ export default function WorkSpaceCard({ workSpace, removeWorkSpace }) {
     const navigate = useNavigate()
 
     const openWorkSpace = () => {
-        navigate(`/TaskManager?id=${workSpace.id}`)
+        navigate(`/TaskManager/${workSpace.id}`)
     }
 
     const deleteWorkSpace = ()=>{

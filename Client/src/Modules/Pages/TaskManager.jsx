@@ -5,7 +5,8 @@ import { BackGround } from "../Components/Background";
 import { bodyStyle, footerStyle, headingStyle, tasksStyle, addNewTaskInputField, buttonStyle } from "../Styles/TaskManager";
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
-function TaskManager({match}) {
+import { useParams } from "react-router-dom";
+function TaskManager() {
   const [tasks, setTasks] = useState([
     { id: "1", body: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda, eos architecto iure sed totam optio rerum voluptates quo quos deleniti atque consequuntur est, repudiandae illo modi esse illum, perspiciatis id.', isCompleted: true, completedBy: "cd", createdBy: 'fd' },
     { id: "2", body: "a", isCompleted: true, completedBy: "cd", createdBy: 'fd' },
@@ -14,12 +15,12 @@ function TaskManager({match}) {
   ]);
   const { theme } = useTheme();
   const inputRef = useRef();
-
+  const {workspaceId} = useParams();
 
   //Load tasks
-  useEffect(() => {
-    const {id} = match.params;
-    console.log(id)
+  useEffect(() => {debugger
+    
+    console.log(workspaceId)
   }, [])
   const addTask = () => {
     //send put request
