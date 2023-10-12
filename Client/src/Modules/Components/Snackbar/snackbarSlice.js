@@ -10,14 +10,14 @@ export const snackbarSlice = createSlice({
     },
     reducers:{
         showSnackbar:(state,action)=>{
-            state = {
+            return {
                 message:action.payload.message,
                 severity: action.payload.severity,
                 visibility: true
             }
         },
         hideSnackbar: state =>{
-            state = {...state, visibility:false}
+            return {...state, visibility:false}
         }
 
     }

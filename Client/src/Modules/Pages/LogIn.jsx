@@ -33,7 +33,7 @@ function LogIn() {
   async function submit(values) {
     
     dispatch(login(values));
-    setTimeout(()=> {navigate("/WorkSpaces/1234");},1000)
+   navigate("/WorkSpaces/1234",{replace: true});
    
     //navigate("/TaskManager?id=123&somethingElse=abc");
   }

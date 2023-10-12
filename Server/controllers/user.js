@@ -18,12 +18,25 @@ export async function getUsersWorkSpaces(request, response) {
     // Use Promise.all to fetch all workspaces concurrently
     const workspaceList = await Promise.all(
       user.workspaces.map(async (workspaceId) => {
-        const workspace = await Workspace.findById(workspaceId);
+        const workspace = await Workspace.findById(workspaceId).lean();
+
         return workspace; // Return the workspace document
       })
     );
 
-    response.status(200).json(workspaceList);
+    //FIlter out the workspaces that have been deleted and the tasks list
+    const filteredWorkspaceList = workspaceList.filter(workspace=>{
+      
+      if (!workspace) return workspace;
+
+      delete workspace.tasks;
+
+      return workspace;
+    })
+
+   
+
+    response.status(200).json(filteredWorkspaceList);
   } catch (error) {
     console.error("Error in getting list of all workspaces", error);
     response.status(500).json({ message: "Internal server error" });

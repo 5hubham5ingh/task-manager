@@ -5,8 +5,8 @@ export const userSlice = createSlice({
     initialState: null,
     reducers:{
         login:(state,action)=>{return action.payload},
-        logOut:(state,action)=>{state = null},
-        signUp:(state,action)=>{state = action.payload}
+        logOut:(state,action)=>{return null},
+        signUp:(state,action)=>{return action.payload}
     }
 })
 

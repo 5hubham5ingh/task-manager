@@ -1,5 +1,5 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "../Components/Theme/Theme";
 import { BackGround } from "../Components/Background";
 import { bodyStyle, footerStyle, headingStyle, tasksStyle, addNewTaskInputField, buttonStyle } from "../Styles/TaskManager";
@@ -14,7 +14,7 @@ function TaskManager() {
     { id: "4", body: "a", isCompleted: true, completedBy: "cd", createdBy: 'fd' }
   ]);
   const { theme } = useTheme();
-  const inputRef = useRef();
+  const [newTask ,setNewTask]= useState();
   const {workspaceId} = useParams();
 
   //Load tasks
@@ -27,8 +27,9 @@ function TaskManager() {
     //if response is success then add the task to the task state array using id send by the server as response.
     setTasks((tasks) => [
       ...tasks,
-      { id: tasks.length, body: inputRef.current, isCompleted: false, createdBy: 'sd', },
+      { id: tasks.length, body: newTask, isCompleted: false, createdBy: 'sd', },
     ]);
+    setNewTask('')
   };
 
   const removeTask = (id) => {
@@ -85,7 +86,7 @@ function TaskManager() {
             {task.isCompleted ?
               <Button
                 taskId={task.id}
-                disabled={task.createdBy === 'currentUser'}
+                disabled={task.createdBy !== 'currentUser'}
                 sx={{
                   ...buttonStyle,
                   backgroundImage: `linear-gradient(${theme},#3268a8)`,
@@ -113,11 +114,11 @@ function TaskManager() {
         >
           <TextField
             onChange={(e) => {
-              inputRef.current = e.target.value;
+             setNewTask(e.target.value)
             }}
             placeholder="Add new task."
             sx={{ ...addNewTaskInputField, backgroundImage: `linear-gradient(${theme},#3268a8)` }}
-
+            value={newTask}
             fullWidth
           />
           <Button

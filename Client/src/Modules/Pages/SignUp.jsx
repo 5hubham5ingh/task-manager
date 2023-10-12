@@ -68,7 +68,7 @@ function SignUp() {
       </Button>
       <Typography variant="subtitle2">
         Already have an account?
-        <Button size="small" onClick={() => { navigate('/logIn') }}>
+        <Button size="small" onClick={() => { navigate('/logIn',{replace:true}) }}>
           LogIn
         </Button>
       </Typography>

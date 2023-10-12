@@ -15,7 +15,7 @@ export async function sendTaskList(request, response) {
     } else {
      
       // Send a successful response with the workspace data
-      response.status(200).json(workspace);
+      response.status(200).json(workspace.tasks);
     }
   } catch (error) {
     // Handle errors
