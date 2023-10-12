@@ -9,7 +9,10 @@ import { userRoutes } from "./routes/user.js";
 import { verifyToken } from "./middleware/auth.js";
 config();
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST'],
+}));
 app.use(express.json());
 
 
@@ -17,9 +20,9 @@ app.use('/books',booksRouter);
 
 app.use('/auth',authRoutes);
 
-app.use('/user',verifyToken,userRoutes);
+app.use('/user',userRoutes);
 
-app.use('/workspace',verifyToken, workSpaceRoutes);
+app.use('/workspace',workSpaceRoutes);
 
 
 app.get("/", (request, response) => {

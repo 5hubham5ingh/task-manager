@@ -13,6 +13,7 @@ export const logIn = async (request, response) => {
       if (!userName || !password) {
         // If either is missing, send a 400 Bad Request response
         response.status(400).json({ message: "Username or password missing" });
+        console.log(request.body);
         return; 
       }
   
@@ -60,9 +61,10 @@ export const register = async (request, response) => {
       if (!userName || !password) {
         // If either is missing, send a 400 Bad Request response
         response.status(400).json({ message: "User name or password missing" });
+        
         return; 
       }
-
+  
       // Generate a salt for password hashing
       const salt = await bcrypt.genSalt();
   

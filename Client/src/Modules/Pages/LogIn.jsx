@@ -13,6 +13,8 @@ import { headingStyle } from "../Styles/Heading";
 import { formStyle } from "../Styles/Form.js";
 import { login } from "../Authentication/User/userSlice.js";
 import { useDispatch } from "react-redux";
+import { LOG_IN } from "../ApiRoutes/authentication/login.js";
+import serverApi from "../ApiRoutes/api.js";
 function LogIn() {
   const initialParameters = {
     initialValues: initialValues,
@@ -31,18 +33,45 @@ function LogIn() {
   const dispatch = useDispatch();
 
   async function submit(values) {
-    
-    dispatch(login(values));
-   navigate("/WorkSpaces/1234",{replace: true});
-   
-    //navigate("/TaskManager?id=123&somethingElse=abc");
+    const data = {
+      userName: values.userName,
+      password: values.password,
+    };
+    try {
+      const response = await serverApi.post(LOG_IN, data);
+      console.log(response);
+
+      // const body = JSON.stringify({
+      //   userName: values.userName,
+      //   password: values.password,
+      // });
+      // const response = await fetch(`${BASE_URL}${LOG_IN}`,{
+      //   method: "POST",
+      //   body:body,
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   }
+      // })
+
+      // const data = await response.json();
+      // console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+
+    //dispatch(login(values));
+
+    //navigate("/WorkSpaces/1234",{replace: true});
   }
-  useEffect(() => { });
+  useEffect(() => {});
   const { theme } = useTheme();
   return (
     <Stack
       direction="column"
-      sx={{ ...formStyle, backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))` }}
+      sx={{
+        ...formStyle,
+        backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))`,
+      }}
       component="form"
       p="2vw"
       spacing="2vw"
@@ -100,7 +129,6 @@ function LogIn() {
 }
 
 export default LogIn;
-
 
 const initialValues = {
   userName: "",
