@@ -7,7 +7,7 @@ export default function Snackbar() {
     const snackbar = useSelector(state => state.snackbar);
     const dispatch = useDispatch();
 
-    const close = () => dispatch(hideSnackbar);
+    const close = () => dispatch(hideSnackbar());
     return (
       <>
         <MUI_Snackbar

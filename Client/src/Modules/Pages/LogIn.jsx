@@ -13,8 +13,9 @@ import { headingStyle } from "../Styles/Heading";
 import { formStyle } from "../Styles/Form.js";
 import { login } from "../Authentication/User/userSlice.js";
 import { useDispatch } from "react-redux";
-import { LOG_IN } from "../ApiRoutes/authentication/login.js";
-import serverApi from "../ApiRoutes/api.js";
+import { LOG_IN } from "../ServerApi/ApiRoutes/authentication/login.js";
+import serverApi from "../ServerApi/api.js";
+import { showSnackbar } from "../Components/Snackbar/snackbarSlice.js";
 function LogIn() {
   const initialParameters = {
     initialValues: initialValues,
@@ -39,29 +40,18 @@ function LogIn() {
     };
     try {
       const response = await serverApi.post(LOG_IN, data);
-      console.log(response);
 
-      // const body = JSON.stringify({
-      //   userName: values.userName,
-      //   password: values.password,
-      // });
-      // const response = await fetch(`${BASE_URL}${LOG_IN}`,{
-      //   method: "POST",
-      //   body:body,
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   }
-      // })
-
-      // const data = await response.json();
-      // console.log(data);
+      dispatch(login(response.data));
+      dispatch(showSnackbar({ message: "Logged in!", severity: "success" }));
+      navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
     } catch (error) {
-      console.log(error);
+      dispatch(
+        showSnackbar({
+          message: error.response.data.message,
+          severity: "error",
+        })
+      );
     }
-
-    //dispatch(login(values));
-
-    //navigate("/WorkSpaces/1234",{replace: true});
   }
   useEffect(() => {});
   const { theme } = useTheme();

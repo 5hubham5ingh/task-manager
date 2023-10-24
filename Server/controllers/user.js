@@ -2,10 +2,10 @@ import { User } from "../Models/user.js";
 import { Workspace } from "../Models/workspace.js";
 
 // get workspaces list
-export async function getUsersWorkSpaces(request, response) {
+export async function getUsersWorkSpaces(request, response) { console.log("getting user workplace")
   try {
     const { userId } = request.params;
-
+    console.log("get user workspaces",userId)
     // Use await to get user's workspaces
     const user = await User.findById(userId, "workspaces");
 
@@ -24,7 +24,9 @@ export async function getUsersWorkSpaces(request, response) {
       })
     );
 
-    //FIlter out the workspaces that have been deleted and the tasks list
+    //FIlter out the workspaces that have been deleted 
+    //remove task list 
+    // replace user and participants Id with their name
     const filteredWorkspaceList = workspaceList.filter(workspace=>{
       
       if (!workspace) return workspace;
@@ -44,7 +46,7 @@ export async function getUsersWorkSpaces(request, response) {
 }
 
 // create a new workspace
-export async function createWorkspace(request, response) {
+export async function createWorkspace(request, response) {console.log("creating workspace")
   // Try to create a new workspace.
   try {
     // Get the user ID from the request parameters.
@@ -52,18 +54,18 @@ export async function createWorkspace(request, response) {
 
     // Check if the user ID exists.
     if (!userId) {
-      response.status(400).json({ message: "User ID does not exist" });
+      response.status(400).json({ message: "User does not exist" });
       return;
     }
 
     // Get the workspace name, description, and participants from the request body.
-    const { name, description, participants } = request.body;
+    const { name, description, participants,owner } = request.body;
 
     // Create a new workspace object.
     const newWorkspace = {
       name,
       description,
-      owner: userId,
+      owner,
       participants,
     };
 
@@ -97,14 +99,14 @@ export async function createWorkspace(request, response) {
     );
 
     // Set the new workspace in owner
-    const user = await User.findOneAndUpdate(
+     await User.findOneAndUpdate(
       { _id: userId },
       { $push: { workspace: result._id } },
       { new: true }
     );
 
     // Set the response status code to 201 Created and send the workspace ID as JSON.
-    response.status(201).json({ id: result._id });
+    response.status(201).json({ _id: result._id });
   } catch (error) {
     // Check if the error code is 16500, which indicates that the database is full or there is a network connectivity issue.
     if (error.code === 16500) {
@@ -120,7 +122,7 @@ export async function createWorkspace(request, response) {
 }
 
 // get all participants list
-export async function getParticipantsList(request, response) {
+export async function getParticipantsList(request, response) {console.log("getting participants lists")
   // Try to get a list of all participants from the User collection.
   try {
     const participantsList = await User.find({}, "userName _id");
@@ -135,7 +137,7 @@ export async function getParticipantsList(request, response) {
 }
 
 // Delete workspace
-export async function deleteWorkSpace(request, response) {
+export async function deleteWorkSpace(request, response) {console.log("deleting workspace.")
   try {
     const { userId, workspaceId } = request.params;
 
@@ -149,7 +151,7 @@ export async function deleteWorkSpace(request, response) {
     }
 
     // Check if the user is the owner of the workspace
-    if (workspace.owner.toString() === userId) {
+    if (workspace.owner._id.toString() === userId) {
       // Delete the workspace
       await Workspace.findByIdAndDelete(workspaceId);
       response.status(204).send(); // 204 No Content indicates successful deletion

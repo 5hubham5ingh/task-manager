@@ -80,17 +80,23 @@ export const register = async (request, response) => {
       //Remove password from the response object for security
       const responseObject = savedUser.toObject();
       delete responseObject.password;
+
+   
+
+      const token = Jwt.sign({ id: savedUser._id }, process.env.JWT_KEY);
       // Send a 201 Created response with the saved user document
-      response.status(201).json(responseObject);
+      response.status(201).json({token,user:responseObject});
     } catch (error) {
       // Check if the error is a duplicate key error (MongoDB error code 11000)
       if (error.code === 11000) {
         // Respond with a 409 Conflict status code and an error message
-        response.status(409).json({ message: 'Conflict: Duplicate key error' });
+        response.status(409).json({ message: 'User name already exists.' });
       } else {
         // Handle other errors as needed
         response.status(500).json({ message: 'Internal Server Error' });
       }
+
+      console.log("Error while user registration / signup.",error)
     }
   };
   

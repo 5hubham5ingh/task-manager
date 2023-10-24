@@ -13,34 +13,45 @@ import { buttonStyle } from "../Styles/Button";
 import { headingStyle } from "../Styles/Heading";
 import {BluredBackground} from "./BluredBackground"
 import {modalStyle} from "../Styles/Modal"
+import { useUser } from "../Authentication/User/userSlice";
+import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
+import serverApi from "../ServerApi/api"
+import { useParams } from "react-router-dom";
+
 export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
   const { theme } = useTheme();
   const workSpaceNameRef = useRef(null);
   const workSpaceDescriptionRef = useRef(null);
   const workSpaceParticipantsRef = useRef(null);
   const [error, setError] = useState("");
-  const handleSubmit = () => {
-    console.log(workSpaceNameRef.current.target);
+  const [addingNewWorkspace,setAddingNewWorkspace] = useState(false);
+  const {_id, userName, } = useUser();
+  const {userId} = useParams();
+
+
+  const handleSubmit = async () => {
     if (workSpaceNameRef.current.value === "") {
       setError("Name is required!");
       return;
     }
-    //Sent request to add new workSpace
+
+    setAddingNewWorkspace(true);
+
     const workSpace = {
       name: workSpaceNameRef.current.value,
+      owner: {_id, userName},
       description: workSpaceDescriptionRef.current.value
         ? workSpaceDescriptionRef.current.value
         : null,
       participants:workSpaceParticipantsRef.current
     };
+
+    //Sent request to add new workSpace
+    const response = await serverApi.post(`${WORKSPACES}/${userId}`, workSpace);
+    
     addNewWorkSpace(  {
-      id: 1,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
+      _id: response.data._id,
+      ...workSpace
    
     });
 
@@ -83,7 +94,7 @@ export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
           size="large"
           onClick={handleSubmit}
         >
-          Add
+         {!addingNewWorkspace ? 'Add' : 'adding...'}
         </Button>
       </Stack>
     </Box>

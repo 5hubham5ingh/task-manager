@@ -10,22 +10,60 @@ import { buttonStyle } from "../Styles/Button";
 import { headingStyle } from "../Styles/Heading";
 import { formStyle } from "../Styles/Form.js";
 import { signUp } from "../Authentication/User/userSlice.js";
+import { showSnackbar } from "../Components/Snackbar/snackbarSlice.js";
+import { useDispatch } from "react-redux";
+import serverApi from "../ServerApi/api.js";
+import { SIGN_UP } from "../ServerApi/ApiRoutes/authentication/signup.js";
+
+const initialValues = {
+  userName: "",
+  key: "",
+};
+
 function SignUp() {
+  const navigate = useNavigate();
+
+  const { theme } = useTheme();
+
+  const dispatch = useDispatch();
+
+  const initialParameters = {
+    initialValues: initialValues,
+    validationSchema: userDetailsValidationSchema,
+    enableReinitialize: true,
+    validateOnChange: true,
+    onSubmit: submit,
+  };
+
   const { errors, handleSubmit, handleBlur, handleChange, values, touched } =
     useFormik(initialParameters);
 
-  const navigate = useNavigate();
+  async function submit(values) {
+    const { userName, password } = values;
+    try {
+      const response = await serverApi.post(SIGN_UP, { userName, password });
 
-  useEffect(() => {
+      console.log(response);
+      dispatch(signUp(response.data));
+      navigate(`/Workspace/${response.user._id}`);
+    } catch (error) {
+      dispatch(
+        showSnackbar({
+          message: error.response.data.message,
+          severity: "error",
+        })
+      );
+      console.log(error.response);
+    }
+  }
 
-
-  })
-  const { theme } = useTheme();
   return (
-
     <Stack
       direction="column"
-      sx={{ ...formStyle, backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))` }}
+      sx={{
+        ...formStyle,
+        backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))`,
+      }}
       component="form"
       p="2vw"
       spacing="2vw"
@@ -68,27 +106,17 @@ function SignUp() {
       </Button>
       <Typography variant="subtitle2">
         Already have an account?
-        <Button size="small" onClick={() => { navigate('/logIn',{replace:true}) }}>
+        <Button
+          size="small"
+          onClick={() => {
+            navigate("/logIn", { replace: true });
+          }}
+        >
           LogIn
         </Button>
       </Typography>
     </Stack>
-
   );
 }
 
 export default SignUp;
-
-async function submit(values) { console.log(values); signUp(values) }
-
-const initialValues = {
-  userName: "",
-  key: "",
-};
-const initialParameters = {
-  initialValues: initialValues,
-  validationSchema: userDetailsValidationSchema,
-  enableReinitialize: true,
-  validateOnChange: true,
-  onSubmit: submit,
-};

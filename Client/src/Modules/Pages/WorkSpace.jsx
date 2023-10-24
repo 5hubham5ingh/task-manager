@@ -5,34 +5,52 @@ import { useTheme } from "../Components/Theme/Theme";
 import Masonry from "@mui/lab/Masonry";
 import { BackGround } from "../Components/Background";
 import { AddNewWorkSpaceModal } from "../Components/AddNewWorkSpaceModal";
-
+import { useParams } from "react-router-dom";
+import serverApi from "../ServerApi/api"
+import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
+import {showSnackbar} from "../Components/Snackbar/snackbarSlice"
+import { useDispatch } from "react-redux";
 export default function WorkSpace() {
   const [workSpaces, setWorkSpaces] = useState(null);
   const [addNewWorkSpace, setAddNewWorkSpace] = useState(false);
   const { theme } = useTheme();
-  console.log(workSpaces);
+  const {userId} = useParams();
+  const dispatch = useDispatch();
   useEffect(() => {
     async function getData() {
-      return await initialValues();
+
+      try{
+        const workSpaces = await serverApi.get(`${WORKSPACES}/${userId}`);
+
+        console.log("workspace: ",workSpaces)
+
+        return workSpaces.data;
+      }catch({response}){
+        console.log(response)
+        dispatch(showSnackbar({message: response.data.message, severity:'error'}))
+      }
+    
     }
 
     getData().then((ws) => setWorkSpaces(ws));
   }, []);
   
-  const addWorkSpaces = (newWorkSpace) => {
+  const addWorkSpaces = async (newWorkSpace) => {
+    console.log(newWorkSpace)
     setWorkSpaces((oldWorkSpaces) => {
+      if(oldWorkSpaces === undefined) return [newWorkSpace];
       return [...oldWorkSpaces, newWorkSpace];
     });
   };
 
   const removeWorkSpace = (workSpaceId) => {
     setWorkSpaces((workSpaces) => {
-      return workSpaces.filter((workSpace) => workSpace.id !== workSpaceId);
+      return workSpaces.filter((workSpace) => workSpace._id !== workSpaceId);
     });
   };
   const closeAddNewWorkSpaceModal = () => setAddNewWorkSpace(false);
 
-  if (workSpaces)
+  console.log("workspace:",workSpaces)
     return (
       <>
         <BackGround>
@@ -58,10 +76,10 @@ export default function WorkSpace() {
               <span>➕</span>
             </Stack>
 
-            {workSpaces.map((workSpace, index) => {
+            {workSpaces && workSpaces.map((workSpace) => {
               return (
                 <WorkSpaceCard
-                  key={index}
+                  key={workSpace._id}
                   workSpace={workSpace}
                   removeWorkSpace={removeWorkSpace}
                 />
@@ -77,7 +95,7 @@ export default function WorkSpace() {
         )}
       </>
     );
-  else return "Loading...";
+ 
 }
 
 function sleep(ms) {

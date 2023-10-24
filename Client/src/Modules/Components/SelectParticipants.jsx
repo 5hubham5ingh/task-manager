@@ -4,14 +4,10 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { textFieldStyle } from '../Styles/TextField';
 import { Paper } from '@mui/material';
+import { PARTICIPANTS } from '../ServerApi/ApiRoutes/workspace';
+import serverApi from "../ServerApi/api"
 
-function sleep(duration) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, duration);
-  });
-}
+
 
 export default function SelectParticipants({ participants }) {
   const [open, setOpen] = useState(false);
@@ -26,11 +22,13 @@ export default function SelectParticipants({ participants }) {
     }
 
     (async () => {
-      await sleep(1e3); // For demo purposes.
+      try{
+      const response = await serverApi.get(PARTICIPANTS);
+        active && setOptions(response.data);
 
-      if (active) {
-        setOptions([...participantsList]);
-      }
+    }catch(error){
+      console.log("error while fetching participants list",error);
+    }
     })();
 
     return () => {
@@ -62,15 +60,15 @@ export default function SelectParticipants({ participants }) {
       onClose={() => {
         setOpen(false);
       }}
-      isOptionEqualToValue={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.name}
+      isOptionEqualToValue={(option, value) => option.userName === value.userName}
+      getOptionLabel={(option) => option.userName}
       options={options}
       loading={loading}
       renderInput={(params) => (
         <TextField
           sx={textFieldStyle}
           {...params}
-          label="Asynchronous"
+          label="Participants"
           InputProps={{
             ...params.InputProps,
             endAdornment: (
@@ -87,4 +85,4 @@ export default function SelectParticipants({ participants }) {
 }
 
 
-const participantsList = [{ name: "shubham", userId: 1 }, { name: 'singh', userId: 2 }];
+const participantsList = [{ userName: "shubham", _id: 1 }, { userName: 'singh', _id: 2 }];
