@@ -2,122 +2,196 @@ import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTheme } from "../Components/Theme/Theme";
 import { BackGround } from "../Components/Background";
-import { bodyStyle, footerStyle, headingStyle, tasksStyle, addNewTaskInputField, buttonStyle } from "../Styles/TaskManager";
-import CheckIcon from '@mui/icons-material/Check';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  bodyStyle,
+  footerStyle,
+  headingStyle,
+  tasksStyle,
+  addNewTaskInputField,
+  buttonStyle,
+} from "../Styles/TaskManager";
+import CheckIcon from "@mui/icons-material/Check";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams } from "react-router-dom";
+import serverApi from "../ServerApi/api";
+import { WORKSPACE } from "../ServerApi/ApiRoutes/taskManager";
+import { useUser } from "../Authentication/User/userSlice";
+
+const initialData = [
+  {
+    id: "1",
+    body: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda, eos architecto iure sed totam optio rerum voluptates quo quos deleniti atque consequuntur est, repudiandae illo modi esse illum, perspiciatis id.",
+    isCompleted: true,
+    completedBy: "cd",
+    createdBy: "fd",
+  },
+  { id: "2", body: "a", isCompleted: true, completedBy: "cd", createdBy: "fd" },
+  {
+    id: "3",
+    body: "a",
+    isCompleted: false,
+    completedBy: "cd",
+    createdBy: "fd",
+  },
+  { id: "4", body: "a", isCompleted: true, completedBy: "cd", createdBy: "fd" },
+];
+
 function TaskManager() {
-  const [tasks, setTasks] = useState([
-    { id: "1", body: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Assumenda, eos architecto iure sed totam optio rerum voluptates quo quos deleniti atque consequuntur est, repudiandae illo modi esse illum, perspiciatis id.', isCompleted: true, completedBy: "cd", createdBy: 'fd' },
-    { id: "2", body: "a", isCompleted: true, completedBy: "cd", createdBy: 'fd' },
-    { id: "3", body: "a", isCompleted: false, completedBy: "cd", createdBy: 'fd' },
-    { id: "4", body: "a", isCompleted: true, completedBy: "cd", createdBy: 'fd' }
-  ]);
+  const [tasks, setTasks] = useState();
   const { theme } = useTheme();
-  const [newTask ,setNewTask]= useState();
-  const {workspaceId} = useParams();
+  const [newTask, setNewTask] = useState();
+  const { workspaceId } = useParams();
+  const user = useUser();
 
   //Load tasks
-  useEffect(() => {debugger
-    
-    console.log(workspaceId)
-  }, [])
-  const addTask = () => {
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await serverApi.get(`${WORKSPACE}/${workspaceId}`);
+        setTasks(response.data);
+        console.log(response);
+      } catch (response) {
+        console.log("error while fetching task lists", response);
+      }
+    })();
+    console.log(workspaceId);
+  }, []);
+
+  const addTask = async () => {
+    const task = {
+      body: newTask,
+      isCompleted: false,
+      completedBy: "",
+      createdBy: {id:user._id, name: user.userName},
+    };
+
     //send put request
-    //if response is success then add the task to the task state array using id send by the server as response.
-    setTasks((tasks) => [
-      ...tasks,
-      { id: tasks.length, body: newTask, isCompleted: false, createdBy: 'sd', },
-    ]);
-    setNewTask('')
+    try {
+      const response = await serverApi.post(
+        `${WORKSPACE}/${workspaceId}`,
+        task
+      );
+
+      //if response is success then add the task to the task state array using id send by the server as response.
+      setTasks((tasks) => [
+        ...tasks,
+       response.data
+      ]);
+      setNewTask("");
+    } catch (response) {
+      console.log("error while adding new task", response.data);
+    }
   };
 
-  const removeTask = (id) => {
-    setTasks((tasks) => tasks.filter((task) => task.id !== id));
+  const removeTask = async (taskId) => {
+    try {
+      const response = await serverApi.delete(
+        `${WORKSPACE}/${workspaceId}/${taskId}`
+      );
+      setTasks((tasks) => tasks.filter((task) => task._id !== taskId));
+    } catch (response) {
+      console.log("error while deleting task", response);
+    }
   };
 
-  const taskComplete = (id) => {
-    //send request to delete
-    //if success then update the tasks state array
-    removeTask(id);
+  const taskComplete = async (taskId) => {
+    try {
+      const response = await serverApi.patch(
+        `${WORKSPACE}/${workspaceId}/${taskId}`,
+        {
+          isCompleted: true,
+          completedBy: user.userName,
+        }
+      );
+    } catch (response) {
+      console.log("Error while marking task complete", response);
+    }
   };
 
- 
   return (
-    <BackGround itemAlignment='center'>
-
+    <BackGround itemAlignment="center">
       {/* Body */}
-      <Stack
-        direction="column"
-        sx={bodyStyle}
-      >
+      <Stack direction="column" sx={bodyStyle}>
         {/* heading */}
-        <Typography
-          variant="h4"
-          sx={headingStyle}
-        >
+        <Typography variant="h4" sx={headingStyle}>
           Tasks
         </Typography>
 
         {/* Content */}
-        {tasks.map((task, index) => (
-          <Stack
-            key={index}
-            direction="row"
-            spacing="1vw"
-            margin="1vw"
-            sx={{ alignItems: "center" }}
-          >
-            {/* Task */}
-            <Typography
-              variant="string"
-              sx={{ ...tasksStyle, backgroundImage: `linear-gradient(${theme},#3268a8)`, }}
-              key={task.id}
-            >
-              {task.body}
-              <Stack sx={{ marginTop: '1%' }} direction='row' justifyContent='space-between'>
-                <Typography sx={{ color: "#abdaed" }} variant="body2">Assigned by: {task.createdBy} </Typography>
-                <Typography sx={{ color: "#abdaed" }} variant="body2">{task.isCompleted ? 'Completed' : 'Pending'}</Typography>
-              </Stack>
-            </Typography>
-
-            {/* Buttons */}
-
-            {task.isCompleted ?
-              <Button
-                taskId={task.id}
-                disabled={task.createdBy !== 'currentUser'}
-                sx={{
-                  ...buttonStyle,
-                  backgroundImage: `linear-gradient(${theme},#3268a8)`,
-                }}
-                onClick={(e) => removeTask(task.id)}
+        {tasks
+          ? tasks.map((task) => (
+              <Stack
+                key={task._id}
+                direction="row"
+                spacing="1vw"
+                margin="1vw"
+                sx={{ alignItems: "center" }}
               >
-                <DeleteIcon />
-              </Button>
-              : <Button
-                taskId={task.id}
-                sx={{
-                  ...buttonStyle,
-                  backgroundImage: `linear-gradient(${theme},#3268a8)`,
-                }}
-                onClick={() => taskComplete(task.id)}
-              ><CheckIcon />
-              </Button>}
-          </Stack>
-        ))}
+                {/* Task */}
+                <Typography
+                  variant="string"
+                  sx={{
+                    ...tasksStyle,
+                    backgroundImage: `linear-gradient(${theme},#3268a8)`,
+                  }}
+                  key={task.id}
+                >
+                  {task.body}
+                  <Stack
+                    sx={{ marginTop: "1%" }}
+                    direction="row"
+                    justifyContent="space-between"
+                  >
+                    <Typography sx={{ color: "#abdaed" }} variant="body2">
+                      Assigned by: {task.createdBy.name}
+                    </Typography>
+                    <Typography sx={{ color: "#abdaed" }} variant="body2">
+                      {task.isCompleted ? "Completed" : "Pending"}
+                    </Typography>
+                  </Stack>
+                </Typography>
+
+                {/* Buttons */}
+
+                {task.isCompleted ? (
+                  <Button
+                    
+                    disabled={task.createdBy !== "currentUser"}
+                    sx={{
+                      ...buttonStyle,
+                      backgroundImage: `linear-gradient(${theme},#3268a8)`,
+                    }}
+                    onClick={(e) => removeTask(task.id)}
+                  >
+                    <DeleteIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    
+                    sx={{
+                      ...buttonStyle,
+                      backgroundImage: `linear-gradient(${theme},#3268a8)`,
+                    }}
+                    onClick={() => taskComplete(task.id)}
+                  >
+                    <CheckIcon />
+                  </Button>
+                )}
+              </Stack>
+            ))
+          : "Loading tasks..."}
 
         {/* Footer */}
-        <Stack
-          direction="row"
-          sx={footerStyle}
-        >
+        <Stack direction="row" sx={footerStyle}>
           <TextField
             onChange={(e) => {
-             setNewTask(e.target.value)
+              setNewTask(e.target.value);
             }}
             placeholder="Add new task."
-            sx={{ ...addNewTaskInputField, backgroundImage: `linear-gradient(${theme},#3268a8)` }}
+            sx={{
+              ...addNewTaskInputField,
+              backgroundImage: `linear-gradient(${theme},#3268a8)`,
+            }}
             value={newTask}
             fullWidth
           />
@@ -140,7 +214,3 @@ function TaskManager() {
 }
 
 export default TaskManager;
-
-
-
-

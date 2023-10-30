@@ -1,7 +1,7 @@
 import { Workspace } from "../Models/workspace.js";
 
 // Send task list for a workspace
-export async function sendTaskList(request, response) {
+export async function sendTaskList(request, response) {console.log('send task List.')
   try {
     const { workspaceId } = request.params;
 
@@ -47,7 +47,7 @@ export async function addTask(request, response) {
     const newTask = updatedWorkspace.tasks.slice(-1)[0]; // Get the last element (new task)
 
     // Respond with a success message and the new task
-    response.status(201).json({ message: "Task added successfully", task: newTask });
+    response.status(201).json({ _id: newTask._id });
   } catch (error) {
     // Handle errors
     console.error("Error while adding a new task.", error);
