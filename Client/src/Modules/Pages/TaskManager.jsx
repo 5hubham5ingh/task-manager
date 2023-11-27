@@ -74,8 +74,10 @@ function TaskManager() {
 
       //if response is success then add the task to the task state array using id send by the server as response.
       setTasks((tasks) => [
-        ...tasks,
-       response.data
+        ...tasks,{
+          _id: response.data._id,
+          ...task
+        }
       ]);
       setNewTask("");
     } catch (response) {
@@ -94,7 +96,7 @@ function TaskManager() {
     }
   };
 
-  const taskComplete = async (taskId) => {
+  const taskComplete = async (taskId) => {debugger
     try {
       const response = await serverApi.patch(
         `${WORKSPACE}/${workspaceId}/${taskId}`,
@@ -103,6 +105,9 @@ function TaskManager() {
           completedBy: user.userName,
         }
       );
+
+      const completedTask = response.data.task;debugger
+      setTasks(tasks => tasks.map(task => task._id === completedTask._id ? completedTask : task));
     } catch (response) {
       console.log("Error while marking task complete", response);
     }
@@ -156,12 +161,12 @@ function TaskManager() {
                 {task.isCompleted ? (
                   <Button
                     
-                    disabled={task.createdBy !== "currentUser"}
+                    disabled={task.createdBy.id !== user._id}
                     sx={{
                       ...buttonStyle,
                       backgroundImage: `linear-gradient(${theme},#3268a8)`,
                     }}
-                    onClick={(e) => removeTask(task.id)}
+                    onClick={(e) => removeTask(task._id)}
                   >
                     <DeleteIcon />
                   </Button>
@@ -172,7 +177,7 @@ function TaskManager() {
                       ...buttonStyle,
                       backgroundImage: `linear-gradient(${theme},#3268a8)`,
                     }}
-                    onClick={() => taskComplete(task.id)}
+                    onClick={() => taskComplete(task._id)}
                   >
                     <CheckIcon />
                   </Button>

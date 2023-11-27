@@ -45,7 +45,7 @@ function SignUp() {
 
       console.log(response);
       dispatch(signUp(response.data));
-      navigate(`/Workspace/${response.user._id}`);
+      navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
     } catch (error) {
       dispatch(
         showSnackbar({
