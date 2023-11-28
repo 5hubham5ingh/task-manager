@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { LOG_IN } from "../ServerApi/ApiRoutes/authentication/login.js";
 import serverApi from "../ServerApi/api.js";
 import { showSnackbar } from "../Components/Snackbar/snackbarSlice.js";
+import { useUserQueries } from "../Queries/userQueries.js";
 function LogIn() {
   const initialParameters = {
     initialValues: initialValues,
@@ -33,25 +34,28 @@ function LogIn() {
 
   const dispatch = useDispatch();
 
+  const {logIn} = useUserQueries();
+
   async function submit(values) {
     const data = {
       userName: values.userName,
       password: values.password,
     };
-    try {
-      const response = await serverApi.post(LOG_IN, data);
+    logIn(data);
+    // try {
+    //   const response = await serverApi.post(LOG_IN, data);
 
-      dispatch(login(response.data));
-      dispatch(showSnackbar({ message: "Logged in!", severity: "success" }));
-      navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
-    } catch (error) {
-      dispatch(
-        showSnackbar({
-          message: error.response.data.message,
-          severity: "error",
-        })
-      );
-    }
+    //   dispatch(login(response.data));
+    //   dispatch(showSnackbar({ message: "Logged in!", severity: "success" }));
+    //   navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
+    // } catch (error) {
+    //   dispatch(
+    //     showSnackbar({
+    //       message: error.response.data.message,
+    //       severity: "error",
+    //     })
+    //   );
+    // }
   }
   useEffect(() => {});
   const { theme } = useTheme();

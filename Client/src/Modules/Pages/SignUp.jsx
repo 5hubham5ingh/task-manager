@@ -9,11 +9,12 @@ import { textFieldStyle } from "../Styles/TextField";
 import { buttonStyle } from "../Styles/Button";
 import { headingStyle } from "../Styles/Heading";
 import { formStyle } from "../Styles/Form.js";
-import { signUp } from "../Authentication/User/userSlice.js";
+//import { signUp } from "../Authentication/User/userSlice.js";
 import { showSnackbar } from "../Components/Snackbar/snackbarSlice.js";
 import { useDispatch } from "react-redux";
 import serverApi from "../ServerApi/api.js";
 import { SIGN_UP } from "../ServerApi/ApiRoutes/authentication/signup.js";
+import { useUserQueries } from "../Queries/userQueries.js";
 
 const initialValues = {
   userName: "",
@@ -27,6 +28,8 @@ function SignUp() {
 
   const dispatch = useDispatch();
 
+  const {signUp} = useUserQueries();
+
   const initialParameters = {
     initialValues: initialValues,
     validationSchema: userDetailsValidationSchema,
@@ -38,23 +41,23 @@ function SignUp() {
   const { errors, handleSubmit, handleBlur, handleChange, values, touched } =
     useFormik(initialParameters);
 
-  async function submit(values) {
-    const { userName, password } = values;
-    try {
-      const response = await serverApi.post(SIGN_UP, { userName, password });
+  async function submit(values) { signUp(values)
+    // const { userName, password } = values;
+    // try {
+    //   const response = await serverApi.post(SIGN_UP, { userName, password });
 
-      console.log(response);
-      dispatch(signUp(response.data));
-      navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
-    } catch (error) {
-      dispatch(
-        showSnackbar({
-          message: error.response.data.message,
-          severity: "error",
-        })
-      );
-      console.log(error.response);
-    }
+    //   console.log(response);
+    //   dispatch(signUp(response.data));
+    //   navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
+    // } catch (error) {
+    //   dispatch(
+    //     showSnackbar({
+    //       message: error.response.data.message,
+    //       severity: "error",
+    //     })
+    //   );
+    //   console.log(error.response);
+    // }
   }
 
   return (
