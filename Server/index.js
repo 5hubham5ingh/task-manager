@@ -2,10 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import { config } from "dotenv";
 import cors from "cors";
-import {booksRouter }from "./routes/booksRoutes.js";
 import { authRoutes } from "./routes/auth.js";
-import { workSpaceRoutes } from "./routes/workSpace.js";
-import { userRoutes } from "./routes/user.js";
+import { workspaceRoutes } from "./routes/workSpace.js";
+import { workspacesRoutes } from "./routes/workspaces.js";
 import { verifyToken } from "./middleware/auth.js";
 config();
 const app = express();
@@ -20,9 +19,9 @@ app.use('/books',booksRouter);
 
 app.use('/auth',authRoutes);
 
-app.use('/user',userRoutes);
+app.use('/user',workspacesRoutes);
 
-app.use('/workspace',workSpaceRoutes);
+app.use('/workspace',workspaceRoutes);
 
 
 app.get("/", (request, response) => {

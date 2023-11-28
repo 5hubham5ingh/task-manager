@@ -10,7 +10,8 @@ import serverApi from "../ServerApi/api"
 import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
 import {showSnackbar} from "../Components/Snackbar/snackbarSlice"
 import { useDispatch } from "react-redux";
-export default function WorkSpace() {
+
+export default function Workspaces() {
   const [workSpaces, setWorkSpaces] = useState(null);
   const [addNewWorkSpace, setAddNewWorkSpace] = useState(false);
   const { theme } = useTheme();
