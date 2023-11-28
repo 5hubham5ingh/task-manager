@@ -3,8 +3,8 @@ import RequireUserAuth from "../Authentication/User/RequireUserAuth";
 import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes";
 import { Route } from "react-router-dom";
 
-const TaskManager = lazy(() => import("../Pages/TaskManager"));
-const WorkSpace = lazy(() => import("../Pages/WorkSpace"));
+const Workspace = lazy(() => import("../Pages/Workspace"));
+const Workspaces = lazy(() => import("../Pages/Workspaces"));
 
 function PrivateRoutes() {
   const createPrivateRoute = (path, element) => {
@@ -20,8 +20,8 @@ function PrivateRoutes() {
 
   return (
     <>
-      {createPrivateRoute("TaskManager/:workspaceId", <TaskManager />)}
-      {createPrivateRoute("Workspaces/:userId", <WorkSpace />)}
+      {createPrivateRoute("TaskManager/:workspaceId", <Workspace />)}
+      {createPrivateRoute("Workspaces/:userId", <Workspaces />)}
     </>
   );
 }

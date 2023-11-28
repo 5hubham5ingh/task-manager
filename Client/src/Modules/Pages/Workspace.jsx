@@ -36,7 +36,7 @@ const initialData = [
   { id: "4", body: "a", isCompleted: true, completedBy: "cd", createdBy: "fd" },
 ];
 
-function TaskManager() {
+function Workspace() {
   const [tasks, setTasks] = useState();
   const { theme } = useTheme();
   const [newTask, setNewTask] = useState();
@@ -218,4 +218,4 @@ function TaskManager() {
   );
 }
 
-export default TaskManager;
+export default Workspace;
