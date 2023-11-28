@@ -40,7 +40,7 @@ export const useUserQueries = () => {
 
   function initiateSignup(userCredentials) {
     user.current = userCredentials;
-    return serverApi.post(SIGN_UP, user);
+    return serverApi.post(SIGN_UP, userCredentials);
   }
 
   function onSignUpSuccess() {
