@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Form.js";
 import { Stack, TextField, Typography } from "@mui/material";
@@ -14,9 +14,8 @@ import { formStyle } from "../Styles/Form.js";
 import { login } from "../Authentication/User/userSlice.js";
 import { useDispatch } from "react-redux";
 import { LOG_IN } from "../ServerApi/ApiRoutes/authentication/login.js";
-import serverApi from "../ServerApi/api.js";
 import { showSnackbar } from "../Components/Snackbar/snackbarSlice.js";
-import { useUserQueries } from "../Queries/userQueries.js";
+import useServer from "../Hooks/useServer.js";
 function LogIn() {
   const initialParameters = {
     initialValues: initialValues,
@@ -34,30 +33,23 @@ function LogIn() {
 
   const dispatch = useDispatch();
 
-  const {logIn} = useUserQueries();
+  const request = useServer();
 
   async function submit(values) {
     const data = {
       userName: values.userName,
       password: values.password,
     };
-    logIn(data);
-    // try {
-    //   const response = await serverApi.post(LOG_IN, data);
 
-    //   dispatch(login(response.data));
-    //   dispatch(showSnackbar({ message: "Logged in!", severity: "success" }));
-    //   navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
-    // } catch (error) {
-    //   dispatch(
-    //     showSnackbar({
-    //       message: error.response.data.message,
-    //       severity: "error",
-    //     })
-    //   );
-    // }
+    const response = await request({ url: LOG_IN, method: "post", data });
+
+    if (!response) return;
+
+    dispatch(login(response.data));
+    dispatch(showSnackbar({ message: "Logged in!", severity: "success" }));
+    navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
   }
-  useEffect(() => {});
+
   const { theme } = useTheme();
   return (
     <Stack
