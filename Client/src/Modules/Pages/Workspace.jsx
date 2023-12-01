@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 import serverApi from "../ServerApi/api";
 import { WORKSPACE } from "../ServerApi/ApiRoutes/taskManager";
 import { useUser } from "../Authentication/User/userSlice";
-import { useWorkspace } from "../Queries/workspaceQueries";
+import { useAddNewTaskMutation, useWorkspace } from "../Queries/workspaceQueries";
 
 const initialData = [
   {
@@ -43,7 +43,8 @@ function Workspace() {
   const [newTask, setNewTask] = useState();
   const { workspaceId } = useParams();
   const user = useUser();
-  useWorkspace(workspaceId,setTasks)
+  useWorkspace(workspaceId,setTasks);
+  const addNewTaskMutation = useAddNewTaskMutation();
   //Load tasks
   // useEffect(() => {
   //   (async () => {
@@ -66,24 +67,26 @@ function Workspace() {
       createdBy: {id:user._id, name: user.userName},
     };
 
-    //send put request
-    try {
-      const response = await serverApi.post(
-        `${WORKSPACE}/${workspaceId}`,
-        task
-      );
+    addNewTaskMutation.mutate(task);
 
-      //if response is success then add the task to the task state array using id send by the server as response.
-      setTasks((tasks) => [
-        ...tasks,{
-          _id: response.data._id,
-          ...task
-        }
-      ]);
-      setNewTask("");
-    } catch (response) {
-      console.log("error while adding new task", response.data);
-    }
+    //send put request
+    // try {
+    //   const response = await serverApi.post(
+    //     `${WORKSPACE}/${workspaceId}`,
+    //     task
+    //   );
+
+    //   //if response is success then add the task to the task state array using id send by the server as response.
+    //   setTasks((tasks) => [
+    //     ...tasks,{
+    //       _id: response.data._id,
+    //       ...task
+    //     }
+    //   ]);
+    //   setNewTask("");
+    // } catch (response) {
+    //   console.log("error while adding new task", response.data);
+    // }
   };
 
   const removeTask = async (taskId) => {
