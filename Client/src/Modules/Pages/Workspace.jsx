@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import serverApi from "../ServerApi/api";
 import { WORKSPACE } from "../ServerApi/ApiRoutes/taskManager";
 import { useUser } from "../Authentication/User/userSlice";
+import { useWorkspace } from "../Queries/workspaceQueries";
 
 const initialData = [
   {
@@ -42,20 +43,20 @@ function Workspace() {
   const [newTask, setNewTask] = useState();
   const { workspaceId } = useParams();
   const user = useUser();
-
+  useWorkspace(workspaceId,setTasks)
   //Load tasks
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await serverApi.get(`${WORKSPACE}/${workspaceId}`);
-        setTasks(response.data);
-        console.log(response);
-      } catch (response) {
-        console.log("error while fetching task lists", response);
-      }
-    })();
-    console.log(workspaceId);
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await serverApi.get(`${WORKSPACE}/${workspaceId}`);
+  //       setTasks(response.data);
+  //       console.log(response);
+  //     } catch (response) {
+  //       console.log("error while fetching task lists", response);
+  //     }
+  //   })();
+  //   console.log(workspaceId);
+  // }, []);
 
   const addTask = async () => {
     const task = {
