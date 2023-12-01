@@ -22,3 +22,26 @@ export const useWorkspace = (workspaceId,setWorksapce) => {
       onSuccess: (data) => setWorksapce(data),
     });
   };
+
+  export const useAddNewTaskMutation = () => {
+    const request = useServer();
+    const {workspaceId} = useParams();
+    const taskToAdd = useRef();
+    async function addNewTask(task) {
+      taskToAdd.current = task;
+      return await request({ url: `${WORKSPACES}/${workspaceId}`, method: "post", data: task });
+    }
+
+    function onSuccess(newTask) {
+      const taskAdded = {
+        _id: newTask._id,
+      ...taskToAdd.current
+      }
+      queryClient.setQueryData(["workspace",workspaceId],(oldTasks)=> [...oldTasks,taskAdded]);
+    }
+
+    return useMutation({
+      mutationFn: addNewTask,
+      onSuccess,
+    });
+  }

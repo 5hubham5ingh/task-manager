@@ -41,11 +41,10 @@ export const useAddWorkspace = ()=>{
     queryClient.setQueryData(["workspaces",userId],(oldWorkspaces)=> [...oldWorkspaces,workspaceAdded]);
   }
 
-  const mutate =  useMutation({
+  return useMutation({
     mutationFn: addWorkspace,
     onSuccess,
-    onError
   });
 
-  return mutate;
+  
 }
