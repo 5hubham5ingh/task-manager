@@ -71,8 +71,9 @@ function SignUp() {
 
       <TextField
         label="User Name / Email"
-        value={values.userName}
+        value={values.userName ? values.userName : ''}
         fullWidth
+        autoComplete="userName"
         sx={textFieldStyle}
         name="userName"
         onBlur={handleBlur}
@@ -83,8 +84,9 @@ function SignUp() {
 
       <TextField
         label="Password"
-        value={values.password}
+        value={values.password ? values.password : ''}
         fullWidth
+        autoComplete="password"
         type="password"
         sx={textFieldStyle}
         name="password"

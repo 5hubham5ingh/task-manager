@@ -20,7 +20,7 @@ function PrivateRoutes() {
 
   return (
     <>
-      {createPrivateRoute("TaskManager/:workspaceId", <Workspace />)}
+      {createPrivateRoute("Workspace/:workspaceId", <Workspace />)}
       {createPrivateRoute("Workspaces/:userId", <Workspaces />)}
     </>
   );

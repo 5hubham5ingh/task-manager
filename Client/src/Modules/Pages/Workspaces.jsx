@@ -6,40 +6,44 @@ import Masonry from "@mui/lab/Masonry";
 import { BackGround } from "../Components/Background";
 import { AddNewWorkSpaceModal } from "../Components/AddNewWorkSpaceModal";
 import { useParams } from "react-router-dom";
-import serverApi from "../ServerApi/api"
+import serverApi from "../ServerApi/api";
 import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
-import {showSnackbar} from "../Components/Snackbar/snackbarSlice"
+import { showSnackbar } from "../Components/Snackbar/snackbarSlice";
 import { useDispatch } from "react-redux";
+import { useWorkspaces } from "../Queries/workspacesQueries";
 
 export default function Workspaces() {
   const [workSpaces, setWorkSpaces] = useState(null);
   const [addNewWorkSpace, setAddNewWorkSpace] = useState(false);
   const { theme } = useTheme();
-  const {userId} = useParams();
+  const { userId } = useParams();
   const dispatch = useDispatch();
-  useEffect(() => {
-    async function getData() {
 
-      try{
-        const workSpaces = await serverApi.get(`${WORKSPACES}/${userId}`);
+  useWorkspaces(userId, setWorkSpaces);
 
-        console.log("workspace: ",workSpaces)
+  // useEffect(() => {
+  //   async function getData() {
 
-        return workSpaces.data;
-      }catch({response}){
-        console.log(response)
-        dispatch(showSnackbar({message: response.data.message, severity:'error'}))
-      }
-    
-    }
+  //     try{
+  //       const workSpaces = await serverApi.get(`${WORKSPACES}/${userId}`);
 
-    getData().then((ws) => setWorkSpaces(ws));
-  }, []);
-  
+  //       console.log("workspace: ",workSpaces)
+
+  //       return workSpaces.data;
+  //     }catch({response}){
+  //       console.log(response)
+  //       dispatch(showSnackbar({message: response.data.message, severity:'error'}))
+  //     }
+
+  //   }
+
+  //   getData().then((ws) => setWorkSpaces(ws));
+  // }, []);
+
   const addWorkSpaces = async (newWorkSpace) => {
-    console.log(newWorkSpace)
+    console.log(newWorkSpace);
     setWorkSpaces((oldWorkSpaces) => {
-      if(oldWorkSpaces === undefined) return [newWorkSpace];
+      if (oldWorkSpaces === undefined) return [newWorkSpace];
       return [...oldWorkSpaces, newWorkSpace];
     });
   };
@@ -49,35 +53,43 @@ export default function Workspaces() {
       return workSpaces.filter((workSpace) => workSpace._id !== workSpaceId);
     });
   };
+  
   const closeAddNewWorkSpaceModal = () => setAddNewWorkSpace(false);
 
-  console.log("workspace:",workSpaces)
-    return (
-      <>
-        <BackGround>
-          <Masonry
-            columns={{ xs: 1, sm: 2, md: 4 }}
-            spacing={4}
-            sx={{ margin: 5 }}
+  console.log("workspace:", workSpaces);
+  return (
+    <>
+      {addNewWorkSpace && (
+        <AddNewWorkSpaceModal
+          addNewWorkSpace={addWorkSpaces}
+          closeModal={closeAddNewWorkSpaceModal}
+        />
+      )}
+      <BackGround>
+        <Masonry
+          columns={{ xs: 1, sm: 2, md: 4 }}
+          spacing={4}
+          sx={{ margin: 5 }}
+        >
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+            md={3}
+            key={100}
+            sx={{
+              backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))`,
+              p: "40px",
+            }}
+            onClick={() => setAddNewWorkSpace(true)}
           >
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={2}
-              md={3}
-              key={100}
-              sx={{
-                backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))`,
-                p: "40px",
-              }}
-              onClick={() => setAddNewWorkSpace(true)}
-            >
-              <Typography variant="h7">Add new Work space.</Typography>
-              <span>➕</span>
-            </Stack>
+            <Typography variant="h7">Add new Work space.</Typography>
+            <span>➕</span>
+          </Stack>
 
-            {workSpaces && workSpaces.map((workSpace) => {
+          {workSpaces &&
+            workSpaces.map((workSpace) => {
               return (
                 <WorkSpaceCard
                   key={workSpace._id}
@@ -86,17 +98,10 @@ export default function Workspaces() {
                 />
               );
             })}
-          </Masonry>
-        </BackGround>
-        {addNewWorkSpace && (
-          <AddNewWorkSpaceModal
-            addNewWorkSpace={addWorkSpaces}
-            closeModal={closeAddNewWorkSpaceModal}
-          />
-        )}
-      </>
-    );
- 
+        </Masonry>
+      </BackGround>
+    </>
+  );
 }
 
 function sleep(ms) {

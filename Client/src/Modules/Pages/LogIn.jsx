@@ -16,6 +16,12 @@ import { useDispatch } from "react-redux";
 import { LOG_IN } from "../ServerApi/ApiRoutes/authentication/login.js";
 import { showSnackbar } from "../Components/Snackbar/snackbarSlice.js";
 import useServer from "../Hooks/useServer.js";
+
+const initialValues = {
+  userName: "",
+  key: "",
+};
+
 function LogIn() {
   const initialParameters = {
     initialValues: initialValues,
@@ -27,7 +33,7 @@ function LogIn() {
   const { errors, handleSubmit, handleBlur, handleChange, values, touched } =
     useFormik(initialParameters);
 
-  const checkBoxRef = useRef();
+
 
   const navigate = useNavigate();
 
@@ -68,8 +74,9 @@ function LogIn() {
 
       <TextField
         label="User Name / Email"
-        value={values.userName}
+        value={values.userName ? values.userName : ''}
         fullWidth
+        autoComplete="userName"
         sx={textFieldStyle}
         name="userName"
         onBlur={handleBlur}
@@ -80,9 +87,10 @@ function LogIn() {
 
       <TextField
         label="Password"
-        value={values.password}
+        value={values.password ? values.password : ''}
         fullWidth
         type="password"
+        autoComplete="current-password"
         sx={textFieldStyle}
         name="password"
         onBlur={handleBlur}
@@ -90,7 +98,7 @@ function LogIn() {
         error={errors.password && touched?.password}
         helperText={touched?.password ? errors.password : ""}
       />
-      <CheckBox label="Keep me logged in" ref={checkBoxRef} />
+      <CheckBox label="Keep me logged in"  />
       <Button
         variant="contained"
         sx={buttonStyle}
@@ -115,8 +123,3 @@ function LogIn() {
 }
 
 export default LogIn;
-
-const initialValues = {
-  userName: "",
-  key: "",
-};

@@ -16,6 +16,7 @@ export default function WorkSpaceCard({ workSpace, removeWorkSpace }) {
     const navigate = useNavigate();
     const {_id: userId} = useUser();
     const [deletingWorkspace, setDeletingWorkspace] = useState(false);
+    
     const openWorkSpace = () => {
         navigate(`/TaskManager/${workSpace._id}`)
     }

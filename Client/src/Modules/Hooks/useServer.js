@@ -16,9 +16,9 @@ export default function useServer() {
     const onSuccess = (response) => response;
     const onError = (error) => {
       const errorMessage =
-        error.message === "Network Error"
-          ? error.message
-          : error.response.data.message;
+        !navigator.onLine
+          ? "Network Error"
+          : error.response.data.message ? error.response.data.message : 'Failed to reach the server';
       dispatch(
         showSnackbar({
           message: errorMessage,
