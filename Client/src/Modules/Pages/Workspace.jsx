@@ -16,7 +16,12 @@ import { useParams } from "react-router-dom";
 import serverApi from "../ServerApi/api";
 import { WORKSPACE } from "../ServerApi/ApiRoutes/taskManager";
 import { useUser } from "../Authentication/User/userSlice";
-import { useAddNewTaskMutation, useWorkspace } from "../Queries/workspaceQueries";
+import {
+  useAddNewTaskMutation,
+  useDeleteTaskMutation,
+  useTaksCompleteMutation,
+  useWorkspace,
+} from "../Queries/workspaceQueries";
 
 const initialData = [
   {
@@ -43,8 +48,10 @@ function Workspace() {
   const [newTask, setNewTask] = useState();
   const { workspaceId } = useParams();
   const user = useUser();
-  useWorkspace(workspaceId,setTasks);
+  useWorkspace(workspaceId, setTasks);
   const addNewTaskMutation = useAddNewTaskMutation();
+  const deleteTaskMutation = useDeleteTaskMutation();
+  const completeTaskMutation = useTaksCompleteMutation();
   //Load tasks
   // useEffect(() => {
   //   (async () => {
@@ -64,7 +71,7 @@ function Workspace() {
       body: newTask,
       isCompleted: false,
       completedBy: "",
-      createdBy: {id:user._id, name: user.userName},
+      createdBy: { id: user._id, name: user.userName },
     };
 
     addNewTaskMutation.mutate(task);
@@ -90,31 +97,40 @@ function Workspace() {
   };
 
   const removeTask = async (taskId) => {
-    try {
-      const response = await serverApi.delete(
-        `${WORKSPACE}/${workspaceId}/${taskId}`
-      );
-      setTasks((tasks) => tasks.filter((task) => task._id !== taskId));
-    } catch (response) {
-      console.log("error while deleting task", response);
-    }
+    deleteTaskMutation.mutate(taskId);
+
+    // try {
+    //   const response = await serverApi.delete(
+    //     `${WORKSPACE}/${workspaceId}/${taskId}`
+    //   );
+    //   setTasks((tasks) => tasks.filter((task) => task._id !== taskId));
+    // } catch (response) {
+    //   console.log("error while deleting task", response);
+    // }
   };
 
-  const taskComplete = async (taskId) => {debugger
-    try {
-      const response = await serverApi.patch(
-        `${WORKSPACE}/${workspaceId}/${taskId}`,
-        {
-          isCompleted: true,
-          completedBy: user.userName,
-        }
-      );
+  const taskComplete = async (taskId) => {
+    debugger;
 
-      const completedTask = response.data.task;debugger
-      setTasks(tasks => tasks.map(task => task._id === completedTask._id ? completedTask : task));
-    } catch (response) {
-      console.log("Error while marking task complete", response);
-    }
+    completeTaskMutation.mutate(taskId, {
+      isCompleted: true,
+      completedBy: user.userName,
+    });
+
+    // try {
+    //   const response = await serverApi.patch(
+    //     `${WORKSPACE}/${workspaceId}/${taskId}`,
+    //     {
+    //       isCompleted: true,
+    //       completedBy: user.userName,
+    //     }
+    //   );
+
+    //   const completedTask = response.data.task;debugger
+    //   setTasks(tasks => tasks.map(task => task._id === completedTask._id ? completedTask : task));
+    // } catch (response) {
+    //   console.log("Error while marking task complete", response);
+    // }
   };
 
   return (
@@ -164,7 +180,6 @@ function Workspace() {
 
                 {task.isCompleted ? (
                   <Button
-                    
                     disabled={task.createdBy.id !== user._id}
                     sx={{
                       ...buttonStyle,
@@ -176,7 +191,6 @@ function Workspace() {
                   </Button>
                 ) : (
                   <Button
-                    
                     sx={{
                       ...buttonStyle,
                       backgroundImage: `linear-gradient(${theme},#3268a8)`,
