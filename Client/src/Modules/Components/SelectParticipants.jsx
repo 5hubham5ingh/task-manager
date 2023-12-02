@@ -6,6 +6,7 @@ import { textFieldStyle } from '../Styles/TextField';
 import { Paper } from '@mui/material';
 import { PARTICIPANTS } from '../ServerApi/ApiRoutes/workspace';
 import serverApi from "../ServerApi/api"
+import useServer from '../Hooks/useServer'
 
 
 
@@ -13,6 +14,7 @@ export default function SelectParticipants({ participants }) {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
+  const request = useServer();
 
   useEffect(() => {
     let active = true;
@@ -23,7 +25,7 @@ export default function SelectParticipants({ participants }) {
 
     (async () => {
       try{
-      const response = await serverApi.get(PARTICIPANTS);
+      const response = await request({url:PARTICIPANTS, method: 'get'});
         active && setOptions(response.data);
 
     }catch(error){
