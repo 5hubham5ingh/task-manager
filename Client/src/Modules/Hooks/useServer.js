@@ -17,7 +17,7 @@ export default function useServer() {
     const onError = (error) => {
       const errorMessage =
         !navigator.onLine
-          ? "Network Error"
+          ? "System is Offline! Please check your internet connection."
           : error.response.data.message ? error.response.data.message : 'Failed to reach the server';
       dispatch(
         showSnackbar({
@@ -25,6 +25,7 @@ export default function useServer() {
           severity: "error",
         })
       );
+      return '';
     };
 
     return await server(options).then(onSuccess).catch(onError);

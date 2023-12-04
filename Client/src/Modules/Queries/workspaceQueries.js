@@ -1,11 +1,10 @@
 import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
-import { useQuery, useQueryClient, useParams } from "@tanstack/react-query";
-
-const queryClient = useQueryClient();
+import { useQuery, useQueryClient,useMutation } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import useServer from '../Hooks/useServer'
 
 export const useWorkspace = (workspaceId, setWorksapce) => {
   const request = useServer();
-  const { workspaceId } = useParams();
 
   async function fetchWorkspace({ queryKey }) {
     const workspaceId = queryKey[1];
@@ -30,9 +29,10 @@ export const useWorkspace = (workspaceId, setWorksapce) => {
 export const useAddNewTaskMutation = () => {
   const request = useServer();
   const { workspaceId } = useParams();
-  const taskToAdd = useRef();
+  let taskToAdd;
+  const queryClient = useQueryClient();
   async function addNewTask(task) {
-    taskToAdd.current = task;
+    taskToAdd = task;
     return await request({
       url: `${WORKSPACES}/${workspaceId}`,
       method: "post",
@@ -43,7 +43,7 @@ export const useAddNewTaskMutation = () => {
   function onSuccess(newTask) {
     const taskAdded = {
       _id: newTask._id,
-      ...taskToAdd.current,
+      ...taskToAdd,
     };
     queryClient.setQueryData(["workspace", workspaceId], oldTasks => [
       ...oldTasks,
@@ -60,6 +60,7 @@ export const useAddNewTaskMutation = () => {
 export const useDeleteTaskMutation = () => {
   const request = useServer();
   const { workspaceId } = useParams();
+  const queryClient = useQueryClient();
   let taskId;
   async function deleteTask(currentTaskId) {
     taskId = currentTaskId;
@@ -83,8 +84,9 @@ export const useDeleteTaskMutation = () => {
 export const useTaksCompleteMutation = () => {
   const request = useServer();
   const { workspaceId } = useParams();
+  const queryClient = useQueryClient();
+ 
   async function completeTask(currentTaskId,completedBy) {
-    taskId = currentTaskId;
     return await request({
       url: `${WORKSPACES}/${workspaceId}/${currentTaskId}`,
       method: "patch",

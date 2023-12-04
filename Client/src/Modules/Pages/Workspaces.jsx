@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Stack, Typography } from "@mui/material";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 import WorkSpaceCard from "../Components/workSpaceCard";
 import { useTheme } from "../Components/Theme/Theme";
 import Masonry from "@mui/lab/Masonry";
@@ -13,14 +13,11 @@ import { useDispatch } from "react-redux";
 import { useWorkspaces } from "../Queries/workspacesQueries";
 
 export default function Workspaces() {
-  const [workSpaces, setWorkSpaces] = useState(null);
   const [addNewWorkSpace, setAddNewWorkSpace] = useState(false);
   const { theme } = useTheme();
   const { userId } = useParams();
   const dispatch = useDispatch();
-
-  useWorkspaces(userId, setWorkSpaces);
-
+  const workspacesQuery = useWorkspaces(userId);
   // useEffect(() => {
   //   async function getData() {
 
@@ -40,31 +37,29 @@ export default function Workspaces() {
   //   getData().then((ws) => setWorkSpaces(ws));
   // }, []);
 
-  const addWorkSpaces = async (newWorkSpace) => {
-    console.log(newWorkSpace);
-    setWorkSpaces((oldWorkSpaces) => {
-      if (oldWorkSpaces === undefined) return [newWorkSpace];
-      return [...oldWorkSpaces, newWorkSpace];
-    });
-  };
+  if(workspacesQuery.isError) return <h5>Error while fetching workspaces.</h5>;
+  if(workspacesQuery.isLoading) return <CircularProgress/>;
 
-  const removeWorkSpace = (workSpaceId) => {
-    setWorkSpaces((workSpaces) => {
-      return workSpaces.filter((workSpace) => workSpace._id !== workSpaceId);
-    });
-  };
+  let workSpaces = workspacesQuery.data;
+
+  // const addWorkSpaces = async (newWorkSpace) => {
+  //   console.log(newWorkSpace);
+  //   setWorkSpaces((oldWorkSpaces) => {
+  //     if (oldWorkSpaces === undefined) return [newWorkSpace];
+  //     return [...oldWorkSpaces, newWorkSpace];
+  //   });
+  // };
+
+  // const removeWorkSpace = (workSpaceId) => {
+  //   setWorkSpaces((workSpaces) => {
+  //     return workSpaces.filter((workSpace) => workSpace._id !== workSpaceId);
+  //   });
+  // };
   
   const closeAddNewWorkSpaceModal = () => setAddNewWorkSpace(false);
 
-  console.log("workspace:", workSpaces);
   return (
     <>
-      {addNewWorkSpace && (
-        <AddNewWorkSpaceModal
-          addNewWorkSpace={addWorkSpaces}
-          closeModal={closeAddNewWorkSpaceModal}
-        />
-      )}
       <BackGround>
         <Masonry
           columns={{ xs: 1, sm: 2, md: 4 }}
@@ -94,12 +89,18 @@ export default function Workspaces() {
                 <WorkSpaceCard
                   key={workSpace._id}
                   workSpace={workSpace}
-                  removeWorkSpace={removeWorkSpace}
+                  // removeWorkSpace={removeWorkSpace}
                 />
               );
             })}
         </Masonry>
       </BackGround>
+      {addNewWorkSpace && (
+        <AddNewWorkSpaceModal
+          // addNewWorkSpace={addWorkSpaces}
+          closeModal={closeAddNewWorkSpaceModal}
+        />
+      )}
     </>
   );
 }

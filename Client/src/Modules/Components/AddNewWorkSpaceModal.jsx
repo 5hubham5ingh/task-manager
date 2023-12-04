@@ -19,11 +19,9 @@ export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
   const workSpaceDescriptionRef = useRef(null);
   const workSpaceParticipantsRef = useRef(null);
   const [error, setError] = useState("");
-  const [addingNewWorkspace, setAddingNewWorkspace] = useState(false);
   const { _id, userName } = useUser();
-  const { userId } = useParams();
+  const {isPending: addingNewWorkspace,mutate: addNewWorkspace} = useAddWorkspace(closeModal);
 
-  const addNewWorkSpaceMutation = useAddWorkspace();
 
   const handleSubmit = async () => {
     if (workSpaceNameRef.current.value === "") {
@@ -39,9 +37,7 @@ export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
       participants: workSpaceParticipantsRef.current,
     };
 
-    addNewWorkSpaceMutation.mutate(workSpace);
-    setAddingNewWorkspace(addNewWorkSpaceMutation.isPending);
-    addNewWorkSpaceMutation.isSuccess && closeModal();
+    addNewWorkspace(workSpace);
   };
 
   // const handleSubmit = async () => {
@@ -93,13 +89,11 @@ export const AddNewWorkSpaceModal = ({ addNewWorkSpace, closeModal }) => {
           inputRef={workSpaceNameRef}
           error={Boolean(error)}
           helperText={error}
-          fullwidth
           sx={textFieldStyle}
         />
         <TextField
           label="Description"
           inputRef={workSpaceDescriptionRef}
-          fullwidth
           sx={textFieldStyle}
         />
         <SelectParticipants participants={workSpaceParticipantsRef} />
