@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
+import { DELETE, WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
 import useServer from "../Hooks/useServer";
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -44,7 +44,7 @@ export const useAddWorkspace = (closeModal) => {
       ...workspaceToAdd.current,
     };
     queryClient.setQueryData(["workspaces", userId], (oldWorkspaces) => {
-     closeModal && closeModal();
+      closeModal && closeModal();
       return {
         ...oldWorkspaces,
         data: [...oldWorkspaces.data, workspaceAdded],
@@ -54,6 +54,38 @@ export const useAddWorkspace = (closeModal) => {
 
   return useMutation({
     mutationFn: addWorkspace,
+    onSuccess,
+  });
+};
+
+export const useDeleteWorkspace = () => {
+  const request = useServer();
+  const queryClient = useQueryClient();
+  const { userId } = useParams();
+  const workspaceToDelete = useRef();
+
+  const deleteWorkspace = (workspaceId) => {
+    workspaceToDelete.current = workspaceId;
+    return request({
+      url: `${DELETE}/${userId}/${workspaceId}`,
+      method: "delete",
+    });
+  };
+
+  const onSuccess = () => {
+    debugger;
+    queryClient.setQueryData(["workspaces", userId], (oldWorkspaces) => {
+      return {
+        ...oldWorkspaces,
+        data: oldWorkspaces.data.filter(
+          (workspace) => workspace._id !== workspaceToDelete.current
+        ),
+      };
+    });
+  };
+
+  return useMutation({
+    mutationFn: deleteWorkspace,
     onSuccess,
   });
 };
