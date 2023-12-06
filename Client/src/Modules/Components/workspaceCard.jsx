@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 import DeleteWorkspace from "./DeleteWorkspace";
 
-export default function WorkSpaceCard({ workSpace, removeWorkSpace }) {
+export default function WorkspaceCard({ workspace, removeWorkspace }) {
   const { theme } = useTheme();
   const navigate = useNavigate();
 
-  const openWorkSpace = () => {
-    navigate(`/TaskManager/${workSpace._id}`);
+  const openWorkspace = () => {
+    navigate(`/workspace/${workspace._id}`);
   };
 
   return (
@@ -23,25 +23,25 @@ export default function WorkSpaceCard({ workSpace, removeWorkSpace }) {
         position: "relative",
       }}
     >
-      <CardContent onClick={openWorkSpace}>
-        <Typography variant="h4">{workSpace.name}</Typography>
+      <CardContent onClick={openWorkspace}>
+        <Typography variant="h4">{workspace.name}</Typography>
         <Typography variant="subtitle2">
-          Created by: {workSpace.owner.userName}
+          Created by: {workspace.owner.userName}
         </Typography>
         <Divider sx={{ borderColor: "black" }} />
         <Typography variant="h6">Description: </Typography>
         <Typography variant="subtitle2" paragraph={true} sx={{ width: "100%" }}>
-          {workSpace.description}
+          {workspace.description}
         </Typography>
         <Typography variant="h6">Participants: </Typography>
         <Typography variant="p" paragraph={true} sx={{ width: "100%" }}>
-          {workSpace.participants.map(
+          {workspace.participants.map(
             (participant, index, array) =>
               `${participant.userName}${index === array.length - 1 ? "" : ","} `
           )}
         </Typography>
       </CardContent>
-      <DeleteWorkspace workspaceId={workSpace._id} />
+      <DeleteWorkspace workspaceId={workspace._id} />
     </Card>
   );
 }

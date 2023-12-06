@@ -4,8 +4,9 @@ import useServer from "../Hooks/useServer";
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
 
-export const useWorkspaces = (userId) => {
+export const useWorkspaces = () => {
   const request = useServer();
+  const { userId } = useParams();
 
   async function fetchWorkspaces({ queryKey }) {
     const userId = queryKey[1];
@@ -15,11 +16,12 @@ export const useWorkspaces = (userId) => {
   return useQuery({
     queryKey: ["workspaces", userId],
     queryFn: fetchWorkspaces,
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     refetchOnWindowBlur: false,
     enabled: true,
+    staleTime: 1000 * 60,
     select: (Data) => Data.data,
   });
 };
@@ -73,7 +75,6 @@ export const useDeleteWorkspace = () => {
   };
 
   const onSuccess = () => {
-    debugger;
     queryClient.setQueryData(["workspaces", userId], (oldWorkspaces) => {
       return {
         ...oldWorkspaces,

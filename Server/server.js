@@ -30,10 +30,7 @@ app.get("/", (request, response) => {
 const mongoDbUri = process.env.MONGO_URI;
 const PORT = process.env.PORT;
 mongoose
-  .connect(mongoDbUri,{
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  })
+  .connect(mongoDbUri)
   .then(() => {
     console.log("Connected to DB");
     app.listen(PORT, () => {

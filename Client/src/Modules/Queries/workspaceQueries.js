@@ -1,10 +1,11 @@
 import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
-import { useQuery, useQueryClient,useMutation } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import useServer from '../Hooks/useServer'
+import useServer from "../Hooks/useServer";
 
-export const useWorkspace = (workspaceId, setWorksapce) => {
+export const useWorkspace = () => {
   const request = useServer();
+  const { workspaceId } = useParams();
 
   async function fetchWorkspace({ queryKey }) {
     const workspaceId = queryKey[1];
@@ -22,7 +23,6 @@ export const useWorkspace = (workspaceId, setWorksapce) => {
     refetchOnWindowFocus: false,
     refetchOnWindowBlur: false,
     enabled: true,
-    onSuccess: (data) => setWorksapce(data),
   });
 };
 
@@ -45,10 +45,12 @@ export const useAddNewTaskMutation = () => {
       _id: newTask._id,
       ...taskToAdd,
     };
-    queryClient.setQueryData(["workspace", workspaceId], oldTasks => [
-      ...oldTasks,
-      taskAdded,
-    ]);
+    queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
+      return {
+        ...workspace,
+        data: [...workspace.data, taskAdded],
+      };
+    });
   }
 
   return useMutation({
@@ -71,13 +73,18 @@ export const useDeleteTaskMutation = () => {
   }
 
   function onSuccess() {
-    queryClient.setQueryData(["workspace", workspaceId], oldTasks => oldTasks.filter(task => task._id !== taskId));
+    queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
+      return {
+        ...workspace,
+        data: workspace.data.filter((task) => task._id !== taskId),
+      };
+    });
   }
 
   return useMutation({
     mutationFn: deleteTask,
     onSuccess,
-    onError: ()=>console.log("Error in delete task mutation")
+    onError: () => console.log("Error in delete task mutation"),
   });
 };
 
@@ -85,22 +92,29 @@ export const useTaksCompleteMutation = () => {
   const request = useServer();
   const { workspaceId } = useParams();
   const queryClient = useQueryClient();
- 
-  async function completeTask(currentTaskId,completedBy) {
+
+  async function completeTask(currentTaskId, completedBy) {
     return await request({
       url: `${WORKSPACES}/${workspaceId}/${currentTaskId}`,
       method: "patch",
-      data: completedBy
+      data: completedBy,
     });
   }
 
   function onSuccess(completedTask) {
-    queryClient.setQueryData(["workspace", workspaceId], oldTasks => oldTasks.map(task => (task._id === completeTask._id? completeTask : task)));
+    queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
+      return {
+        ...workspace,
+        data: workspace.data.map((task) =>
+          task._id === completeTask._id ? completedTask : task
+        ),
+      };
+    });
   }
 
   return useMutation({
     mutationFn: completeTask,
     onSuccess,
-    onError: ()=>console.log("Error in complete task mutation")
+    onError: () => console.log("Error in complete task mutation"),
   });
-}
+};

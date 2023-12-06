@@ -1,62 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
-import WorkSpaceCard from "../Components/workSpaceCard";
+import WorkspaceCard from "../Components/workspaceCard";
 import { useTheme } from "../Components/Theme/Theme";
 import Masonry from "@mui/lab/Masonry";
 import { BackGround } from "../Components/Background";
-import { AddNewWorkSpaceModal } from "../Components/AddNewWorkSpaceModal";
-import { useParams } from "react-router-dom";
-import serverApi from "../ServerApi/api";
-import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
-import { showSnackbar } from "../Components/Snackbar/snackbarSlice";
-import { useDispatch } from "react-redux";
+import { AddNewWorkspaceModal } from "../Components/AddNewWorkspaceModal";
 import { useWorkspaces } from "../Queries/workspacesQueries";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 export default function Workspaces() {
-  const [addNewWorkSpace, setAddNewWorkSpace] = useState(false);
+  const [isAddingNewWorkspace, setAddingNewWorkspace] = useState(false);
   const { theme } = useTheme();
-  const { userId } = useParams();
-  const dispatch = useDispatch();
-  const workspacesQuery = useWorkspaces(userId);
-  // useEffect(() => {
-  //   async function getData() {
-
-  //     try{
-  //       const workSpaces = await serverApi.get(`${WORKSPACES}/${userId}`);
-
-  //       console.log("workspace: ",workSpaces)
-
-  //       return workSpaces.data;
-  //     }catch({response}){
-  //       console.log(response)
-  //       dispatch(showSnackbar({message: response.data.message, severity:'error'}))
-  //     }
-
-  //   }
-
-  //   getData().then((ws) => setWorkSpaces(ws));
-  // }, []);
-
+  const workspacesQuery = useWorkspaces();
+ 
   if(workspacesQuery.isError) return <h5>Error while fetching workspaces.</h5>;
   if(workspacesQuery.isLoading) return <CircularProgress/>;
 
-  let workSpaces = workspacesQuery.data;
-
-  // const addWorkSpaces = async (newWorkSpace) => {
-  //   console.log(newWorkSpace);
-  //   setWorkSpaces((oldWorkSpaces) => {
-  //     if (oldWorkSpaces === undefined) return [newWorkSpace];
-  //     return [...oldWorkSpaces, newWorkSpace];
-  //   });
-  // };
-
-  // const removeWorkSpace = (workSpaceId) => {
-  //   setWorkSpaces((workSpaces) => {
-  //     return workSpaces.filter((workSpace) => workSpace._id !== workSpaceId);
-  //   });
-  // };
+  let workspaces = workspacesQuery.data;
   
-  const closeAddNewWorkSpaceModal = () => setAddNewWorkSpace(false);
+  const closeAddNewWorkspaceModal = () => setAddingNewWorkspace(false);
 
   return (
     <>
@@ -77,168 +39,31 @@ export default function Workspaces() {
               backgroundImage: `linear-gradient(${theme},rgb(140, 140, 243))`,
               p: "40px",
             }}
-            onClick={() => setAddNewWorkSpace(true)}
+            onClick={() => setAddingNewWorkspace(true)}
           >
             <Typography variant="h7">Add new Work space.</Typography>
             <span>➕</span>
           </Stack>
 
-          {workSpaces &&
-            workSpaces.map((workSpace) => {
+          {workspaces &&
+            workspaces.map((workspace) => {
               return (
-                <WorkSpaceCard
-                  key={workSpace._id}
-                  workSpace={workSpace}
-                  // removeWorkSpace={removeWorkSpace}
+                <WorkspaceCard
+                  key={workspace._id}
+                  workspace={workspace}
                 />
               );
             })}
         </Masonry>
+        {workspacesQuery.isRefetching ? <CircularProgress sx={style}/> : <RefreshIcon color="blue" sx={style} onClick={()=>workspacesQuery.refetch()}/>}
       </BackGround>
-      {addNewWorkSpace && (
-        <AddNewWorkSpaceModal
-          // addNewWorkSpace={addWorkSpaces}
-          closeModal={closeAddNewWorkSpaceModal}
+      {isAddingNewWorkspace && (
+        <AddNewWorkspaceModal
+          closeModal={closeAddNewWorkspaceModal}
         />
       )}
     </>
   );
 }
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
-async function initialValues() {
-  //await sleep(500000)
-  return [
-    {
-      id: 1,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 2,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 3,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 4,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 5,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 6,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 7,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 8,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 9,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 0,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 11,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 12,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-    {
-      id: 13,
-      name: "WorkSpace",
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum explicabo, id sunt eligendi recusandae corporis iure soluta distinctio commodi! In, quaerat possimus sint a quae saepe laboriosam eveniet illo omnis.",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-
-    {
-      id: 14,
-      name: "WorkSpace",
-      description: "saasdsjdjfsfshdsahdhsdas",
-      createdBy: "XYZ",
-      participants: ["a", "b", "c", "d"],
-      timeOfCreation: "12/02/2023",
-    },
-  ];
-}
+const style = {position:'absolute',right:'1%',bottom:'1%'};
