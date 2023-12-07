@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { DELETE, WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
+import { DELETE, WORKSPACES } from "../ServerApi/ApiRoutes/workspaces";
 import useServer from "../Hooks/useServer";
 import { useRef } from "react";
 import { useParams } from "react-router-dom";

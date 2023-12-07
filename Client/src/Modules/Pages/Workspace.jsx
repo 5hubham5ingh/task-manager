@@ -1,5 +1,5 @@
 import { Button, CircularProgress, Stack, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTheme } from "../Components/Theme/Theme";
 import { BackGround } from "../Components/Background";
 import {
@@ -12,9 +12,6 @@ import {
 } from "../Styles/TaskManager";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useParams } from "react-router-dom";
-import serverApi from "../ServerApi/api";
-import { WORKSPACE } from "../ServerApi/ApiRoutes/taskManager";
 import { useUser } from "../Authentication/User/userSlice";
 import {
   useAddNewTaskMutation,
@@ -33,12 +30,14 @@ function Workspace() {
   const deleteTaskMutation = useDeleteTaskMutation();
   const completeTaskMutation = useTaksCompleteMutation();
 
-  if(workspaceQuery.isError) return <h4>Add tasks in the workspace.</h4>;
+  if(workspaceQuery.isError) return <h4>Failed to load tasks.</h4>;
 
   if(workspaceQuery.isLoading) return <CircularProgress/>;
 
   const tasks = workspaceQuery.data;
- 
+  
+  //addNewTaskMutation.isSuccess && setNewTask('');
+
   const addTask = async () => {
     const task = {
       body: newTask,
@@ -71,7 +70,7 @@ function Workspace() {
         </Typography>
 
         {/* Content */}
-        {tasks
+        {tasks.length !== 0
           ? tasks.map((task) => (
               <Stack
                 key={task._id}
@@ -130,7 +129,7 @@ function Workspace() {
                 )}
               </Stack>
             ))
-          : "Loading tasks..."}
+          : <Typography variant="h6">No tasks added.</Typography>}
 
         {/* Footer */}
         <Stack direction="row" sx={footerStyle}>

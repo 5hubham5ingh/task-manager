@@ -1,7 +1,8 @@
-import { WORKSPACES } from "../ServerApi/ApiRoutes/workspace";
+import { WORKSPACE } from "../ServerApi/ApiRoutes/workspace";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import useServer from "../Hooks/useServer";
+import { useRef } from "react";
 
 export const useWorkspace = () => {
   const request = useServer();
@@ -10,7 +11,7 @@ export const useWorkspace = () => {
   async function fetchWorkspace({ queryKey }) {
     const workspaceId = queryKey[1];
     return await request({
-      url: `${WORKSPACES}/${workspaceId}`,
+      url: `${WORKSPACE}/${workspaceId}`,
       method: "get",
     });
   }
@@ -22,6 +23,7 @@ export const useWorkspace = () => {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     refetchOnWindowBlur: false,
+    select: Data => Data.data,
     enabled: true,
   });
 };
@@ -29,12 +31,13 @@ export const useWorkspace = () => {
 export const useAddNewTaskMutation = () => {
   const request = useServer();
   const { workspaceId } = useParams();
-  let taskToAdd;
+  const taskToAdd = useRef();
   const queryClient = useQueryClient();
+
   async function addNewTask(task) {
-    taskToAdd = task;
+    taskToAdd.current = task;
     return await request({
-      url: `${WORKSPACES}/${workspaceId}`,
+      url: `${WORKSPACE}/${workspaceId}`,
       method: "post",
       data: task,
     });
@@ -43,7 +46,7 @@ export const useAddNewTaskMutation = () => {
   function onSuccess(newTask) {
     const taskAdded = {
       _id: newTask._id,
-      ...taskToAdd,
+      ...taskToAdd.current,
     };
     queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
       return {
@@ -67,7 +70,7 @@ export const useDeleteTaskMutation = () => {
   async function deleteTask(currentTaskId) {
     taskId = currentTaskId;
     return await request({
-      url: `${WORKSPACES}/${workspaceId}/${currentTaskId}`,
+      url: `${WORKSPACE}/${workspaceId}/${currentTaskId}`,
       method: "delete",
     });
   }
@@ -95,7 +98,7 @@ export const useTaksCompleteMutation = () => {
 
   async function completeTask(currentTaskId, completedBy) {
     return await request({
-      url: `${WORKSPACES}/${workspaceId}/${currentTaskId}`,
+      url: `${WORKSPACE}/${workspaceId}/${currentTaskId}`,
       method: "patch",
       data: completedBy,
     });
