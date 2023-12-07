@@ -1,13 +1,13 @@
+import { CircularProgress } from "@mui/material";
 import { Suspense } from "react";
 import { Route } from "react-router-dom";
-import Loader from "../../Components/Core/Loaders/Loader";
 
 const RenderSuspenseRoute = (props) => {
   const { path, element } = props;
   const getRoute = (path, element) => {
     return {
       path: path,
-      element: <Suspense fallback={<Loader />}>{element}</Suspense>,
+      element: <Suspense fallback={<CircularProgress />}>{element}</Suspense>,
     };
   };
   return <Route {...getRoute(path, element)} />;
