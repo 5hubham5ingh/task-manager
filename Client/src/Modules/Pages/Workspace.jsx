@@ -38,10 +38,11 @@ function Workspace() {
   };
 
   const taskComplete = async (taskId) => {
-    completeTaskMutation.mutate(taskId, {
+    const completedBy = {
       isCompleted: true,
       completedBy: user.userName,
-    });
+    }
+    completeTaskMutation.mutate({taskId, completedBy});
   };
 
   return (

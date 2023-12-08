@@ -28,7 +28,7 @@ export const useWorkspace = () => {
   });
 };
 
-export const useAddNewTaskMutation = () => {
+export const useAddNewTaskMutation = (onSuccessfullTaskDeletion) => {
   const request = useServer();
   const { workspaceId } = useParams();
   const taskToAdd = useRef();
@@ -43,7 +43,8 @@ export const useAddNewTaskMutation = () => {
     });
   }
 
-  function onSuccess(newTask) {
+  function onSuccess(response) {
+    const {data: newTask} = response;
     const taskAdded = {
       _id: newTask._id,
       ...taskToAdd.current,
@@ -54,6 +55,7 @@ export const useAddNewTaskMutation = () => {
         data: [...workspace.data, taskAdded],
       };
     });
+    onSuccessfullTaskDeletion();
   }
 
   return useMutation({
@@ -66,9 +68,9 @@ export const useDeleteTaskMutation = () => {
   const request = useServer();
   const { workspaceId } = useParams();
   const queryClient = useQueryClient();
-  let taskId;
+  const taskId = useRef();
   async function deleteTask(currentTaskId) {
-    taskId = currentTaskId;
+    taskId.current = currentTaskId;
     return await request({
       url: `${WORKSPACE}/${workspaceId}/${currentTaskId}`,
       method: "delete",
@@ -79,7 +81,7 @@ export const useDeleteTaskMutation = () => {
     queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
       return {
         ...workspace,
-        data: workspace.data.filter((task) => task._id !== taskId),
+        data: workspace.data.filter((task) => task._id !== taskId.current),
       };
     });
   }
@@ -96,20 +98,21 @@ export const useTaksCompleteMutation = () => {
   const { workspaceId } = useParams();
   const queryClient = useQueryClient();
 
-  async function completeTask(currentTaskId, completedBy) {
+  async function completeTask( {taskId, completedBy} ) {
     return await request({
-      url: `${WORKSPACE}/${workspaceId}/${currentTaskId}`,
+      url: `${WORKSPACE}/${workspaceId}/${taskId}`,
       method: "patch",
       data: completedBy,
     });
   }
 
-  function onSuccess(completedTask) {
+  function onSuccess(response) {
+    const {data:completedTask} = response;
     queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
       return {
         ...workspace,
         data: workspace.data.map((task) =>
-          task._id === completeTask._id ? completedTask : task
+          task._id === completedTask._id ? completedTask : task
         ),
       };
     });

@@ -10,9 +10,9 @@ import { Button, Stack, TextField } from "@mui/material";
 import { useTheme } from "../Theme/Theme";
 
 export default function AddNewTask() {
-  const [newTask, setNewTask] = useState();
+  const [newTask, setNewTask] = useState("");
+  const addNewTaskMutation = useAddNewTaskMutation(function onSuccess(){setNewTask("")});
   const user = useUser();
-  const addNewTaskMutation = useAddNewTaskMutation();
 
   const { theme } = useTheme();
   const addTask = async () => {
@@ -25,8 +25,7 @@ export default function AddNewTask() {
 
     addNewTaskMutation.mutate(task);
   };
-  useEffect(()=>{addNewTaskMutation.isSuccess && setNewTask("");},[newTask])
-  //
+  
   return (
     <Stack direction="row" sx={footerStyle}>
       <TextField

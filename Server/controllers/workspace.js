@@ -62,7 +62,7 @@ export async function updateTask(request, response) {
   try {
     const { workspaceId, taskId } = request.params;
     const updatedTaskData = request.body; // Updated task data
-
+    console.log(updatedTaskData)
     // Find the workspace by its ID and update the specific task within the 'tasks' array
     const updatedWorkspace = await Workspace.findOneAndUpdate(
       { 
@@ -89,7 +89,7 @@ export async function updateTask(request, response) {
     const updatedTask = updatedWorkspace.tasks.find(task => task._id.toString() === taskId);
 
     // Respond with a success message and the updated task
-    response.status(200).json({ message: "Task updated successfully", task: updatedTask });
+    response.status(200).json(updatedTask);
   } catch (error) {
     // Handle errors
     console.error("Error while updating the task.", error);
@@ -123,7 +123,7 @@ export async function deleteTask(request, response) {
     }
 
     // Respond with a success message
-    response.status(200).json({ message: "Task deleted successfully" });
+    response.status(204);
   } catch (error) {
     // Handle errors
     console.error("Error while deleting the task.", error);
