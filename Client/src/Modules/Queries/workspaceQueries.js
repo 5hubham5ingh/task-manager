@@ -43,8 +43,7 @@ export const useAddNewTaskMutation = (onSuccessfullTaskDeletion) => {
     });
   }
 
-  function onSuccess(response) {
-    const {data: newTask} = response;
+  function onSuccess({data: newTask}) {
     const taskAdded = {
       _id: newTask._id,
       ...taskToAdd.current,
@@ -78,6 +77,7 @@ export const useDeleteTaskMutation = () => {
   }
 
   function onSuccess() {
+    console.log("success deletion",taskId.current)
     queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
       return {
         ...workspace,
@@ -106,8 +106,7 @@ export const useTaksCompleteMutation = () => {
     });
   }
 
-  function onSuccess(response) {
-    const {data:completedTask} = response;
+  function onSuccess({data:completedTask}) {
     queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
       return {
         ...workspace,

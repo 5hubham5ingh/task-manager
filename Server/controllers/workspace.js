@@ -123,7 +123,7 @@ export async function deleteTask(request, response) {
     }
 
     // Respond with a success message
-    response.status(204);
+    response.status(204).json({message: 'task deleted'});
   } catch (error) {
     // Handle errors
     console.error("Error while deleting the task.", error);
