@@ -17,6 +17,7 @@ import {
   useWorkspace,
 } from "../Queries/workspaceQueries";
 import AddNewTask from "../Components/Workspace/AddNewTask";
+import Task from "../Components/Workspace/Task";
 
 
 function Workspace() {
@@ -65,7 +66,8 @@ function Workspace() {
                 sx={{ alignItems: "center" }}
               >
                 {/* Task */}
-                <Typography
+                <Task task={task}/>
+                {/* <Typography
                   variant="string"
                   sx={{
                     ...tasksStyle,
@@ -86,11 +88,11 @@ function Workspace() {
                       {task.isCompleted ? "Completed" : "Pending"}
                     </Typography>
                   </Stack>
-                </Typography>
+                </Typography> */}
 
                 {/* Buttons */}
 
-                {task.isCompleted ? (
+                {/* {task.isCompleted ? (
                   <Button
                     disabled={task.createdBy.id !== user._id}
                     sx={{
@@ -111,7 +113,7 @@ function Workspace() {
                   >
                     <CheckIcon />
                   </Button>
-                )}
+                )} */}
               </Stack>
             ))
           : <Typography variant="h6">No tasks added.</Typography>}
