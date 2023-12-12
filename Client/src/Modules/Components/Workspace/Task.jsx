@@ -3,7 +3,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDeleteTaskMutation, useTaksCompleteMutation } from "../../Queries/workspaceQueries";
 import { tasksStyle, buttonStyle } from "../../Styles/TaskManager";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "../Theme/Theme";
 import { useUser } from "../../Authentication/User/userSlice";
 export default function Task({ task }) {
 
