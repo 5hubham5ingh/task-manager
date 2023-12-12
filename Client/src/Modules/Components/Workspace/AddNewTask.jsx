@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAddNewTaskMutation } from "../../Queries/workspaceQueries";
 import {
   footerStyle,
   addNewTaskInputField,
   buttonStyle,
-} from "../../Styles/TaskManager";
+} from "../../Styles/Workspace";
 import { useUser } from "../../Authentication/User/userSlice";
 import { Button, Stack, TextField } from "@mui/material";
 import { useTheme } from "../Theme/Theme";
