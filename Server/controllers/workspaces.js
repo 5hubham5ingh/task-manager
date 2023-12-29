@@ -101,7 +101,7 @@ export async function createWorkspace(request, response) {console.log("creating 
     // Set the new workspace in owner
      await User.findOneAndUpdate(
       { _id: userId },
-      { $push: { workspace: result._id } },
+      { $push: { workspaces: result._id } },
       { new: true }
     );
 

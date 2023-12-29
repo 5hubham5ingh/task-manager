@@ -25,7 +25,7 @@ export default function useServer() {
           severity: "error",
         })
       );
-      return '';
+      return error;
     };
 
     return await server(options).then(onSuccess).catch(onError);
