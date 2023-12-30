@@ -66,9 +66,9 @@ export const useDeleteWorkspace = () => {
   const { userId } = useParams();
   const workspaceToDelete = useRef();
 
-  const deleteWorkspace = (workspaceId) => {
+  async function deleteWorkspace(workspaceId){
     workspaceToDelete.current = workspaceId;
-    return request({
+    return await request({
       url: `${DELETE}/${userId}/${workspaceId}`,
       method: "delete",
     });
@@ -87,6 +87,9 @@ export const useDeleteWorkspace = () => {
 
   return useMutation({
     mutationFn: deleteWorkspace,
+    onError: (error) => {
+      console.log(error);
+    },
     onSuccess,
   });
 };

@@ -59,6 +59,7 @@ export const useAddNewTaskMutation = (onSuccessfullTaskDeletion) => {
 
   return useMutation({
     mutationFn: addNewTask,
+    onError: () => console.log("Error in add new task mutation"),
     onSuccess,
   });
 };

@@ -18,14 +18,18 @@ export default function useServer() {
       const errorMessage =
         !navigator.onLine
           ? "System is Offline! Please check your internet connection."
-          : error.response.data.message ? error.response.data.message : 'Failed to reach the server';
+          : error.response.data.message
+          ? error.response.data.message
+          : 'Failed to reach the server';
+
       dispatch(
         showSnackbar({
           message: errorMessage,
           severity: "error",
         })
       );
-      return error;
+
+      throw new Error(errorMessage); // Throw an error instead of returning it
     };
 
     return await server(options).then(onSuccess).catch(onError);

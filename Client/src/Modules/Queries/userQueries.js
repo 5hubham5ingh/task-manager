@@ -17,7 +17,13 @@ export const useUserQueries = () => {
   const navigate = useNavigate();
 
   //LogIn query
-  const { refetch: fetchUser, isSuccess, isError,error, data } = useQuery({
+  const {
+    refetch: fetchUser,
+    isSuccess,
+    isError,
+    error,
+    data,
+  } = useQuery({
     queryKey: ["user"],
     queryFn: initiateLogin,
     refetchOnWindowFocus: false,
@@ -75,7 +81,7 @@ export const useUserQueries = () => {
     navigate(`/WorkSpaces/${data.user._id}`, { replace: true });
   }
 
-  function onLoginError(error) {debugger
+  function onLoginError(error) {
     const errorMessage =
       error.message === "Network Error"
         ? error.message
@@ -83,7 +89,7 @@ export const useUserQueries = () => {
     dispatch(showSnackbar({ message: errorMessage, severity: "error" }));
   }
 
- async function logIn(values, extendedSession) {
+  async function logIn(values, extendedSession) {
     user.current = {
       userName: values.userName,
       password: values.password,
@@ -91,8 +97,8 @@ export const useUserQueries = () => {
     if (extendedSession) sessionLength.current = 1000 * 60 * 60 * 24; // one day
     fetchUser();
   }
- 
-  async function signUp(data){
+
+  async function signUp(data) {
     mutate(data);
   }
 
