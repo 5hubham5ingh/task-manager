@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Grid, Typography } from "@mui/material";
-import logo from '../Assets/logo.svg'
-import backGround from '../Assets/bg1.svg'
+import logo from "../Assets/logo.svg";
+import backGround from "../Assets/bg1.svg";
 
 function Home() {
   const navigate = useNavigate();
@@ -12,36 +12,66 @@ function Home() {
       <nav style={navBarStyle}>
         <div style={logoAndNameContaier}>
           <img style={logoStyle} src={logo} alt="" />
-          <Typography color={'#abdaed'} variant="h6">Workspace</Typography>
+          <Typography color={"#abdaed"} variant="h6">
+            Workspace
+          </Typography>
         </div>
         <div>
-          <Button style={buttonStyle} onClick={() => navigate("/logIn")}>Log In</Button>
-          <Button style={buttonStyle} onClick={() => navigate("/signUp")}>Sign Up</Button>
+          <Button style={buttonStyle} onClick={() => navigate("/logIn")}>
+            Log In
+          </Button>
+          <Button style={buttonStyle} onClick={() => navigate("/signUp")}>
+            Sign Up
+          </Button>
         </div>
       </nav>
-      <div style={contentStyle}></div>
-      <Grid container>
-        <Grid item xs={12} md={4}>
-          <img src={backGround} style={backgroundStyle} alt="" />
-
-        </Grid>
-        <Grid item xs={12} md={8} >
-          <Typography style={headingStyle} variant="h2">
-            Welcome to Workspace
-          </Typography>
-        </Grid>
-      </Grid>
+      <div style={backgroundDiv}>
+        <div style={contentBody}>
+          <Grid container>
+            <Grid item xs={12} md={4}>
+              <img src={backGround} style={backgroundStyle} alt="" />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={8}
+              sx={{ textAlign: "right", paddingRight: "5%", paddingLeft: "5%" }}
+            >
+              <Typography color={"#abdaed"} variant="h2">
+                Welcome to Workspace
+              </Typography>
+              <Typography variant="h5" sx={{ marginTop: "10px" }}>
+                A simple platform designed to elevate your team's productivity.
+              </Typography>
+              <Typography variant="h5">
+                With intuitive interface, creating workspaces and assigning
+                tasks is easier than ever.
+              </Typography>
+            </Grid>
+          </Grid>
+        </div>
+      </div>
     </>
   );
 }
 
 export default Home;
 
-const backgroundStyle ={
-width: '110%',
-height: '110%',
-marginTop: '-10%'  
-}
+const contentBody = {
+  position: "fixed",
+  top: "10%",
+  display: "flex",
+  alignItems: "center",
+  bottom: 0,
+  left: 0,
+  right: 0,
+};
+
+const backgroundStyle = {
+  width: "110%",
+  height: "110%",
+  marginTop: "-10%",
+};
 
 const logoAndNameContaier = {
   display: "flex",
@@ -55,14 +85,14 @@ const logoStyle = {
   marginRight: "5px",
 };
 
-const contentStyle = {
+const backgroundDiv = {
   backgroundColor: "rgb(55, 55, 114)",
   color: "white",
   border: "none",
   borderTopLeftRadius: "90%",
   paddingLeft: "2%",
   paddingRight: "2%",
-  position: "fixed",
+  position: "absolute",
   bottom: 0,
   right: 0,
   height: "90%",
@@ -96,5 +126,4 @@ const navBarStyle = {
 
 const buttonStyle = {
   color: "#abdaed",
-
 };
