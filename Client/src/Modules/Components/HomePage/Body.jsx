@@ -6,50 +6,53 @@ import background1 from "../../Assets/bg2.svg";
 import background2 from "../../Assets/bg3.svg";
 import background3 from "../../Assets/bg4.svg";
 
-const initialSubTextsAndSvg = {
-  svg: background0,
-  subtext1: "A simple platform designed to elevate your team's productivity.",
-  subtext2:
-    "With intuitive interface, creating workspaces and assigning tasks is easier than ever.",
-};
 const subtextsAndSvgs = [
   {
+    index: 0,
+    svg: background0,
+    subtext1: "A simple platform designed to elevate your team's productivity.",
+    subtext2:
+      "With intuitive interface, creating workspaces and assigning tasks is easier than ever.",
+  },
+  {
+    index: 1,
     svg: background1,
     subtext1: "Minimalistic approach focusing on what truly matters",
     subtext2: "- getting tasks done efficiently.",
   },
   {
+    index: 2,
     svg: background2,
     subtext1: "Create dedicated workspaces for different projects,",
     subtext2: "assign tasks, set deadlines, and watch your team thrive.",
   },
   {
+    index: 3,
     svg: background3,
     subtext1:
       "Easily mark tasks as complete, keeping everyone on the same page.",
     subtext2: "Ensuring nothing falls through the cracks.",
   },
-  "",
 ];
 export default function GenerateSubtextAndSvg() {
-  const [subtextAndSvg, setSubtextAndSvg] = useState(initialSubTextsAndSvg);
+  const [subtextAndSvg, setSubtextAndSvg] = useState(subtextsAndSvgs[0]);
 
-  useEffect(() => {
-    if (subtextAndSvg === initialSubTextsAndSvg)
-      (async () => {
-        for (const subtextAndSvg of subtextsAndSvgs) {
-          await sleep(3000);
-          subtextAndSvg !== "" && setSubtextAndSvg(subtextAndSvg);
-        }
-      })().then(() => {
-        setSubtextAndSvg(initialSubTextsAndSvg);
-      });
-  }, [subtextAndSvg]);
+  sleep(4000).then(() => {
+    const nextIndex =
+      subtextAndSvg.index + 1 > subtextsAndSvgs.length - 1
+        ? 0
+        : subtextAndSvg.index + 1;
+    setSubtextAndSvg(subtextsAndSvgs[nextIndex]);
+  });
 
   return (
     <>
       <Grid item xs={12} md={4}>
-        <img src={subtextAndSvg.svg} style={svgStyle} alt="" />
+        <img
+          src={subtextAndSvg.svg}
+          style={svgStyle}
+          alt=""
+        />
       </Grid>
       <Grid
         item
@@ -58,7 +61,7 @@ export default function GenerateSubtextAndSvg() {
         sx={{ textAlign: "right", paddingRight: "5%", paddingLeft: "5%" }}
       >
         <Typography color={"#abdaed"} variant="h2">
-          {subtextAndSvg === initialSubTextsAndSvg ? (
+          {subtextAndSvg.index === 0 ? (
             "Welcome to Workspace"
           ) : (
             <FormatQuoteIcon sx={{ fontSize: "50px" }} />
