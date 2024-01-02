@@ -1,17 +1,18 @@
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import { Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import background0 from "../../Assets/bg1.svg";
 import background1 from "../../Assets/bg2.svg";
 import background2 from "../../Assets/bg3.svg";
 import background3 from "../../Assets/bg4.svg";
+import "../../Styles/HomePageBody.css";
 
-const initialSubTextsAndSvg = {
+const initialSubTextsAndSvg = {data:{
   svg: background0,
   subtext1: "A simple platform designed to elevate your team's productivity.",
   subtext2:
     "With intuitive interface, creating workspaces and assigning tasks is easier than ever.",
-};
+}, visibility:false};
 const subtextsAndSvgs = [
   {
     svg: background1,
@@ -33,44 +34,54 @@ const subtextsAndSvgs = [
 ];
 export default function GenerateSubtextAndSvg() {
   const [subtextAndSvg, setSubtextAndSvg] = useState(initialSubTextsAndSvg);
-
   useEffect(() => {
     if (subtextAndSvg === initialSubTextsAndSvg)
       (async () => {
         for (const subtextAndSvg of subtextsAndSvgs) {
-          await sleep(3000);
-          subtextAndSvg !== "" && setSubtextAndSvg(subtextAndSvg);
+          await sleep(4000);
+          subtextAndSvg !== "" && setSubtextAndSvg({data:subtextAndSvg,visibility:false});
         }
       })().then(() => {
         setSubtextAndSvg(initialSubTextsAndSvg);
       });
   }, [subtextAndSvg]);
+  useEffect(() => setSubtextAndSvg(prevState => ({...prevState, visibility:true})), [subtextAndSvg]);
+  return AnimatedBody(subtextAndSvg, initialSubTextsAndSvg);
+}
+
+function AnimatedBody(subtextAndSvg, initialSubTextsAndSvg) {
 
   return (
-    <>
-      <Grid item xs={12} md={4}>
-        <img src={subtextAndSvg.svg} style={svgStyle} alt="" />
+    <Fragment>
+      <Grid
+        className={`fade-in-from-right ${subtextAndSvg.visibility ? "active" : ""}`}
+        item
+        xs={12}
+        md={4}
+      >
+        <img src={subtextAndSvg.data.svg} style={svgStyle} alt="" />
       </Grid>
       <Grid
         item
         xs={12}
         md={8}
+        className={`fade-in-from-right ${subtextAndSvg.visibility ? "active" : ""}`}
         sx={{ textAlign: "right", paddingRight: "5%", paddingLeft: "5%" }}
       >
-        <Typography color={"#abdaed"} variant="h2">
-          {subtextAndSvg === initialSubTextsAndSvg ? (
-            "Welcome to Workspace"
-          ) : (
-            <FormatQuoteIcon sx={{ fontSize: "50px" }} />
-          )}
-        </Typography>
+        {subtextAndSvg === initialSubTextsAndSvg ? (
+          <Typography color={"#abdaed"} variant="h2">
+            Welcome to Workspace
+          </Typography>
+        ) : (
+          <FormatQuoteIcon sx={{ fontSize: "50px" }} />
+        )}
 
         <Typography variant="h5" sx={{ marginTop: "10px" }}>
-          {subtextAndSvg.subtext1}
+          {subtextAndSvg.data.subtext1}
         </Typography>
-        <Typography variant="h5">{subtextAndSvg.subtext2}</Typography>
+        <Typography variant="h5">{subtextAndSvg.data.subtext2}</Typography>
       </Grid>
-    </>
+    </Fragment>
   );
 }
 
