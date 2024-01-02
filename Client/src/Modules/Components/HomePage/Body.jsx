@@ -50,8 +50,8 @@ export default function GenerateSubtextAndSvg() {
           : subtextAndSvg.index + 1;
       setSubtextAndSvg(subtextsAndSvgs[nextIndex]);
 
-      item1Ref.current.classList.remove("fadeInAnimation");
-      item2Ref.current.classList.remove("fadeInAnimation");
+      item1Ref.current?.classList.remove("fadeInAnimation");
+      item2Ref.current?.classList.remove("fadeInAnimation");
     });
   });
 
