@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import Navbar from "../Components/HomePage/Navbar";
 import GenerateSubtextAndSvg from "../Components/HomePage/Body";
-
+import Footer from "../Components/HomePage/Footer";
 
 export default function Home() {
   return (
@@ -9,8 +9,11 @@ export default function Home() {
       <Navbar />
       <div style={backgroundDiv}>
         <div style={contentBody}>
-          <Grid container>{GenerateSubtextAndSvg()}</Grid>
+          <Grid container>
+            <GenerateSubtextAndSvg />
+          </Grid>
         </div>
+        <Footer/>
       </div>
     </>
   );
@@ -38,4 +41,3 @@ const contentBody = {
   left: 0,
   right: 0,
 };
-

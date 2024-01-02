@@ -1,6 +1,6 @@
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import { Grid, Typography } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import background0 from "../../Assets/bg1.svg";
 import background1 from "../../Assets/bg2.svg";
 import background2 from "../../Assets/bg3.svg";
@@ -37,29 +37,31 @@ const subtextsAndSvgs = [
 ];
 export default function GenerateSubtextAndSvg() {
   const [subtextAndSvg, setSubtextAndSvg] = useState(subtextsAndSvgs[0]);
+  const item1Ref = useRef(null);
+  const item2Ref = useRef(null);
+  useEffect(() => {
+    item1Ref.current.classList.add("fadeInAnimation");
+    item2Ref.current.classList.add("fadeInAnimation");
 
-  sleep(5000).then(() => {
-    const nextIndex =
-      subtextAndSvg.index + 1 > subtextsAndSvgs.length - 1
-        ? 0
-        : subtextAndSvg.index + 1;
-    setSubtextAndSvg(subtextsAndSvgs[nextIndex]);
-    document.getElementsByClassName("animate")[0].classList.remove("example-style");
-    document.getElementsByClassName("animate")[1].classList.remove("example-style");
+    wait(10000).then(() => {
+      const nextIndex =
+        subtextAndSvg.index + 1 > subtextsAndSvgs.length - 1
+          ? 0
+          : subtextAndSvg.index + 1;
+      setSubtextAndSvg(subtextsAndSvgs[nextIndex]);
+
+      item1Ref.current.classList.remove("fadeInAnimation");
+      item2Ref.current.classList.remove("fadeInAnimation");
+    });
   });
-
-  useEffect(()=> {
-    document.getElementsByClassName("animate")[0].classList.add("example-style");
-    document.getElementsByClassName("animate")[1].classList.add("example-style");
-  })
 
   return (
     <Fragment>
-      <Grid className={"animate"} item xs={12} md={4}>
+      <Grid ref={item1Ref} item xs={12} md={4}>
         <img src={subtextAndSvg.svg} style={svgStyle} alt="" />
       </Grid>
       <Grid
-        className={"animate"}
+        ref={item2Ref}
         item
         xs={12}
         md={8}
@@ -82,7 +84,7 @@ export default function GenerateSubtextAndSvg() {
   );
 }
 
-function sleep(ms) {
+function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 const svgStyle = {
