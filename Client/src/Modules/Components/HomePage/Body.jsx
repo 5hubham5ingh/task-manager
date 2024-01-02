@@ -1,10 +1,11 @@
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import { Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import background0 from "../../Assets/bg1.svg";
 import background1 from "../../Assets/bg2.svg";
 import background2 from "../../Assets/bg3.svg";
 import background3 from "../../Assets/bg4.svg";
+import "../../Styles/HomePageBody.css";
 
 const subtextsAndSvgs = [
   {
@@ -37,24 +38,28 @@ const subtextsAndSvgs = [
 export default function GenerateSubtextAndSvg() {
   const [subtextAndSvg, setSubtextAndSvg] = useState(subtextsAndSvgs[0]);
 
-  sleep(4000).then(() => {
+  sleep(5000).then(() => {
     const nextIndex =
       subtextAndSvg.index + 1 > subtextsAndSvgs.length - 1
         ? 0
         : subtextAndSvg.index + 1;
     setSubtextAndSvg(subtextsAndSvgs[nextIndex]);
+    document.getElementsByClassName("animate")[0].classList.remove("example-style");
+    document.getElementsByClassName("animate")[1].classList.remove("example-style");
   });
 
+  useEffect(()=> {
+    document.getElementsByClassName("animate")[0].classList.add("example-style");
+    document.getElementsByClassName("animate")[1].classList.add("example-style");
+  })
+
   return (
-    <>
-      <Grid item xs={12} md={4}>
-        <img
-          src={subtextAndSvg.svg}
-          style={svgStyle}
-          alt=""
-        />
+    <Fragment>
+      <Grid className={"animate"} item xs={12} md={4}>
+        <img src={subtextAndSvg.svg} style={svgStyle} alt="" />
       </Grid>
       <Grid
+        className={"animate"}
         item
         xs={12}
         md={8}
@@ -73,7 +78,7 @@ export default function GenerateSubtextAndSvg() {
         </Typography>
         <Typography variant="h5">{subtextAndSvg.subtext2}</Typography>
       </Grid>
-    </>
+    </Fragment>
   );
 }
 
