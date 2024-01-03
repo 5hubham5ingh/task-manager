@@ -43,7 +43,9 @@ export default function GenerateSubtextAndSvg() {
     item1Ref.current.classList.add("fadeInAnimation");
     item2Ref.current.classList.add("fadeInAnimation");
 
-    wait(10000).then(() => {
+    const delayDuration = 12000 - (subtextAndSvg.index * 2200)
+
+    wait(delayDuration).then(() => {
       const nextIndex =
         subtextAndSvg.index + 1 > subtextsAndSvgs.length - 1
           ? 0
