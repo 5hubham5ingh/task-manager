@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useTheme } from "./Theme/Theme";
+import { useTheme } from "../Theme/Theme";
 import SelectParticipants from "./SelectParticipants";
-import { textFieldStyle } from "../Styles/TextField";
-import { buttonStyle } from "../Styles/Button";
-import { headingStyle } from "../Styles/Heading";
-import { BluredBackground } from "./BluredBackground";
-import { modalStyle } from "../Styles/Modal";
-import { useUser } from "../Authentication/User/userSlice";
-import { useAddWorkspace } from "../Queries/workspacesQueries";
+import { textFieldStyle } from "../../Styles/TextField";
+import { buttonStyle } from "../../Styles/Button";
+import { headingStyle } from "../../Styles/Heading";
+import { BluredBackground } from "../BluredBackground";
+import { modalStyle } from "../../Styles/Modal";
+import { useUser } from "../../Authentication/User/userSlice";
+import { useAddWorkspace } from "../../Queries/workspacesQueries";
 
 export const AddNewWorkspaceModal = ({ closeModal }) => {
   const { theme } = useTheme();

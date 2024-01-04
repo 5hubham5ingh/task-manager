@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
-import WorkspaceCard from "../Components/workspaceCard";
+import WorkspaceCard from "../Components/Workspaces/workspaceCard";
 import { useTheme } from "../Components/Theme/Theme";
 import Masonry from "@mui/lab/Masonry";
 import { BackGround } from "../Components/Background";
-import { AddNewWorkspaceModal } from "../Components/AddNewWorkspaceModal";
+import { AddNewWorkspaceModal } from "../Components/Workspaces/AddNewWorkspaceModal";
 import { useWorkspaces } from "../Queries/workspacesQueries";
 import RefreshIcon from '@mui/icons-material/Refresh';
 

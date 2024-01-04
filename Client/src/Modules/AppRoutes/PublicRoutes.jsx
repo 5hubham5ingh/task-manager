@@ -2,10 +2,10 @@ import { lazy } from "react";
 import { BackGround } from "../Components/Background";
 import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes";
 import { Route } from "react-router-dom";
-import Home from "../Pages/Home";
+import Home from "../Views/Home";
 
-const SignUp = lazy(() => import("../Pages/SignUp"));
-const LogIn = lazy(() => import("../Pages/LogIn"));
+const SignUp = lazy(() => import("../Views/SignUp"));
+const LogIn = lazy(() => import("../Views/LogIn"));
 
 function PublicRoutes() {
   return (
