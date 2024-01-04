@@ -4,8 +4,8 @@ import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes";
 import { Route } from "react-router-dom";
 import Home from "../Views/Home";
 
-const SignUp = lazy(() => import("../Views/SignUp"));
-const LogIn = lazy(() => import("../Views/LogIn"));
+const SignUp = lazy(() => import("../Views/SignUp/SignUp"));
+const LogIn = lazy(() => import("../Views/LogIn/LogIn"));
 
 function PublicRoutes() {
   return (

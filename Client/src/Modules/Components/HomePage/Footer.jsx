@@ -18,13 +18,14 @@ export default function Footer() {
 
   return (
     <div style={footerDiv}>
-      {contacts.map(({ link, icon }) => (
+      {contacts.map(({ link, icon }, index) => (
         <a
+          key={index}
           href={link}
           style={{ color: "black" }}
           target="_blank"
           rel="noopener noreferrer"
-          title ="Developer"
+          title="Developer"
         >
           {icon}
         </a>

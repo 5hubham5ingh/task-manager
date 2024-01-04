@@ -1,28 +1,23 @@
 import { useState } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
-import WorkspaceCard from "../Components/Workspaces/workspaceCard";
-import { useTheme } from "../Components/Theme/Theme";
+import WorkspaceCard from "../../Components/Workspaces/workspaceCard";
+import { useTheme } from "../../Components/Theme/Theme";
 import Masonry from "@mui/lab/Masonry";
-import { BackGround } from "../Components/Background";
-import { AddNewWorkspaceModal } from "../Components/Workspaces/AddNewWorkspaceModal";
-import { useWorkspaces } from "../Queries/workspacesQueries";
-import RefreshIcon from '@mui/icons-material/Refresh';
+import { BackGround } from "../../Components/Background";
+import { AddNewWorkspaceModal } from "../../Components/Workspaces/AddNewWorkspaceModal";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import useWorkspacesHandler from "./WorkspacesHandler";
 
 export default function Workspaces() {
   const [isAddingNewWorkspace, setAddingNewWorkspace] = useState(false);
   const { theme } = useTheme();
-  const workspacesQuery = useWorkspaces();
- 
-  if(workspacesQuery.isError) return <h5>Error while fetching workspaces.</h5>;
-  if(workspacesQuery.isLoading) return <CircularProgress/>;
-
-  let workspaces = workspacesQuery.data;
-  
+  const { data: workspaces, refetch, isLoading} = useWorkspacesHandler();
   const closeAddNewWorkspaceModal = () => setAddingNewWorkspace(false);
 
   return (
     <>
       <BackGround>
+        {isLoading && <CircularProgress />}
         <Masonry
           columns={{ xs: 1, sm: 2, md: 4 }}
           spacing={4}
@@ -44,26 +39,20 @@ export default function Workspaces() {
             <Typography variant="h7">Add new Work space.</Typography>
             <span>➕</span>
           </Stack>
-
           {workspaces &&
             workspaces.map((workspace) => {
               return (
-                <WorkspaceCard
-                  key={workspace._id}
-                  workspace={workspace}
-                />
+                <WorkspaceCard key={workspace._id} workspace={workspace} />
               );
             })}
         </Masonry>
-        {workspacesQuery.isRefetching ? <CircularProgress sx={style}/> : <RefreshIcon color="blue" sx={style} onClick={()=>workspacesQuery.refetch()}/>}
+        <RefreshIcon color="blue" sx={style} onClick={() => refetch()} />
       </BackGround>
       {isAddingNewWorkspace && (
-        <AddNewWorkspaceModal
-          closeModal={closeAddNewWorkspaceModal}
-        />
+        <AddNewWorkspaceModal closeModal={closeAddNewWorkspaceModal} />
       )}
     </>
   );
 }
 
-const style = {position:'absolute',right:'1%',bottom:'1%'};
+const style = { position: "absolute", right: "1%", bottom: "1%" };

@@ -31,10 +31,8 @@ export const useUserQueries = () => {
     refetchOnReconnect: false,
     refetchOnWindowBlur: false,
     enabled: false,
-    onSuccess: onLoginSuccess,
-    onError: onLoginError,
     staleTime: sessionLength.current,
-  });
+  });debugger
   isSuccess && onLoginSuccess(data);
   isError && onLoginError(error);
 
@@ -81,7 +79,7 @@ export const useUserQueries = () => {
     navigate(`/WorkSpaces/${data.user._id}`, { replace: true });
   }
 
-  function onLoginError(error) {
+  function onLoginError(error) {console.log('error whiley logging in')
     const errorMessage =
       error.message === "Network Error"
         ? error.message
@@ -104,3 +102,55 @@ export const useUserQueries = () => {
 
   return { logIn, signUp };
 };
+
+
+export const useUserLoginQuery = () => {
+  const user = useRef();
+  const sessionLength = useRef(1000 * 60 * 60); // one hour
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //LogIn query
+  const {
+    refetch: fetchUser,
+    isSuccess,
+    isError,
+    error,
+    data,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: initiateLogin,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowBlur: false,
+    enabled: false,
+    staleTime: sessionLength.current,
+  });debugger
+  isSuccess && onLoginSuccess(data);
+  isError && onLoginError(error);
+
+  function onLoginSuccess(data) {
+    dispatch(login(data));
+    dispatch(showSnackbar({ message: "Logged in!", severity: "success" }));
+    navigate(`/WorkSpaces/${data.user._id}`, { replace: true });
+  }
+
+  function onLoginError(error) {console.log('error whiley logging in')
+    const errorMessage =
+      error.message === "Network Error"
+        ? error.message
+        : error.response.data.message;
+    dispatch(showSnackbar({ message: errorMessage, severity: "error" }));
+  }
+
+  async function logIn(values, extendedSession) {
+    user.current = {
+      userName: values.userName,
+      password: values.password,
+    };
+    if (extendedSession) sessionLength.current = 1000 * 60 * 60 * 24; // one day
+    fetchUser();
+  }
+}

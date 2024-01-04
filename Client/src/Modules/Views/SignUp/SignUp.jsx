@@ -1,28 +1,25 @@
-import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../Styles/Form.js";
-import { Stack, TextField, Typography } from "@mui/material";
+import "../../Styles/Form.js";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { userDetailsValidationSchema } from "../Utils/schema";
-import CheckBox from "../Components/CheckBox";
-import { useTheme } from "../Components/Theme/Theme";
-import { Button } from "@mui/material";
-import { textFieldStyle } from "../Styles/TextField";
-import { buttonStyle } from "../Styles/Button";
-import { headingStyle } from "../Styles/Heading";
-import { formStyle } from "../Styles/Form.js";
-import { login } from "../Authentication/User/userSlice.js";
-import { useDispatch } from "react-redux";
-import { LOG_IN } from "../ServerApi/ApiRoutes/authentication/login.js";
-import { showSnackbar } from "../Components/Snackbar/snackbarSlice.js";
-import useServer from "../Hooks/useServer.js";
+import { userDetailsValidationSchema } from "../../Utils/schema.js";
+import { useTheme } from "../../Components/Theme/Theme.jsx";
+import { textFieldStyle } from "../../Styles/TextField.js";
+import { buttonStyle } from "../../Styles/Button.js";
+import { headingStyle } from "../../Styles/Heading.js";
+import { formStyle } from "../../Styles/Form.js";
+import signUpFormSubmitHandler from "./SignUpFormSubmitHandler.js";
 
 const initialValues = {
   userName: "",
   key: "",
 };
 
-function LogIn() {
+function SignUp() {
+  const navigate = useNavigate();
+
+  const { theme } = useTheme();
+  const submit = signUpFormSubmitHandler();
   const initialParameters = {
     initialValues: initialValues,
     validationSchema: userDetailsValidationSchema,
@@ -30,33 +27,10 @@ function LogIn() {
     validateOnChange: true,
     onSubmit: submit,
   };
+
   const { errors, handleSubmit, handleBlur, handleChange, values, touched } =
     useFormik(initialParameters);
 
-
-
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
-
-  const request = useServer();
-
-  async function submit(values) {
-    const data = {
-      userName: values.userName,
-      password: values.password,
-    };
-
-    const response = await request({ url: LOG_IN, method: "post", data });
-
-    if (!response) return;
-
-    dispatch(login(response.data));
-    dispatch(showSnackbar({ message: "Logged in!", severity: "success" }));
-    navigate(`/WorkSpaces/${response.data.user._id}`, { replace: true });
-  }
-
-  const { theme } = useTheme();
   return (
     <Stack
       direction="column"
@@ -69,12 +43,12 @@ function LogIn() {
       spacing="2vw"
     >
       <Typography variant="h4" sx={headingStyle}>
-        LogIn
+        SignUp
       </Typography>
 
       <TextField
         label="User Name / Email"
-        value={values.userName ? values.userName : ''}
+        value={values.userName ? values.userName : ""}
         fullWidth
         autoComplete="userName"
         sx={textFieldStyle}
@@ -87,10 +61,10 @@ function LogIn() {
 
       <TextField
         label="Password"
-        value={values.password ? values.password : ''}
+        value={values.password ? values.password : ""}
         fullWidth
+        autoComplete="password"
         type="password"
-        autoComplete="current-password"
         sx={textFieldStyle}
         name="password"
         onBlur={handleBlur}
@@ -98,28 +72,27 @@ function LogIn() {
         error={errors.password && touched?.password}
         helperText={touched?.password ? errors.password : ""}
       />
-      <CheckBox label="Keep me logged in"  />
       <Button
         variant="contained"
         sx={buttonStyle}
         size="large"
         onClick={handleSubmit}
       >
-        LogIn
+        SignUp
       </Button>
       <Typography variant="subtitle2">
-        Don't have an account?
+        Already have an account?
         <Button
           size="small"
           onClick={() => {
-            navigate("/signup");
+            navigate("/logIn", { replace: true });
           }}
         >
-          SignUp
+          LogIn
         </Button>
       </Typography>
     </Stack>
   );
 }
 
-export default LogIn;
+export default SignUp;

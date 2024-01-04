@@ -22,14 +22,16 @@ export default function useServer() {
           ? error.response.data.message
           : 'Failed to reach the server';
 
-      dispatch(
-        showSnackbar({
-          message: errorMessage,
-          severity: "error",
-        })
-      );
+      // dispatch(
+      //   showSnackbar({
+      //     message: errorMessage,
+      //     severity: "error",
+      //   })
+      // );
 
-      throw new Error(errorMessage); // Throw an error instead of returning it
+      error.response.data.message = errorMessage;
+
+      return Promise.reject(error); 
     };
 
     return await server(options).then(onSuccess).catch(onError);

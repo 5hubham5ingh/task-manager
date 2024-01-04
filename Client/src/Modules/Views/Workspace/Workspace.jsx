@@ -1,18 +1,14 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
-import { BackGround } from "../Components/Background";
-import { bodyStyle, headingStyle } from "../Styles/Workspace";
-import { useWorkspace } from "../Queries/workspaceQueries";
-import AddNewTask from "../Components/Workspace/AddNewTask";
-import Task from "../Components/Workspace/Task";
+import { BackGround } from "../../Components/Background";
+import { bodyStyle, headingStyle } from "../../Styles/Workspace";
+import AddNewTask from "../../Components/Workspace/AddNewTask";
+import Task from "../../Components/Workspace/Task";
+import useWorkspaceHandler from "./WorkspaceHandler";
 
 function Workspace() {
-  const workspaceQuery = useWorkspace();
+  const { data: tasks, isLoading } = useWorkspaceHandler();
 
-  if (workspaceQuery.isError) return <h4>Failed to load tasks.</h4>;
-
-  if (workspaceQuery.isLoading) return <CircularProgress />;
-
-  const tasks = workspaceQuery.data;
+  if (isLoading) return <CircularProgress />;
 
   return (
     <BackGround itemAlignment="center">
