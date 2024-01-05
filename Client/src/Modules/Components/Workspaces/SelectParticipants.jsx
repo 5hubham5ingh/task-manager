@@ -4,8 +4,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { textFieldStyle } from '../../Styles/TextField';
 import { Paper } from '@mui/material';
-import { PARTICIPANTS } from '../../ServerApi/ApiRoutes/workspaces';
-import useServer from '../../Hooks/useServer'
+import { PARTICIPANTS } from '../../ApiRoutes/workspaces';
+import useServer from '../../Utils/AxiosApi'
 
 
 

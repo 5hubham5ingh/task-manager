@@ -1,7 +1,7 @@
-import { WORKSPACE } from "../ServerApi/ApiRoutes/workspace";
+import { WORKSPACE } from "../ApiRoutes/workspace";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import useServer from "../Hooks/useServer";
+import useServer from "../Utils/AxiosApi";
 import { useRef } from "react";
 
 export const useWorkspace = () => {
@@ -28,11 +28,10 @@ export const useWorkspace = () => {
   });
 };
 
-export const useAddNewTaskMutation = (onSuccessfullTaskDeletion) => {
+export const useAddNewTaskMutation = (callbacks) => {
   const request = useServer();
   const { workspaceId } = useParams();
   const taskToAdd = useRef();
-  const queryClient = useQueryClient();
 
   async function addNewTask(task) {
     taskToAdd.current = task;
@@ -43,24 +42,9 @@ export const useAddNewTaskMutation = (onSuccessfullTaskDeletion) => {
     });
   }
 
-  function onSuccess({data: newTask}) {
-    const taskAdded = {
-      _id: newTask._id,
-      ...taskToAdd.current,
-    };
-    queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
-      return {
-        ...workspace,
-        data: [...workspace.data, taskAdded],
-      };
-    });
-    onSuccessfullTaskDeletion();
-  }
-
   return useMutation({
     mutationFn: addNewTask,
-    onError: () => console.log("Error in add new task mutation"),
-    onSuccess,
+    ...callbacks
   });
 };
 

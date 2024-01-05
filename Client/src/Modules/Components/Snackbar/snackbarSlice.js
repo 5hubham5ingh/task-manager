@@ -13,7 +13,8 @@ export const snackbarSlice = createSlice({
             return {
                 message:action.payload.message,
                 severity: action.payload.severity,
-                visibility: true
+                visibility: true,
+                autoHideDuration: action.payload.autoHideDuration || 2500
             }
         },
         hideSnackbar: state =>{

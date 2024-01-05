@@ -12,7 +12,7 @@ export default function Snackbar() {
       <>
         <MUI_Snackbar
           message={snackbar.message}
-          autoHideDuration={2500}
+          autoHideDuration={snackbar.autoHideDuration}
           open={snackbar.visibility}
           onClose={close}
           anchorOrigin={{

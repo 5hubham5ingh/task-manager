@@ -1,35 +1,35 @@
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import { Grid, Typography } from "@mui/material";
 import { Fragment, useEffect, useRef, useState } from "react";
-import background0 from "../../Assets/bg1.svg";
-import background1 from "../../Assets/bg2.svg";
-import background2 from "../../Assets/bg3.svg";
-import background3 from "../../Assets/bg4.svg";
+import illustration1 from "../../Assets/illustration1.svg";
+import illustration2 from "../../Assets/illustration2.svg";
+import illustration3 from "../../Assets/illustration3.svg";
+import illustration4 from "../../Assets/illustration4.svg";
 import "../../Styles/HomePageBody.css";
 
 const subtextsAndSvgs = [
   {
     index: 0,
-    svg: background0,
+    svg: illustration1,
     subtext1: "A simple platform designed to elevate your team's productivity.",
     subtext2:
       "With intuitive interface, creating workspaces and assigning tasks is easier than ever.",
   },
   {
     index: 1,
-    svg: background1,
+    svg: illustration2,
     subtext1: "Minimalistic approach focusing on what truly matters",
     subtext2: "- getting tasks done efficiently.",
   },
   {
     index: 2,
-    svg: background2,
+    svg: illustration3,
     subtext1: "Create dedicated workspaces for different projects,",
     subtext2: "assign tasks, set deadlines, and watch your team thrive.",
   },
   {
     index: 3,
-    svg: background3,
+    svg: illustration4,
     subtext1:
       "Easily mark tasks as complete, keeping everyone on the same page.",
     subtext2: "Ensuring nothing falls through the cracks.",

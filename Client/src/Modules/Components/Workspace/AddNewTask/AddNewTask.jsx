@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { useAddNewTaskMutation } from "../../Queries/workspaceQueries";
+import { useAddNewTaskMutation } from "../../../Queries/workspaceQueries";
 import {
   footerStyle,
   addNewTaskInputField,
   buttonStyle,
-} from "../../Styles/Workspace";
-import { useUser } from "../../Authentication/User/userSlice";
+} from "../../../Styles/Workspace";
+import { useUser } from "../../../Authentication/User/userSlice";
 import { Button, Stack, TextField } from "@mui/material";
-import { useTheme } from "../Theme/Theme";
+import { useTheme } from "../../Theme/Theme";
+import useAddNewTaskMutationHandler from "./AddNewTaskHandler";
 
 export default function AddNewTask() {
   const [newTask, setNewTask] = useState("");
-  const addNewTaskMutation = useAddNewTaskMutation(function onSuccess(){setNewTask("")});
+  const addNewTaskMutationHandler = useAddNewTaskMutationHandler();
   const user = useUser();
 
   const { theme } = useTheme();
@@ -23,9 +24,13 @@ export default function AddNewTask() {
       createdBy: { id: user._id, name: user.userName },
     };
 
-    addNewTaskMutation.mutate(task);
+    addNewTaskMutationHandler(task, {
+      onSuccess: () => {
+        setNewTask("");
+      },
+    });
   };
-  
+
   return (
     <Stack direction="row" sx={footerStyle}>
       <TextField

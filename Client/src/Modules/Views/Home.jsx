@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
-import Navbar from "../Components/HomePage/Navbar";
-import GenerateSubtextAndSvg from "../Components/HomePage/Body";
-import Footer from "../Components/HomePage/Footer";
+import Navbar from "../Components/Home/Navbar";
+import GenerateSubtextAndSvg from "../Components/Home/Body";
+import Footer from "../Components/Home/Footer";
 
 export default function Home() {
   return (
