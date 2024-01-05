@@ -3,7 +3,7 @@ import "../../Styles/Form.js";
 import { Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { userDetailsValidationSchema } from "../../Utils/schema.js";
-import CheckBox from "../../Components/CheckBox.jsx";
+import CheckBox from "../../Components/Common/CheckBox.jsx";
 import { useTheme } from "../../Components/Theme/Theme.jsx";
 import { Button } from "@mui/material";
 import { textFieldStyle } from "../../Styles/TextField.js";

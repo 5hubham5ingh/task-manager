@@ -1,4 +1,4 @@
-import { SET_Theme_Button, useTheme } from "./Theme/Theme";
+import { SET_Theme_Button, useTheme } from "../Theme/Theme";
 import { Outlet } from "react-router-dom";
 export const BackGround = ({ children, itemAlignment }) => {
   const { theme } = useTheme();

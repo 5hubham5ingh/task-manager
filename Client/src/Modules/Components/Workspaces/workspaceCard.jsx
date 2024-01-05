@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import DeleteWorkspace from "./DeleteWorkspace";
 
-export default function WorkspaceCard({ workspace, removeWorkspace }) {
+export default function WorkspaceCard({ workspace }) {
   const { theme } = useTheme();
   const navigate = useNavigate();
 

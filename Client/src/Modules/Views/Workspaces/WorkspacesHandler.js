@@ -17,6 +17,19 @@ export default function useWorkspacesHandler() {
     );
   }
 
+  setTimeout(
+    () =>
+      workspacesQuery.isPaused &&
+      dispatch(
+        showSnackbar({
+          message: "Waiting for internet connection",
+          severity: "info",
+          autoHideDuration: 1000000000,
+        })
+      ),
+    1000
+  );
+
   return {
     data: workspacesQuery.data,
     refetch: workspacesQuery.refetch,

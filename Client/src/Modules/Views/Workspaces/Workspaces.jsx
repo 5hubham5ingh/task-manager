@@ -3,7 +3,7 @@ import { CircularProgress, Stack, Typography } from "@mui/material";
 import WorkspaceCard from "../../Components/Workspaces/workspaceCard";
 import { useTheme } from "../../Components/Theme/Theme";
 import Masonry from "@mui/lab/Masonry";
-import { BackGround } from "../../Components/Background";
+import { BackGround } from "../../Components/Common/Background";
 import { AddNewWorkspaceModal } from "../../Components/Workspaces/AddNewWorkspaceModal";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import useWorkspacesHandler from "./WorkspacesHandler";

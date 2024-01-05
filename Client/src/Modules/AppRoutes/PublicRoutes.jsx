@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { BackGround } from "../Components/Background";
+import { BackGround } from "../Components/Common/Background";
 import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes";
 import { Route } from "react-router-dom";
 import Home from "../Views/Home";

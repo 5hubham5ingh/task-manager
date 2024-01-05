@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
-import { BackGround } from '../../Components/Background';
+import { BackGround } from '../../Components/Common/Background';
 
 function RequireUserAuth({children}) {
   const user = useSelector(state=>state.user);

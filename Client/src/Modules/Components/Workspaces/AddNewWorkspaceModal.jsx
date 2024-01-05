@@ -5,7 +5,7 @@ import SelectParticipants from "./SelectParticipants";
 import { textFieldStyle } from "../../Styles/TextField";
 import { buttonStyle } from "../../Styles/Button";
 import { headingStyle } from "../../Styles/Heading";
-import { BluredBackground } from "../BluredBackground";
+import { BluredBackground } from "../Common/BluredBackground";
 import { modalStyle } from "../../Styles/Modal";
 import { useUser } from "../../Authentication/User/userSlice";
 import { useAddWorkspace } from "../../Queries/workspacesQueries";
