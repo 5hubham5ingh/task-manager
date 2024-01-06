@@ -13,4 +13,7 @@ export const userDetailsValidationSchema = Yup.object().shape({
       /[^a-zA-Z0-9]/,
       "Password must contain at least one special character"
     ),
+    confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Confirm password must match")
+    .required("Confirm password is required")
 });

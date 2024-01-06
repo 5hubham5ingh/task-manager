@@ -14,8 +14,8 @@ export default function useLoginFormSubmitHandler() {
 
   return async function submit(values) {
     const data = {
-      userName: values.userName,
-      password: values.password,
+      userName: values.userName.trim(),
+      password: values.password.trim(),
     };
 
     await request({ url: LOG_IN, method: "post", data })

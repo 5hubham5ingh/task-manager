@@ -72,6 +72,19 @@ function SignUp() {
         error={errors.password && touched?.password}
         helperText={touched?.password ? errors.password : ""}
       />
+      <TextField
+        label="Confirm Password"
+        value={values.confirmPassword ? values.confirmPassword : ""}
+        fullWidth
+        autoComplete="password"
+        type="password"
+        sx={textFieldStyle}
+        name="confirmPassword"
+        onBlur={handleBlur}
+        onChange={handleChange}
+        error={errors.confirmPassword && touched?.confirmPassword}
+        helperText={touched?.confirmPassword ? errors.confirmPassword : ""}
+      />
       <Button
         variant="contained"
         sx={buttonStyle}

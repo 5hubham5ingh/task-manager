@@ -1,11 +1,11 @@
 import { Stack, Typography } from "@mui/material";
-import { tasksStyle} from "../../Styles/Workspace";
+import { tasksStyle } from "../../Styles/Workspace";
 import { useTheme } from "../Theme/Theme";
 import DeleteTask from "./DeleteTask/DeleteTask";
 import CompleteTask from "./CompleteTask/CompleteTask";
 
 export default function Task({ task }) {
-   const { theme } = useTheme();
+  const { theme } = useTheme();
   return (
     <>
       {/* Task Body */}
@@ -34,7 +34,7 @@ export default function Task({ task }) {
 
       {/* Task Buttons */}
       {task.isCompleted ? (
-        <DeleteTask task={task}/>
+        <DeleteTask task={task} />
       ) : (
         <CompleteTask taskId={task._id} />
       )}

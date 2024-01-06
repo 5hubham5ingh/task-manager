@@ -12,7 +12,8 @@ export default function SignUpFormSubmitHandler() {
   const navigate = useNavigate();
 
   return async function submit(values) {
-    const { userName, password } = values;
+    const userName = values.userName.trim();
+    const password = values.password.trim();
 
     await request({
       url: SIGN_UP,
