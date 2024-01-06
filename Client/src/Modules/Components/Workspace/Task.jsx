@@ -1,27 +1,11 @@
-import { Button, Stack, Typography } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useDeleteTaskMutation, useTaksCompleteMutation } from "../../Queries/workspaceQueries";
-import { tasksStyle, buttonStyle } from "../../Styles/Workspace";
+import { Stack, Typography } from "@mui/material";
+import { tasksStyle} from "../../Styles/Workspace";
 import { useTheme } from "../Theme/Theme";
-import { useUser } from "../../Authentication/User/userSlice";
+import DeleteTask from "./DeleteTask/DeleteTask";
+import CompleteTask from "./CompleteTask/CompleteTask";
+
 export default function Task({ task }) {
-
-  const deleteTaskMutation = useDeleteTaskMutation();
-  const completeTaskMutation = useTaksCompleteMutation();
-  const { theme } = useTheme();
-  const user = useUser();
-  const removeTask = async (taskId) => {
-    deleteTaskMutation.mutate(taskId);
-  };
-
-  const taskComplete = async (taskId) => {
-    const completedBy = {
-      isCompleted: true,
-      completedBy: user.userName,
-    }
-    completeTaskMutation.mutate({taskId, completedBy});
-  };
+   const { theme } = useTheme();
   return (
     <>
       {/* Task Body */}
@@ -31,7 +15,7 @@ export default function Task({ task }) {
           ...tasksStyle,
           backgroundImage: `linear-gradient(${theme},#3268a8)`,
         }}
-        key={task.id}
+        key={task._id}
       >
         {task.body}
         <Stack
@@ -50,26 +34,9 @@ export default function Task({ task }) {
 
       {/* Task Buttons */}
       {task.isCompleted ? (
-        <Button
-          disabled={task.createdBy.id !== user._id}
-          sx={{
-            ...buttonStyle,
-            backgroundImage: `linear-gradient(${theme},#3268a8)`,
-          }}
-          onClick={(e) => removeTask(task._id)}
-        >
-          <DeleteIcon />
-        </Button>
+        <DeleteTask task={task}/>
       ) : (
-        <Button
-          sx={{
-            ...buttonStyle,
-            backgroundImage: `linear-gradient(${theme},#3268a8)`,
-          }}
-          onClick={() => taskComplete(task._id)}
-        >
-          <CheckIcon />
-        </Button>
+        <CompleteTask taskId={task._id} />
       )}
     </>
   );

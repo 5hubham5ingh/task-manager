@@ -39,7 +39,7 @@ export default function useAddNewTaskMutationHandler() {
     },
   };
 
-  const addNewTaskMutation = useAddNewTaskMutation(callbacks);
+  const addNewTaskMutation = useAddNewTaskMutation(workspaceId,callbacks);
 
   setTimeout(
     () =>

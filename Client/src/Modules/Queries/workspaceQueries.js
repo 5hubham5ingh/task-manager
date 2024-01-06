@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import useServer from "../Utils/AxiosApi";
 import { useRef } from "react";
 
-export const useWorkspace = () => {
+export const useWorkspace = (workspaceId) => {
   const request = useServer();
-  const { workspaceId } = useParams();
+  
 
   async function fetchWorkspace({ queryKey }) {
     const workspaceId = queryKey[1];
@@ -28,9 +28,8 @@ export const useWorkspace = () => {
   });
 };
 
-export const useAddNewTaskMutation = (callbacks) => {
+export const useAddNewTaskMutation = (workspaceId,callbacks) => {
   const request = useServer();
-  const { workspaceId } = useParams();
   const taskToAdd = useRef();
 
   async function addNewTask(task) {
@@ -78,7 +77,7 @@ export const useDeleteTaskMutation = () => {
   });
 };
 
-export const useTaksCompleteMutation = () => {
+export const useTaskCompleteMutation = () => {
   const request = useServer();
   const { workspaceId } = useParams();
   const queryClient = useQueryClient();

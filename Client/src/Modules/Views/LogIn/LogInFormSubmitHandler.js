@@ -1,6 +1,6 @@
 import { login } from "../../Authentication/User/userSlice.js";
 import { useDispatch } from "react-redux";
-import { LOG_IN } from "../../ServerApi/ApiRoutes/authentication/login.js";
+import { LOG_IN } from "../../ApiRoutes/authentication/login.js";
 import { showSnackbar } from "../../Components/Snackbar/snackbarSlice.js";
 import useServer from "../../Utils/AxiosApi.js";
 

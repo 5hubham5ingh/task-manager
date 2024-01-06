@@ -1,7 +1,7 @@
 import { signUp } from "../../Authentication/User/userSlice.js";
 import { showSnackbar } from "../../Components/Snackbar/snackbarSlice.js";
 import { useDispatch } from "react-redux";
-import { SIGN_UP } from "../../ServerApi/ApiRoutes/authentication/signup.js";
+import { SIGN_UP } from "../../ApiRoutes/authentication/signup.js";
 import useServer from "../../Utils/AxiosApi.js";
 import { useNavigate } from "react-router-dom";
 
