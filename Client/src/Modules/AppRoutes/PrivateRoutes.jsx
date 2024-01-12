@@ -4,7 +4,7 @@ import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes";
 import { Route } from "react-router-dom";
 
 const Workspace = lazy(() => import("../Views/Workspace/index"));
-const Workspaces = lazy(() => import("../Views/Workspaces/Workspaces"));
+const Workspaces = lazy(() => import("../Views/Workspaces/index"));
 
 function PrivateRoutes() {
   const createPrivateRoute = (path, element) => {

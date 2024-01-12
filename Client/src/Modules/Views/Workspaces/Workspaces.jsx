@@ -6,12 +6,11 @@ import Masonry from "@mui/lab/Masonry";
 import { BackGround } from "../../Components/Common/Background";
 import { AddNewWorkspaceModal } from "../../Components/Workspaces/AddNewWorkspaceModal";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import useWorkspacesHandler from "./WorkspacesHandler";
 
-export default function Workspaces() {
+export default function Workspaces({ workspaces, refetch, isLoading}) {
   const [isAddingNewWorkspace, setAddingNewWorkspace] = useState(false);
   const { theme } = useTheme();
-  const { data: workspaces, refetch, isLoading} = useWorkspacesHandler();
+ // const { data: workspaces, refetch, isLoading} = useWorkspacesHandler();
   const closeAddNewWorkspaceModal = () => setAddingNewWorkspace(false);
 
   return (
