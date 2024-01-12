@@ -10,7 +10,7 @@ export default function FormSubmitHandler({ children }) {
 
   const navigate = useNavigate();
 
-  async function submit(values) {debugger
+  async function submit(values) {
     const data = {
       userName: values.userName.trim(),
       password: values.password.trim(),

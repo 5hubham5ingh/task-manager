@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { DELETE, WORKSPACES } from "../ApiRoutes/workspaces";
-import useServer from "../Utils/AxiosApi";
+import { DELETE, WORKSPACES } from "../ApiRoutes/workspaces"
+import request from "../Utils/AxiosApi";
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
 
 export const useWorkspaces = () => {
-  const request = useServer();
+  
   const { userId } = useParams();
 
   async function fetchWorkspaces({ queryKey }) {
@@ -27,7 +27,7 @@ export const useWorkspaces = () => {
 };
 
 export const useAddWorkspace = (closeModal) => {
-  const request = useServer();
+  
   const { userId } = useParams();
   const queryClient = useQueryClient();
   const workspaceToAdd = useRef();
@@ -61,7 +61,7 @@ export const useAddWorkspace = (closeModal) => {
 };
 
 export const useDeleteWorkspace = () => {
-  const request = useServer();
+  
   const queryClient = useQueryClient();
   const { userId } = useParams();
   const workspaceToDelete = useRef();

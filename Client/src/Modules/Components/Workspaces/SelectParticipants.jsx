@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { textFieldStyle } from '../../Styles/TextField';
 import { Paper } from '@mui/material';
 import { PARTICIPANTS } from '../../ApiRoutes/workspaces';
-import useServer from '../../Utils/AxiosApi'
+import request from '../../Utils/AxiosApi'
 
 
 
@@ -13,7 +13,7 @@ export default function SelectParticipants({ participants }) {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
-  const request = useServer();
+
 
   useEffect(() => {
     let active = true;
@@ -84,6 +84,3 @@ export default function SelectParticipants({ participants }) {
     />
   );
 }
-
-
-const participantsList = [{ userName: "shubham", _id: 1 }, { userName: 'singh', _id: 2 }];

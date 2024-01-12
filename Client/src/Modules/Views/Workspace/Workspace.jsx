@@ -3,10 +3,9 @@ import { BackGround } from "../../Components/Common/Background";
 import { bodyStyle, headingStyle } from "../../Styles/Workspace";
 import AddNewTask from "../../Components/Workspace/AddNewTask/AddNewTask";
 import Task from "../../Components/Workspace/Task";
-import useWorkspaceHandler from "./WorkspaceHandler";
 
-function Workspace() {
-  const { data: tasks, isLoading } = useWorkspaceHandler();
+function Workspace({tasks, isLoading } ) {
+  //const { data: tasks, isLoading } = useWorkspaceHandler();
 
   if (isLoading) return <CircularProgress />;
 

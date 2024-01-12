@@ -3,7 +3,7 @@ import RequireUserAuth from "../Authentication/User/RequireUserAuth";
 import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes";
 import { Route } from "react-router-dom";
 
-const Workspace = lazy(() => import("../Views/Workspace/Workspace"));
+const Workspace = lazy(() => import("../Views/Workspace/index"));
 const Workspaces = lazy(() => import("../Views/Workspaces/Workspaces"));
 
 function PrivateRoutes() {

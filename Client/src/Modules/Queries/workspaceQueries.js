@@ -1,11 +1,11 @@
 import { WORKSPACE } from "../ApiRoutes/workspace";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import useServer from "../Utils/AxiosApi";
+import { useParams } from "react-router"
+import request from "../Utils/AxiosApi";
 import { useRef } from "react";
 
 export const useWorkspace = (workspaceId) => {
-  const request = useServer();
+  
   
 
   async function fetchWorkspace({ queryKey }) {
@@ -29,7 +29,7 @@ export const useWorkspace = (workspaceId) => {
 };
 
 export const useAddNewTaskMutation = (workspaceId,callbacks) => {
-  const request = useServer();
+  
   const taskToAdd = useRef();
 
   async function addNewTask(task) {
@@ -48,7 +48,7 @@ export const useAddNewTaskMutation = (workspaceId,callbacks) => {
 };
 
 export const useDeleteTaskMutation = () => {
-  const request = useServer();
+  
   const { workspaceId } = useParams();
   const queryClient = useQueryClient();
   const taskId = useRef();
@@ -78,7 +78,7 @@ export const useDeleteTaskMutation = () => {
 };
 
 export const useTaskCompleteMutation = () => {
-  const request = useServer();
+  
   const { workspaceId } = useParams();
   const queryClient = useQueryClient();
 
