@@ -5,8 +5,7 @@ const server = axios.create({
   baseURL: BASE_URL,
 });
 
-export default function request() {
-  return async ({ ...options }) => {
+export default async function request({ ...options }){
     const onSuccess = (response) => response;
     const onError = (error) => {
       if (error.response) return Promise.reject(error);
@@ -24,4 +23,4 @@ export default function request() {
 
     return await server(options).then(onSuccess).catch(onError);
   };
-}
+

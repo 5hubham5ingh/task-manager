@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../../Styles/Form.js";
 import { Stack, TextField, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import { userDetailsValidationSchema } from "../../Utils/schema.js";
 import CheckBox from "../../Components/Common/CheckBox.jsx";
 import { useTheme } from "../../Components/Theme/Theme.jsx";
 import { Button } from "@mui/material";
@@ -10,24 +8,15 @@ import { textFieldStyle } from "../../Styles/TextField.js";
 import { buttonStyle } from "../../Styles/Button.js";
 import { headingStyle } from "../../Styles/Heading.js";
 import { formStyle } from "../../Styles/Form.js";
-import logInFormSubmitHandler from "./LogInFormSubmitHandler.js"
-const initialValues = {
-  userName: "",
-  key: "",
-};
 
-function LogIn() {
-  const submit = logInFormSubmitHandler();
-  const initialParameters = {
-    initialValues: initialValues,
-    validationSchema: userDetailsValidationSchema,
-    enableReinitialize: true,
-    validateOnChange: true,
-    onSubmit: submit,
-  };
-  const { errors, handleSubmit, handleBlur, handleChange, values, touched } =
-    useFormik(initialParameters);
-
+function LogIn({
+  errors,
+  handleSubmit,
+  handleBlur,
+  handleChange,
+  values,
+  touched,
+}) {
   const navigate = useNavigate();
 
   const { theme } = useTheme();

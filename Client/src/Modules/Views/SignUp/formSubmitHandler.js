@@ -1,17 +1,14 @@
-import { signUp } from "../../Authentication/User/userSlice.js";
-import { showSnackbar } from "../../Components/Snackbar/snackbarSlice.js";
 import { useDispatch } from "react-redux";
-import { SIGN_UP } from "../../ApiRoutes/authentication/signup.js";
-import useServer from "../../Utils/AxiosApi.js";
 import { useNavigate } from "react-router-dom";
-
-export default function SignUpFormSubmitHandler() {
+import { SIGN_UP } from "../../ApiRoutes/authentication/signup";
+import { signUp } from "../../Authentication/User/userSlice";
+import { showSnackbar } from "../../Components/Snackbar/snackbarSlice";
+import request from "../../Utils/AxiosApi";
+export default function FormSubmitHandler({ children }) {
   const dispatch = useDispatch();
-
-  const request = useServer();
   const navigate = useNavigate();
 
-  return async function submit(values) {
+  async function submit(values) {
     const userName = values.userName.trim();
     const password = values.password.trim();
 
@@ -35,5 +32,7 @@ export default function SignUpFormSubmitHandler() {
           })
         );
       });
-  };
+  }
+
+  return children({ submit });
 }

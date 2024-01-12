@@ -1,35 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import "../../Styles/Form.js";
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import { userDetailsValidationSchema } from "../../Utils/schema.js";
 import { useTheme } from "../../Components/Theme/Theme.jsx";
 import { textFieldStyle } from "../../Styles/TextField.js";
 import { buttonStyle } from "../../Styles/Button.js";
 import { headingStyle } from "../../Styles/Heading.js";
 import { formStyle } from "../../Styles/Form.js";
-import signUpFormSubmitHandler from "./SignUpFormSubmitHandler.js";
 
-const initialValues = {
-  userName: "",
-  key: "",
-};
-
-function SignUp() {
+function SignUp({errors, handleSubmit, handleBlur, handleChange, values, touched }) {
   const navigate = useNavigate();
 
   const { theme } = useTheme();
-  const submit = signUpFormSubmitHandler();
-  const initialParameters = {
-    initialValues: initialValues,
-    validationSchema: userDetailsValidationSchema,
-    enableReinitialize: true,
-    validateOnChange: true,
-    onSubmit: submit,
-  };
-
-  const { errors, handleSubmit, handleBlur, handleChange, values, touched } =
-    useFormik(initialParameters);
 
   return (
     <Stack

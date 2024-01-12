@@ -1,18 +1,16 @@
-import { login } from "../../Authentication/User/userSlice.js";
 import { useDispatch } from "react-redux";
-import { LOG_IN } from "../../ApiRoutes/authentication/login.js";
-import { showSnackbar } from "../../Components/Snackbar/snackbarSlice.js";
-import useServer from "../../Utils/AxiosApi.js";
-
 import { useNavigate } from "react-router-dom";
+import request from "../../Utils/AxiosApi";
+import { login } from "../../Authentication/User/userSlice";
+import { showSnackbar } from "../../Components/Snackbar/snackbarSlice";
+import { LOG_IN } from "../../ApiRoutes/authentication/login";
 
-export default function useLoginFormSubmitHandler() {
+export default function FormSubmitHandler({ children }) {
   const dispatch = useDispatch();
 
-  const request = useServer();
   const navigate = useNavigate();
 
-  return async function submit(values) {
+  async function submit(values) {debugger
     const data = {
       userName: values.userName.trim(),
       password: values.password.trim(),
@@ -32,5 +30,7 @@ export default function useLoginFormSubmitHandler() {
           })
         );
       });
-  };
+  }
+
+  return children({ submit });
 }
