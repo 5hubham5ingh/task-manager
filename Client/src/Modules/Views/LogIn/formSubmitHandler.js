@@ -14,8 +14,8 @@ export default function FormSubmitHandler({ children }) {
     const data = {
       userName: values.userName.trim(),
       password: values.password.trim(),
+      extendedSession: values.extendedSession,
     };
-
     await request({ url: LOG_IN, method: "post", data })
       .then((response) => {
         dispatch(login(response.data));

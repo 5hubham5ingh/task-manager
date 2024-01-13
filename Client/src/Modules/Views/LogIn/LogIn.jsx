@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../../Styles/Form.js";
-import { Stack, TextField, Typography } from "@mui/material";
-import CheckBox from "../../Components/Common/CheckBox.jsx";
+import { Checkbox, FormControlLabel, Stack, TextField, Typography } from "@mui/material";
 import { useTheme } from "../../Components/Theme/Theme.jsx";
 import { Button } from "@mui/material";
 import { textFieldStyle } from "../../Styles/TextField.js";
@@ -9,7 +8,8 @@ import { buttonStyle } from "../../Styles/Button.js";
 import { headingStyle } from "../../Styles/Heading.js";
 import { formStyle } from "../../Styles/Form.js";
 
-function LogIn({
+
+export default function LogIn({
   errors,
   handleSubmit,
   handleBlur,
@@ -61,7 +61,19 @@ function LogIn({
         error={errors.password && touched?.password}
         helperText={touched?.password ? errors.password : ""}
       />
-      <CheckBox label="Keep me logged in" />
+      <FormControlLabel
+      style={{ color: "#3268a8" }}
+      control={
+        <Checkbox
+          style={{ color: "#3268a8" }}
+          checked={values.extendedSession}
+          name="extendedSession"
+          onChange={handleChange}
+          inputProps={{ "aria-label": "controlled" }}
+        />
+      }
+      label="Keep me logged in"
+    />
       <Button
         variant="contained"
         sx={buttonStyle}
@@ -85,4 +97,3 @@ function LogIn({
   );
 }
 
-export default LogIn;

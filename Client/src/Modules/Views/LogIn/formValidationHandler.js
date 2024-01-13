@@ -4,7 +4,8 @@ import { LoginFormValidationSchema } from "../../Utils/schema";
 export default function FormValidationHandler({ children, submit }) {
     const initialValues = {
         userName: "",
-        key: "",
+        password: "",
+        extendedSession: false
       };
   const initialParameters = {
     initialValues: initialValues,
@@ -25,3 +26,4 @@ export default function FormValidationHandler({ children, submit }) {
     touched,
   });
 }
+

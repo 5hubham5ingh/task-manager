@@ -31,4 +31,5 @@ export const LoginFormValidationSchema = Yup.object().shape({
       /[^a-zA-Z0-9]/,
       "Password must contain at least one special character"
     ),
+    extendedSession: Yup.bool().default( false )
 });
