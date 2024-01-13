@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { hideSnackbar, showSnackbar } from "../Components/Snackbar/snackbarSlice";
+import { hideSnackbar, showSnackbar } from "../Features/Snackbar/snackbarSlice";
 
 
 export default function useWatchNetworkConnection(query){

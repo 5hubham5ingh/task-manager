@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { useAddNewTaskMutation } from "../../../Queries/workspaceQueries";
 import { useParams } from "react-router-dom";
 import { useRef } from "react";
-import {showSnackbar} from "../../Snackbar/snackbarSlice";
-import { useUser } from "../../../Authentication/User/userSlice";
+import {showSnackbar} from "../../../Features/Snackbar/snackbarSlice";
+import { useUser } from "../../../Features/User/userSlice";
 
 export default function AddNewTaskHandler({ children }) {
   const dispatch = useDispatch();

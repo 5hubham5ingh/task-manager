@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import request from "../../Utils/AxiosApi";
-import { login } from "../../Authentication/User/userSlice";
-import { showSnackbar } from "../../Components/Snackbar/snackbarSlice";
+import { login } from "../../Features/User/userSlice";
+import { showSnackbar } from "../../Features/Snackbar/snackbarSlice";
 import { LOG_IN } from "../../ApiRoutes/authentication/login";
 
 export default function FormSubmitHandler({ children }) {

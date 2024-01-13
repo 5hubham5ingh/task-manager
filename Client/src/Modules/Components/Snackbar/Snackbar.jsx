@@ -1,6 +1,6 @@
 import { Alert, Snackbar as MUI_Snackbar } from "@mui/material";
 import {useSelector, useDispatch} from 'react-redux';
-import { hideSnackbar } from "./snackbarSlice";
+import { hideSnackbar } from "../../Features/Snackbar/snackbarSlice";
 
 //SnackBar component
 export default function Snackbar() {

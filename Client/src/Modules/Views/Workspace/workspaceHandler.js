@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useWorkspace } from "../../Queries/workspaceQueries";
 import { useParams } from "react-router-dom";
-import { showSnackbar } from "../../Components/Snackbar/snackbarSlice";
+import { showSnackbar } from "../../Features/Snackbar/snackbarSlice";
 import useWatchNetworkConnection from "../../Hooks/watchNetworkConnection";
 
 export default function WorkspaceHandler({ children }) {

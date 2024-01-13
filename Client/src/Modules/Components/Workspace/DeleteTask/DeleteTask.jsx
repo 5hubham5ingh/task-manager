@@ -4,7 +4,7 @@ import useDeleteTaskMutationHandler from "./deleteTaskMutationHandler";
 import { useTheme } from "../../Theme/Theme";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useUser } from "../../../Authentication/User/userSlice";
+import { useUser } from "../../../Features/User/userSlice";
 
 export default function DeleteTask({ task }) {
   const removeTask = useDeleteTaskMutationHandler(task._id);
