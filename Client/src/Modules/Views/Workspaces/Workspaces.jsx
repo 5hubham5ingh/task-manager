@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CircularProgress, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import WorkspaceCard from "../../Components/Workspaces/workspaceCard";
 import { useTheme } from "../../Components/Theme/Theme";
 import Masonry from "@mui/lab/Masonry";
@@ -7,16 +7,15 @@ import { BackGround } from "../../Components/Common/Background";
 import { AddNewWorkspaceModal } from "../../Components/Workspaces/AddNewWorkspaceModal";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-export default function Workspaces({ workspaces, refetch, isLoading}) {
+export default function Workspaces({ workspaces, refetch}) {
   const [isAddingNewWorkspace, setAddingNewWorkspace] = useState(false);
   const { theme } = useTheme();
- // const { data: workspaces, refetch, isLoading} = useWorkspacesHandler();
   const closeAddNewWorkspaceModal = () => setAddingNewWorkspace(false);
+
 
   return (
     <>
       <BackGround>
-        {isLoading && <CircularProgress />}
         <Masonry
           columns={{ xs: 1, sm: 2, md: 4 }}
           spacing={4}
@@ -38,7 +37,7 @@ export default function Workspaces({ workspaces, refetch, isLoading}) {
             <Typography variant="h7">Add new Work space.</Typography>
             <span>➕</span>
           </Stack>
-          {workspaces &&
+          {!workspaces.length ? <div style={selfAlignCenter}>No Workspace found.</div> :
             workspaces.map((workspace) => {
               return (
                 <WorkspaceCard key={workspace._id} workspace={workspace} />
@@ -55,3 +54,8 @@ export default function Workspaces({ workspaces, refetch, isLoading}) {
 }
 
 const style = { position: "absolute", right: "1%", bottom: "1%" };
+const selfAlignCenter = {
+  position: 'fixed',
+  top: '50%',
+  left: '45%',
+}

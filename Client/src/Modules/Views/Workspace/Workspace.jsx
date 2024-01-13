@@ -1,13 +1,10 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { BackGround } from "../../Components/Common/Background";
 import { bodyStyle, headingStyle } from "../../Styles/Workspace";
-import AddNewTask from "../../Components/Workspace/AddNewTask/AddNewTask";
+import AddNewTask from "../../Components/Workspace/AddNewTask/index";
 import Task from "../../Components/Workspace/Task";
 
-function Workspace({tasks, isLoading } ) {
-  //const { data: tasks, isLoading } = useWorkspaceHandler();
-
-  if (isLoading) return <CircularProgress />;
+function Workspace({tasks} ) {
 
   return (
     <BackGround itemAlignment="center">

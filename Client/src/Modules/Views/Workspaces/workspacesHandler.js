@@ -1,39 +1,29 @@
 import { useDispatch } from "react-redux";
 import { useWorkspaces } from "../../Queries/workspacesQueries";
 import { showSnackbar } from "../../Components/Snackbar/snackbarSlice";
+import useWatchNetworkConnection from "../../Hooks/watchNetworkConnection";
 
+export default function WorkspacesHandler({ children }) {
+  const workspacesQuery = useWorkspaces();
+  const dispatch = useDispatch();
+  useWatchNetworkConnection(workspacesQuery);
+  if (workspacesQuery.isRefetching)
+    dispatch(showSnackbar({ severity: "info", message: "Refreshing..." }));
 
-export default function WorkspacesHandler({children}){
-    const workspacesQuery = useWorkspaces();
-    const dispatch = useDispatch();
-  
-    if(workspacesQuery.isRefetching) dispatch(showSnackbar({ severity: "info", message: "Refreshing..." }))
-  
-    if (workspacesQuery.isError) {
-      dispatch(
-        showSnackbar({
-          severity: "error",
-          message: workspacesQuery.error.message,
-        })
-      );
-    }
-  
-    setTimeout(
-      () =>
-        workspacesQuery.isPaused &&
-        dispatch(
-          showSnackbar({
-            message: "Waiting for internet connection",
-            severity: "info",
-            autoHideDuration: 1000000000,
-          })
-        ),
-      1000
+  if (workspacesQuery.isError) {
+    dispatch(
+      showSnackbar({
+        severity: "error",
+        message: workspacesQuery.error.message,
+      })
     );
+  }
 
-    return children({
-        workspaces: workspacesQuery.data,
-        refetch: workspacesQuery.refetch,
-        isLoading: workspacesQuery.isLoading,
-      }) 
+  if(workspacesQuery.isLoading) return <div>Loading...</div>
+
+  if(workspacesQuery.isSuccess)
+  return children({
+    workspaces: workspacesQuery.data,
+    refetch: workspacesQuery.refetch,
+  });
 }

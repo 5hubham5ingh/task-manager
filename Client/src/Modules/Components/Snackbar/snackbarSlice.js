@@ -14,7 +14,7 @@ export const snackbarSlice = createSlice({
                 message:action.payload.message,
                 severity: action.payload.severity,
                 visibility: true,
-                autoHideDuration: action.payload.autoHideDuration || 2500
+                autoHideDuration: action.payload.autoHide ? 2500 : null
             }
         },
         hideSnackbar: state =>{

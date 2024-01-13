@@ -8,28 +8,12 @@ import {
 import { useUser } from "../../../Authentication/User/userSlice";
 import { Button, Stack, TextField } from "@mui/material";
 import { useTheme } from "../../Theme/Theme";
-import useAddNewTaskMutationHandler from "./AddNewTaskHandler";
 
-export default function AddNewTask() {
+export default function AddNewTask({ addNewTask }) {
   const [newTask, setNewTask] = useState("");
-  const addNewTaskMutationHandler = useAddNewTaskMutationHandler();
-  const user = useUser();
 
   const { theme } = useTheme();
-  const addTask = async () => {
-    const task = {
-      body: newTask,
-      isCompleted: false,
-      completedBy: "",
-      createdBy: { id: user._id, name: user.userName },
-    };
-
-    addNewTaskMutationHandler(task, {
-      onSuccess: () => {
-        setNewTask("");
-      },
-    });
-  };
+  const addTask = () => addNewTask(newTask, () => setNewTask(""));
 
   return (
     <Stack direction="row" sx={footerStyle}>

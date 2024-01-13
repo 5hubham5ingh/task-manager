@@ -6,8 +6,8 @@ export default function LoginView() {
   return (
     <FormSubmitHandler>
       {(props) => (
-        <FormValidationHandler {...props} >
-          {(props) => <LoginForm {...props}  />}
+        <FormValidationHandler key='loginFormValidation' {...props} >
+          {(props) => <LoginForm key='loginForm' {...props}  />}
         </FormValidationHandler>
       )}
     </FormSubmitHandler>
