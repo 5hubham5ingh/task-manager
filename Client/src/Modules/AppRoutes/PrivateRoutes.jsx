@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import RequireUserAuth from "../Authentication/User/RequireUserAuth";
+import RequireUserAuth from "../Authentication/RequireUserAuth";
 import RenderSuspenseRoute from "./Helpers/RenderSuspenseRoutes";
 import { Route } from "react-router-dom";
 
