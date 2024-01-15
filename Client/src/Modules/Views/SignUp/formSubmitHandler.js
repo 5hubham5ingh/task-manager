@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SIGN_UP } from "../../ApiRoutes/authentication/signup";
-import { signUp } from "../../Features/User/userSlice";
+import { userActions } from "../../Features/User/userSlice";
 import { showSnackbar } from "../../Features/Snackbar/snackbarSlice";
 import request from "../../Utils/AxiosApi";
 export default function FormSubmitHandler({ children }) {
@@ -18,7 +18,7 @@ export default function FormSubmitHandler({ children }) {
       data: { userName, password },
     })
       .then((response) => {
-        dispatch(signUp(response.data));
+        dispatch(userActions.signUp(response.data));
         dispatch(
           showSnackbar({ message: "Sign up successful!", severity: "success" })
         );

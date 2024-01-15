@@ -4,7 +4,7 @@ import { useAddNewTaskMutation } from "../../../Queries/workspaceQueries";
 import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import {showSnackbar} from "../../../Features/Snackbar/snackbarSlice";
-import { useUser } from "../../../Features/User/userSlice";
+import { useUser } from "../../../Features/User/userSelectors";
 
 export default function AddNewTaskHandler({ children }) {
   const dispatch = useDispatch();

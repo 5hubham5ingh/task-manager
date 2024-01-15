@@ -1,4 +1,4 @@
-import { useUser } from "../../../Features/User/userSlice";
+import { useUser } from "../../../Features/User/userSelectors";
 import {useTaskCompleteMutation} from "../../../Queries/workspaceQueries"
 
 export default function useCompleteTaskMutationHandler(taskId){

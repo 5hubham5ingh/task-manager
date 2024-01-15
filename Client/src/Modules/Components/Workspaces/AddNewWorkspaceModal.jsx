@@ -7,7 +7,7 @@ import { buttonStyle } from "../../Styles/Button";
 import { headingStyle } from "../../Styles/Heading";
 import { BluredBackground } from "../Common/BluredBackground";
 import { modalStyle } from "../../Styles/Modal";
-import { useUser } from "../../Features/User/userSlice";
+import { useUser } from "../../Features/User/userSelectors";
 import { useAddWorkspace } from "../../Queries/workspacesQueries";
 
 export const AddNewWorkspaceModal = ({ closeModal }) => {

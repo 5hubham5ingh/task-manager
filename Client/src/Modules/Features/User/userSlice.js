@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 import { userActionsAndReducers } from './userActionsAndReducers';
 
 export const userSlice = createSlice({
@@ -8,10 +7,8 @@ export const userSlice = createSlice({
     reducers:userActionsAndReducers
 })
 
-export const {login,logOut, signUp} = userSlice.actions;
+export const userActions = userSlice.actions;
 
-export function useUser() {return useSelector(state => state.user?.user)};
 
-export function useToken() {return useSelector(state => state.user?.token)};
 
 export default userSlice.reducer;
