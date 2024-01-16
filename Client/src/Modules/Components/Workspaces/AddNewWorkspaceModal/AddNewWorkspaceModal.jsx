@@ -15,17 +15,15 @@ export default function AddNewWorkspaceModal({
   validationError,
 }) {
   const { theme } = useTheme();
-  const workspaceRef = useRef({
-    name: '',
-    description: '',
-    participants: '',
-  });
+  const workspaceNameRef = useRef('');
+  const workspaceDescriptionRef = useRef('');
+  const workspaceParticipantsRef = useRef('');
 
   const submit = async () => {
     const workspace = {
-      name: workspaceRef.current.name,
-      description: workspaceRef.current.description,
-      participants: workspaceRef.current.participants,
+      name: workspaceNameRef.current.value || '',
+      description: workspaceDescriptionRef.current.value || '',
+      participants: workspaceParticipantsRef.current || [],
     };
     handleValidation(workspace);
   };
@@ -48,19 +46,17 @@ export default function AddNewWorkspaceModal({
         </Typography>
         <TextField
           label="Name"
-          inputRef={(ref) => (workspaceRef.current.name = ref)}
-          validationError={Boolean(validationError)}
+          inputRef={workspaceNameRef}
+          error={Boolean(validationError)}
           helperText={validationError}
           sx={textFieldStyle}
         />
         <TextField
           label="Description"
-          inputRef={(ref) => (workspaceRef.current.description = ref)}
+          inputRef={workspaceDescriptionRef}
           sx={textFieldStyle}
         />
-        <SelectParticipants
-          participants={(ref) => (workspaceRef.current.participants = ref)}
-        />
+        <SelectParticipants participants={workspaceParticipantsRef} />
         <Button
           variant="contained"
           sx={buttonStyle}
@@ -73,4 +69,3 @@ export default function AddNewWorkspaceModal({
     </Box>
   );
 }
-

@@ -11,20 +11,19 @@ export default function AddNewWorkspaceHandler({
   const dispatch = useDispatch();
   useWatchNetworkConnectivity(mutation);
 
-  mutation.error &&
-    dispatch(
-      snackbarActions.showSnackbar({
-        message: mutation.error.message,
-        severity: "error",
-      })
-    );
-
+  // !!mutation.error &&
+  //   dispatch(
+  //     snackbarActions.showSnackbar({
+  //       message: mutation.error.message,
+  //       severity: "error",
+  //     })
+  //   );
   const props = {
     handleSubmit: mutation.mutate,
-    isAddingNewWorkspace: mutation.isLoading,
+    isAddingNewWorkspace: mutation.isPending,
     closeModal,
     ...rest,
   };
 
-  return children({ ...props, ...rest });
+  return children({ ...props });
 }
