@@ -4,6 +4,7 @@ import logo from "../../Assets/logo.svg";
 import { userActions } from "../../Features/User/userSlice";
 import { useDispatch } from "react-redux";
 import { useUser } from "../../Features/User/userSelectors";
+import {navBarStyle, logoAndNameContaier, logoStyle, buttonStyle} from '../../Styles/Home/navbar'
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -29,7 +30,6 @@ export default function Navbar() {
       action: () => navigate("/signUp"),
     },
   ];
-console.log('user',user)
   return (
     <nav style={navBarStyle}>
       <div style={logoAndNameContaier}>
@@ -55,35 +55,4 @@ console.log('user',user)
   );
 }
 
-const navBarStyle = {
-  backgroundColor: "rgb(55, 55, 114)",
-  color: "white",
-  border: "none",
-  borderBottomRightRadius: "30px",
-  paddingLeft: "2%",
-  paddingRight: "2%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  position: "fixed",
-  top: "0",
-  left: "0",
-  right: "0",
-  width: "90%",
-};
 
-const buttonStyle = {
-  color: "#abdaed",
-};
-
-const logoAndNameContaier = {
-  display: "flex",
-  alignItems: "center",
-  cursor: "pointer",
-};
-
-const logoStyle = {
-  height: "50px",
-  width: "50px",
-  marginRight: "5px",
-};

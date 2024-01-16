@@ -5,7 +5,7 @@ import illustration1 from "../../Assets/illustration1.svg";
 import illustration2 from "../../Assets/illustration2.svg";
 import illustration3 from "../../Assets/illustration3.svg";
 import illustration4 from "../../Assets/illustration4.svg";
-import "../../Styles/HomePageBody.css";
+import "../../Styles/Home/Body.css";
 
 const subtextsAndSvgs = [
   {
@@ -43,7 +43,7 @@ export default function GenerateSubtextAndSvg() {
     item1Ref.current.classList.add("fadeInAnimation");
     item2Ref.current.classList.add("fadeInAnimation");
 
-    const delayDuration = 12000 - (subtextAndSvg.index * 2200)
+    const delayDuration = 12000 - subtextAndSvg.index * 2200;
 
     wait(delayDuration).then(() => {
       const nextIndex =
@@ -60,7 +60,15 @@ export default function GenerateSubtextAndSvg() {
   return (
     <Fragment>
       <Grid ref={item1Ref} item xs={12} md={4}>
-        <img src={subtextAndSvg.svg} style={svgStyle} alt="" />
+        <img
+          src={subtextAndSvg.svg}
+          style={{
+            width: "110%",
+            height: "110%",
+            marginTop: "-10%",
+          }}
+          alt=""
+        />
       </Grid>
       <Grid
         ref={item2Ref}
@@ -89,8 +97,3 @@ export default function GenerateSubtextAndSvg() {
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-const svgStyle = {
-  width: "110%",
-  height: "110%",
-  marginTop: "-10%",
-};

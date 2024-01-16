@@ -1,6 +1,6 @@
-import { CircularProgress, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { BackGround } from "../../Components/Common/Background";
-import { bodyStyle, headingStyle } from "../../Styles/Workspace";
+import { bodyStyle, headingStyle } from "../../Styles/Worlspace/workspace";
 import AddNewTask from "../../Components/Workspace/AddNewTask/index";
 import Task from "../../Components/Workspace/Task";
 

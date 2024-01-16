@@ -1,13 +1,13 @@
 import { useTheme } from "../../Theme/Theme";
-import { buttonStyle } from "../../../Styles/Workspace";
-import useTaskCompleteMutationHandler from "./completeTaskMutationHandler";
+import { buttonStyle } from "../../../Styles/Worlspace/common";
+//import useTaskCompleteMutationHandler from "./completeTaskMutationHandler";
 import { Button } from "@mui/material";
 
 import CheckIcon from "@mui/icons-material/Check";
 
-export default function CompleteTask({ taskId }) {
+export default function CompleteTask({ taskComplete }) {
   const { theme } = useTheme();
-  const taskComplete = useTaskCompleteMutationHandler(taskId);
+ // const taskComplete = useTaskCompleteMutationHandler(taskId);
   return (
     <Button
       sx={{

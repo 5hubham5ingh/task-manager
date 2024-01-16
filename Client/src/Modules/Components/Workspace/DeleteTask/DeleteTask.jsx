@@ -1,13 +1,11 @@
 import { Button } from "@mui/material";
-import { buttonStyle } from "../../../Styles/Workspace";
-import useDeleteTaskMutationHandler from "./deleteTaskMutationHandler";
+import { buttonStyle } from "../../../Styles/Worlspace/common";
 import { useTheme } from "../../Theme/Theme";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useUser } from "../../../Features/User/userSelectors";
 
-export default function DeleteTask({ task }) {
-  const removeTask = useDeleteTaskMutationHandler(task._id);
+export default function DeleteTask({ deleteTask,task }) {
   const { theme } = useTheme();
   const user = useUser();
   return (
@@ -17,7 +15,7 @@ export default function DeleteTask({ task }) {
         ...buttonStyle,
         backgroundImage: `linear-gradient(${theme},#3268a8)`,
       }}
-      onClick={removeTask}
+      onClick={deleteTask}
     >
       <DeleteIcon />
     </Button>

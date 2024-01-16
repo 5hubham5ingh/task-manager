@@ -1,9 +1,8 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import { footerContainer, iconColor, iconSize } from "../../Styles/Home/footer";
 export default function Footer() {
-  const iconSize = {
-    fontSize: "2rem",
-  };
+  
 
   const contacts = [
     {
@@ -17,12 +16,12 @@ export default function Footer() {
   ];
 
   return (
-    <div style={footerDiv}>
+    <div style={footerContainer}>
       {contacts.map(({ link, icon }, index) => (
         <a
           key={index}
           href={link}
-          style={{ color: "black" }}
+          style={iconColor}
           target="_blank"
           rel="noopener noreferrer"
           title="Developer"
@@ -34,16 +33,4 @@ export default function Footer() {
   );
 }
 
-const footerDiv = {
-  position: "absolute",
-  bottom: 0,
-  right: 0,
-  paddingRight: "1rem",
-  display: "flex",
-  justifyContent: "space-around",
-  alignItems: "center",
-  cursor: "pointer",
-  color: "black",
-  fontWeight: "bold",
-  fontFamily: "'Poppins', sans-serif",
-};
+;
