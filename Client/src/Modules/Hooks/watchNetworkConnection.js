@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { hideSnackbar, showSnackbar } from "../Features/Snackbar/snackbarSlice";
+import { snackbarActions } from "../Features/Snackbar/snackbarSlice";
 
 
 export default function useWatchNetworkConnection(query){
@@ -10,14 +10,14 @@ export default function useWatchNetworkConnection(query){
         () =>
           query.isPaused ?
           dispatch(
-            showSnackbar({
+            snackbarActions.showSnackbar({
               message: "Waiting for internet connection",
               severity: "info",
               autoHide: false,
             })
           ) :
           dispatch(
-            hideSnackbar()
+            snackbarActions.hideSnackbar()
           ),
         1000
       );

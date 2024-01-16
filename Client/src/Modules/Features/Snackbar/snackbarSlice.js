@@ -12,6 +12,6 @@ export const snackbarSlice = createSlice({
     reducers:snackbarActionsAndReducers
 });
 
-export const {showSnackbar, hideSnackbar} = snackbarSlice.actions;
+export const snackbarActions = snackbarSlice.actions;
 
 export default snackbarSlice.reducer;

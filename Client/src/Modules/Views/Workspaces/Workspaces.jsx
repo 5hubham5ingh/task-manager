@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Stack, Typography } from "@mui/material";
-import WorkspaceCard from "../../Components/Workspaces/workspaceCard";
+import WorkspaceCard from "../../Components/Workspaces/WorkspaceCard/workspaceCard";
 import { useTheme } from "../../Components/Theme/Theme";
 import Masonry from "@mui/lab/Masonry";
 import { BackGround } from "../../Components/Common/Background";
-import { AddNewWorkspaceModal } from "../../Components/Workspaces/AddNewWorkspaceModal";
+import  AddNewWorkspaceModal  from "../../Components/Workspaces/AddNewWorkspaceModal/index";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 export default function Workspaces({ workspaces, refetch}) {

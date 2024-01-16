@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useWorkspaces } from "../../Queries/workspacesQueries";
-import { showSnackbar } from "../../Features/Snackbar/snackbarSlice";
+import { snackbarActions } from "../../Features/Snackbar/snackbarSlice";
 import useWatchNetworkConnection from "../../Hooks/watchNetworkConnection";
 
 export default function WorkspacesHandler({ children }) {
@@ -8,11 +8,11 @@ export default function WorkspacesHandler({ children }) {
   const dispatch = useDispatch();
   useWatchNetworkConnection(workspacesQuery);
   if (workspacesQuery.isRefetching)
-    dispatch(showSnackbar({ severity: "info", message: "Refreshing..." }));
+    dispatch(snackbarActions.showSnackbar({ severity: "info", message: "Refreshing..." }));
 
   if (workspacesQuery.isError) {
     dispatch(
-      showSnackbar({
+      snackbarActions.showSnackbar({
         severity: "error",
         message: workspacesQuery.error.message,
       })

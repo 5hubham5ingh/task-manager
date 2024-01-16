@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import "../../Styles/Form.js";
 import { Checkbox, FormControlLabel, Stack, TextField, Typography } from "@mui/material";
 import { useTheme } from "../../Components/Theme/Theme.jsx";
 import { Button } from "@mui/material";
-import { textFieldStyle } from "../../Styles/TextField.js";
-import { buttonStyle } from "../../Styles/Button.js";
-import { headingStyle } from "../../Styles/Heading.js";
-import { formStyle } from "../../Styles/Form.js";
+import { textFieldStyle } from "../../Styles/Common/TextField.js";
+import { buttonStyle } from "../../Styles/Common/Button.js";
+import { headingStyle } from "../../Styles/Common/Heading.js";
+import { formStyle } from "../../Styles/Common/Form.js";
 
 
 export default function LogIn({

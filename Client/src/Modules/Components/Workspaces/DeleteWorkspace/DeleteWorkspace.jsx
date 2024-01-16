@@ -1,5 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDeleteWorkspace } from '../../Queries/workspacesQueries';
+import { useDeleteWorkspace } from '../../../Queries/workspacesQueries';
 import { CircularProgress } from '@mui/material';
 
 export default function DeleteWorkspace({workspaceId}){

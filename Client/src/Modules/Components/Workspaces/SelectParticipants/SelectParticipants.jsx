@@ -2,10 +2,10 @@ import { useEffect, useState, Fragment } from 'react'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-import { textFieldStyle } from '../../Styles/TextField';
+import { textFieldStyle } from '../../../Styles/Common/TextField';
 import { Paper } from '@mui/material';
-import { PARTICIPANTS } from '../../ApiRoutes/workspaces';
-import request from '../../Utils/AxiosApi'
+import { PARTICIPANTS } from '../../../ApiRoutes/workspaces';
+import request from '../../../Utils/AxiosApi'
 
 
 

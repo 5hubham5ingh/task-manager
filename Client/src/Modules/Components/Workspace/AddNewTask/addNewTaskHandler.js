@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useAddNewTaskMutation } from "../../../Queries/workspaceQueries";
 import { useParams } from "react-router-dom";
 import { useRef } from "react";
-import {showSnackbar} from "../../../Features/Snackbar/snackbarSlice";
+import {snackbarActions} from "../../../Features/Snackbar/snackbarSlice";
 import { useUser } from "../../../Features/User/userSelectors";
 
 export default function AddNewTaskHandler({ children }) {
@@ -16,7 +16,7 @@ export default function AddNewTaskHandler({ children }) {
   const callbacks = {
     onSuccess: ({ data: newTask }) => {
       dispatch(
-        showSnackbar({
+        snackbarActions.showSnackbar({
           message: "Task added successfully",
           severity: "success",
         })
@@ -34,7 +34,7 @@ export default function AddNewTaskHandler({ children }) {
     },
     onError: () => {
       dispatch(
-        showSnackbar({
+        snackbarActions.showSnackbar({
           message: "Failed to add new task",
           severity: "error",
         })
@@ -48,7 +48,7 @@ export default function AddNewTaskHandler({ children }) {
     () =>
       addNewTaskMutation.isPaused &&
       dispatch(
-        showSnackbar({
+        snackbarActions.showSnackbar({
           message: "Waiting for internet connection",
           severity: "info",
           autoHideDuration: 1000000000,
