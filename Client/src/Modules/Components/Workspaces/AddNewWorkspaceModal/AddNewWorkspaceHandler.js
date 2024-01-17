@@ -1,7 +1,9 @@
-import { useAddWorkspace } from "../../../Queries/workspacesQueries";
+import { useAddWorkspace } from "../../../Queries/Workspaces/addWorkspaceMutation";
 import useWatchNetworkConnectivity from "../../../Hooks/watchNetworkConnection";
 import { useDispatch } from "react-redux";
 import { snackbarActions } from "../../../Features/Snackbar/snackbarSlice";
+
+
 export default function AddNewWorkspaceHandler({
   children,
   closeModal,
@@ -11,15 +13,33 @@ export default function AddNewWorkspaceHandler({
   const dispatch = useDispatch();
   useWatchNetworkConnectivity(mutation);
 
-  // !!mutation.error &&
-  //   dispatch(
-  //     snackbarActions.showSnackbar({
-  //       message: mutation.error.message,
-  //       severity: "error",
-  //     })
-  //   );
+
+  const onSuccess = () => {
+    dispatch(
+      snackbarActions.showSnackbar({
+        message: "Workspace added successfully",
+        severity: "success",
+      })
+    );
+  };
+
+  const onError = () => {
+    dispatch(
+      snackbarActions.showSnackbar({
+        message: "Error adding workspace",
+        severity: "error",
+      })
+    );
+  }
+
+  const callbacks = {
+    onSuccess,
+    onError,
+  };
+
+
   const props = {
-    handleSubmit: mutation.mutate,
+    handleSubmit: (workspace) => mutation.mutate(workspace,callbacks),
     isAddingNewWorkspace: mutation.isPending,
     closeModal,
     ...rest,

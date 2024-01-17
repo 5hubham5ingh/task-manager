@@ -1,4 +1,4 @@
-import { SET_Theme_Button, useTheme } from "../Theme/Theme";
+import { SetThemeButton, useTheme } from "../Theme/Theme";
 import { Outlet } from "react-router-dom";
 export const BackGround = ({ children, itemAlignment }) => {
   const { theme } = useTheme();
@@ -12,7 +12,7 @@ export const BackGround = ({ children, itemAlignment }) => {
     alignItems: itemAlignment,
     overflow: 'auto',
   }}>
-    <SET_Theme_Button />
+    <SetThemeButton />
     {children}
     <Outlet />
   </div>

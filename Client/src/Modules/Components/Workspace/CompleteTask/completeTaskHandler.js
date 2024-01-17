@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useUser } from "../../../Features/User/userSelectors";
-import { useTaskCompleteMutation } from "../../../Queries/workspaceQueries";
+import { useTaskCompleteMutation } from "../../../Queries/Workspace/taskCompleteMutation";
 import { snackbarActions } from "../../../Features/Snackbar/snackbarSlice";
 
 

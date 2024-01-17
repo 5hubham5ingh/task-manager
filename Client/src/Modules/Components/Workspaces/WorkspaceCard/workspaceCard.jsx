@@ -2,10 +2,9 @@ import { Divider } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "../../Theme/Theme";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../Theme/Theme";
 
-import DeleteWorkspace from "../DeleteWorkspace/DeleteWorkspace";
 import DeleteWorkspaceButton from "../DeleteWorkspace";
 
 export default function WorkspaceCard({ workspace }) {

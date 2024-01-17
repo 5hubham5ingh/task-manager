@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useWorkspaces } from "../../Queries/workspacesQueries";
+import { useWorkspaces } from "../../Queries/Workspaces/workspacesQuery";
 import { snackbarActions } from "../../Features/Snackbar/snackbarSlice";
 import useWatchNetworkConnection from "../../Hooks/watchNetworkConnection";
 import Retry from "../../Components/Common/Retry";

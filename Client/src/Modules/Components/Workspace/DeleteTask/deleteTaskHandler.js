@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useDeleteTaskMutation } from "../../../Queries/workspaceQueries";
+import { useDeleteTaskMutation } from "../../../Queries/Workspace/deleteTaskMutation";
 import {snackbarActions} from "../../../Features/Snackbar/snackbarSlice";
 
 export default function DeleteTaskHandler({ children, task }) {

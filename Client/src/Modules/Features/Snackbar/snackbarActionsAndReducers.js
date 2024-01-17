@@ -4,7 +4,7 @@ export const snackbarActionsAndReducers = {
             message:action.payload.message,
             severity: action.payload.severity,
             visibility: true,
-            autoHideDuration: action.payload.autoHide ? 2500 : null
+            autoHideDuration: action.payload.autoHide ? 3000 : null
         }
     },
     hideSnackbar: state =>{

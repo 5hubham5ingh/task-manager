@@ -1,4 +1,4 @@
-import { Alert, Snackbar as MUI_Snackbar } from "@mui/material";
+import { Alert, Snackbar as  MUI_SNACKBAR } from "@mui/material";
 import {useSelector, useDispatch} from 'react-redux';
 import { snackbarActions } from "../../Features/Snackbar/snackbarSlice";
 
@@ -9,7 +9,7 @@ export default function Snackbar() {
     const close = () => dispatch(snackbarActions.hideSnackbar());
     return (
       <>
-        <MUI_Snackbar
+        <MUI_SNACKBAR
           message={snackbar.message}
           autoHideDuration={snackbar.autoHideDuration}
           open={snackbar.visibility}
@@ -26,7 +26,7 @@ export default function Snackbar() {
           >
             {snackbar.message}
           </Alert>
-        </MUI_Snackbar>
+        </ MUI_SNACKBAR>
       </>
     );
   }

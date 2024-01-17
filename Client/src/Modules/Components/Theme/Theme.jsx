@@ -17,7 +17,7 @@ export function useTheme() {
   return useContext(Theme);
 }
 
-export function SET_Theme_Button() {
+export function SetThemeButton() {
   const { theme, setTheme } = useTheme();
   const updateTheme = () => {
     theme === ACTION.DARK ? setTheme(ACTION.LIGHT) : setTheme(ACTION.DARK);

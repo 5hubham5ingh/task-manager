@@ -1,7 +1,8 @@
-import { useDeleteWorkspace } from "../../../Queries/workspacesQueries";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import { snackbarActions } from "../../../Features/Snackbar/snackbarSlice";
+import { useDeleteWorkspace } from "../../../Queries/Workspaces/deleteWorkspaceMutation";
+
+
 export default function DeleteWorkspaceHandler({ children,workspaceId, ...rest }) {
   const deleteWorkspaceMutation = useDeleteWorkspace();
   const dispatch = useDispatch();

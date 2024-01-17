@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux";
-import { useWorkspace } from "../../Queries/workspaceQueries";
 import { useParams } from "react-router-dom";
-import useWatchNetworkConnection from "../../Hooks/watchNetworkConnection";
 import Retry from "../../Components/Common/Retry";
+import useWatchNetworkConnection from "../../Hooks/watchNetworkConnection";
+import { useWorkspace } from "../../Queries/Workspace/workspaceQuery";
 
 export default function WorkspaceHandler({ children }) {
   const { workspaceId } = useParams();

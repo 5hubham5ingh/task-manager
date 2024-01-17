@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import { useAddNewTaskMutation } from "../../../Queries/workspaceQueries";
+import { useAddNewTaskMutation } from "../../../Queries/Workspace/addNewTaskMutation";
 import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import { snackbarActions } from "../../../Features/Snackbar/snackbarSlice";
