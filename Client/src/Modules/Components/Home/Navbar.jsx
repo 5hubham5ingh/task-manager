@@ -13,7 +13,7 @@ export default function Navbar() {
   const userButtons = [
     {
       name: "Workspaces",
-      action: () => navigate("/workspaces"),
+      action: () => navigate(`/Workspaces/${user._id}`),
     },
     {
       name: "Log out",

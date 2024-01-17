@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import {snackbarActions} from "../../../Features/Snackbar/snackbarSlice";
 import { useUser } from "../../../Features/User/userSelectors";
+import useWatchNetworkConnection from "../../../Hooks/watchNetworkConnection";
 
 export default function AddNewTaskHandler({ children }) {
   const dispatch = useDispatch();
@@ -43,19 +44,7 @@ export default function AddNewTaskHandler({ children }) {
   };
 
   const addNewTaskMutation = useAddNewTaskMutation(workspaceId, callbacks);
-
-  setTimeout(
-    () =>
-      addNewTaskMutation.isPaused &&
-      dispatch(
-        snackbarActions.showSnackbar({
-          message: "Waiting for internet connection",
-          severity: "info",
-          autoHideDuration: 1000000000,
-        })
-      ),
-    1000
-  );
+  useWatchNetworkConnection(addNewTaskMutation);
 
   const addNewTask = (newTask, onSuccess) => {
     const task = {

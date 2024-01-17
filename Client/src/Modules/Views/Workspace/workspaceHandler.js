@@ -1,32 +1,20 @@
 import { useDispatch } from "react-redux";
 import { useWorkspace } from "../../Queries/workspaceQueries";
 import { useParams } from "react-router-dom";
-import { snackbarActions } from "../../Features/Snackbar/snackbarSlice";
 import useWatchNetworkConnection from "../../Hooks/watchNetworkConnection";
+import Retry from "../../Components/Common/Retry";
 
 export default function WorkspaceHandler({ children }) {
   const { workspaceId } = useParams();
   const workspaceQuery = useWorkspace(workspaceId);
-  const dispatch = useDispatch();
   useWatchNetworkConnection(workspaceQuery);
-  
-  if (workspaceQuery.isError) {
-    dispatch(
-      snackbarActions.showSnackbar({
-        message: workspaceQuery.error.message,
-        severity: "error",
-      })
-    );
-  }
 
-  if(workspaceQuery.isLoading) {
-    return <div>Loading...</div>
-  }
+  if (workspaceQuery.isError) return <Retry onRetry={workspaceQuery.refetch} />;
 
+  if (workspaceQuery.isLoading) return <div>Loading...</div>;
 
-
-  if(workspaceQuery.isSuccess)
-  return children({
-    tasks: workspaceQuery.data,
-  });
+  if (workspaceQuery.isSuccess)
+    return children({
+      tasks: workspaceQuery.data,
+    });
 }
