@@ -4,7 +4,7 @@ import request from "../Utils/AxiosApi";
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
 
-export const useWorkspaces = () => {debugger
+export const useWorkspaces = () => {
   
   const { userId } = useParams();
 
@@ -87,9 +87,6 @@ export const useDeleteWorkspace = () => {
 
   return useMutation({
     mutationFn: deleteWorkspace,
-    onError: (error) => {
-      console.log(error);
-    },
     onSuccess,
   });
 };

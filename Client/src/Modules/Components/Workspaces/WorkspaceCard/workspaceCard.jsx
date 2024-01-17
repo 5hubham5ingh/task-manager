@@ -6,6 +6,7 @@ import { useTheme } from "../../Theme/Theme";
 import { useNavigate } from "react-router-dom";
 
 import DeleteWorkspace from "../DeleteWorkspace/DeleteWorkspace";
+import DeleteWorkspaceButton from "../DeleteWorkspace";
 
 export default function WorkspaceCard({ workspace }) {
   const { theme } = useTheme();
@@ -41,7 +42,8 @@ export default function WorkspaceCard({ workspace }) {
           )}
         </Typography>
       </CardContent>
-      <DeleteWorkspace workspaceId={workspace._id} />
+      {/* <DeleteWorkspace workspaceId={workspace._id} /> */}
+      <DeleteWorkspaceButton workspaceId={workspace._id} />
     </Card>
   );
 }

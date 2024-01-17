@@ -6,7 +6,6 @@ import { snackbarActions } from "../../Features/Snackbar/snackbarSlice";
 export default function Snackbar() {
     const snackbar = useSelector(state => state.snackbar);
     const dispatch = useDispatch();
-
     const close = () => dispatch(snackbarActions.hideSnackbar());
     return (
       <>

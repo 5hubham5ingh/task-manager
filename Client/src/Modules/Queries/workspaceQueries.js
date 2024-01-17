@@ -61,7 +61,6 @@ export const useDeleteTaskMutation = () => {
   }
 
   function onSuccess() {
-    console.log("success deletion",taskId.current)
     queryClient.setQueryData(["workspace", workspaceId], (workspace) => {
       return {
         ...workspace,
@@ -73,7 +72,6 @@ export const useDeleteTaskMutation = () => {
   return useMutation({
     mutationFn: deleteTask,
     onSuccess,
-    onError: () => console.log("Error in delete task mutation"),
   });
 };
 
