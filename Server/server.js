@@ -6,12 +6,10 @@ import { authRoutes } from "./routes/auth.js";
 import { workspaceRoutes } from "./routes/workspace.js";
 import { workspacesRoutes } from "./routes/workspaces.js";
 import { verifyToken } from "./middleware/auth.js";
+import { corsOptions } from "./configs/cors.js";
 config();
 const app = express();
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'DELETE', 'PATCH'],
-}));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 
