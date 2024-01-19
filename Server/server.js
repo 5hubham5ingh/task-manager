@@ -5,7 +5,7 @@ import cors from "cors";
 import { authRoutes } from "./routes/auth.js";
 import { workspaceRoutes } from "./routes/workspace.js";
 import { workspacesRoutes } from "./routes/workspaces.js";
-import { verifyToken } from "./middleware/auth.js";
+import validateUserSession from "./middleware/auth.js";
 import { corsOptions } from "./configs/cors.js";
 config();
 const app = express();
@@ -15,9 +15,9 @@ app.use(express.json());
 
 app.use('/auth',authRoutes);
 
-app.use('/user',workspacesRoutes);
+app.use('/user',validateUserSession,workspacesRoutes);
 
-app.use('/workspace',workspaceRoutes);
+app.use('/workspace',validateUserSession,workspaceRoutes);
 
 
 app.get("/", (request, response) => {

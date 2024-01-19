@@ -1,18 +1,22 @@
-import jwt from "jsonwebtoken";
+import { verifyToken } from "../utils/auth.js";
 
-export const verifyToken = async (request,response,next)=>{
-    try{
-
-        let token = request.header("Authorization");
-
-        if(!token) return response.status(403).send("Auth key missing. Access denied.");
-
-        const verified = jwt.verify(token, process.env.JWT_KEY);
-        request.user = verified;
-        next();
-    }catch(error){
-        console.log("Error while verifying jwt token", error.message);
-
-        response.status(500).json({error})
+const validateAuthCookie = (request, response, next) => {
+  const token = request.cookies.access_token;
+  if (!token) {
+    return response.status(403).json({ message: "Session Expired" });
+  }
+  try {
+    const jwbTokenDetails = verifyToken(token);
+    if (!jwbTokenDetails) {
+      return response.status(403).json({ message: "Invalid Token" });
     }
-}
+    request.user = jwbTokenDetails;
+    return next();
+  } catch (err) {
+    console.log(err);
+    return response.status(403).json({ message: "Internal Server Error" });
+  }
+};
+
+
+export default validateAuthCookie;

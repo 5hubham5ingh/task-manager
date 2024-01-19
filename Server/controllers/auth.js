@@ -1,6 +1,7 @@
 import { User } from "../Models/user.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
+import { generateToken } from "../utils/auth.js";
 
 export const logIn = async (request, response) => {
   try {
@@ -26,11 +27,19 @@ export const logIn = async (request, response) => {
       return;
     }
 
-    const token = Jwt.sign({ id: user._id }, process.env.JWT_KEY);
+    // const token = Jwt.sign({ id: user._id }, process.env.JWT_KEY);
+
+    const token = generateToken({ id: user._id });
 
     delete user.password;
 
-    response.status(200).json({ token, user });
+    response
+      .cookie("access_token", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24,
+      })
+      .status(200)
+      .json({ token, user });
   } catch (error) {
     console.log("Error while logging in.", error);
     response.status(500).json({ message: "Internal Server Error" });
@@ -58,8 +67,15 @@ export const register = async (request, response) => {
     const responseObject = savedUser.toObject();
     delete responseObject.password;
 
-    const token = Jwt.sign({ id: savedUser._id }, process.env.JWT_KEY);
-    response.status(201).json({ token, user: responseObject });
+    // const token = Jwt.sign({ id: savedUser._id }, process.env.JWT_KEY);
+    const token = generateToken({ id: savedUser._id });
+    response
+      .cookie("access_token", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24,
+      })
+      .status(201)
+      .json({ token, user: responseObject });
   } catch (error) {
     if (error.code === 11000) {
       response.status(409).json({ message: "User name already exists." });
