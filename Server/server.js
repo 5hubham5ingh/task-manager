@@ -22,7 +22,7 @@ app.use('/workspace',workspaceRoutes);
 
 app.get("/", (request, response) => {
     console.log(request);
-    return response.status(234).send("Welcome to mern stack tutorial");
+    return response.status(234).send("Welcome to Workspace server.");
   });
 
 const mongoDbUri = process.env.MONGO_URI;
