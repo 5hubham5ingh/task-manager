@@ -7,11 +7,12 @@ import { workspaceRoutes } from "./routes/workspace.js";
 import { workspacesRoutes } from "./routes/workspaces.js";
 import validateUserSession from "./middleware/auth.js";
 import { corsOptions } from "./configs/cors.js";
+import cookieParser from "cookie-parser";
 config();
 const app = express();
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
-
 
 app.use('/auth',authRoutes);
 

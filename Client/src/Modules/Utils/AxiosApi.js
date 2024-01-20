@@ -3,6 +3,7 @@ import axios from "axios";
 const BASE_URL = "http://localhost:5555";
 const server = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true
 });
 
 export default async function request({ ...options }){

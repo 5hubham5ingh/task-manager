@@ -1,11 +1,12 @@
 import { User } from "../Models/user.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
-import { generateToken } from "../utils/auth.js";
+import { generateToken, getCookieOptions } from "../utils/auth.js";
 
 export const logIn = async (request, response) => {
+  console.log("Login");
   try {
-    const { userName, password } = request.body;
+    const { userName, password,extendedSession } = request.body;
 
     if (!userName || !password) {
       response.status(400).json({ message: "Username or password missing" });
@@ -34,12 +35,11 @@ export const logIn = async (request, response) => {
     delete user.password;
 
     response
-      .cookie("access_token", token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24,
-      })
+      .cookie("access_token", token, getCookieOptions(extendedSession))
       .status(200)
       .json({ token, user });
+
+    return;
   } catch (error) {
     console.log("Error while logging in.", error);
     response.status(500).json({ message: "Internal Server Error" });
@@ -48,7 +48,7 @@ export const logIn = async (request, response) => {
 
 export const register = async (request, response) => {
   try {
-    const { userName, password } = request.body;
+    const { userName, password, extendedSession } = request.body;
 
     if (!userName || !password) {
       response.status(400).json({ message: "User name or password missing" });
@@ -70,10 +70,7 @@ export const register = async (request, response) => {
     // const token = Jwt.sign({ id: savedUser._id }, process.env.JWT_KEY);
     const token = generateToken({ id: savedUser._id });
     response
-      .cookie("access_token", token, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24,
-      })
+      .cookie("access_token", token, getCookieOptions(extendedSession))
       .status(201)
       .json({ token, user: responseObject });
   } catch (error) {
