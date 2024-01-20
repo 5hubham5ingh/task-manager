@@ -19,6 +19,12 @@ export const getCookieOptions = (isExtendedSession) => {
   return {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: isExtendedSession ? 30 * 24 * 60 * 60 : 1 * 24 * 60 * 60,
+    maxAge: isExtendedSession ? 24 * 60 * 60 : 1 * 60 * 60,
   };
+};
+
+export const generateRefreshToken = (payload) => {
+  return jwt.sign(payload, process.env.JWT_REFRESH_KEY, {
+    expiresIn: "1d",
+  });
 };

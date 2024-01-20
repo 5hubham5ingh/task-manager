@@ -1,85 +1,49 @@
-import { User } from "../Models/user.js";
-import bcrypt from "bcrypt";
-import Jwt from "jsonwebtoken";
-import { generateToken, getCookieOptions } from "../utils/auth.js";
+import httpStatus from "http-status";
+import {
+  logInUserWithUsernameAndPassword,
+  registerUserWithUsernameAndPassword,
+} from "../services/auth.js";
+import { getAuthTokens } from "../services/token.js";
+import {
+  getCookieOptions
+} from "../utils/auth.js";
+import catchAsync from "../utils/catchAsync.js";
 
-export const logIn = async (request, response) => {
-  console.log("Login");
-  try {
-    const { userName, password,extendedSession } = request.body;
+export const logIn = catchAsync(async (request, response) => {
+  const { userName, password, extendedSession } = request.body;
 
-    if (!userName || !password) {
-      response.status(400).json({ message: "Username or password missing" });
-      console.log(request.body);
-      return;
-    }
+  if (!userName || !password)
+    return response
+      .status(httpStatus.BAD_REQUEST)
+      .json({ message: "Username or password missing" });
 
-    const user = await User.findOne({ userName }).lean();
+  const user = await logInUserWithUsernameAndPassword(userName, password);
 
-    if (!user) {
-      response.status(404).json({ message: "User not found" });
-      return;
-    }
+  // const token = generateToken({ id: user._id });
+  // const refreshToken = generateRefreshToken({ id: user._id });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+  const {token, refreshToken} = await getAuthTokens({id: user._id})
 
-    if (!isMatch) {
-      response.status(400).json({ message: "Invalid password" });
-      return;
-    }
+  response
+    .cookie("access_token", token, getCookieOptions(extendedSession))
+    .status(httpStatus.OK)
+    .json({ token: refreshToken, user });
+});
 
-    // const token = Jwt.sign({ id: user._id }, process.env.JWT_KEY);
+export const register = catchAsync(async (request, response) => {
+  const { userName, password, extendedSession } = request.body;
 
-    const token = generateToken({ id: user._id });
+  if (!userName || !password) 
+   return response.status(httpStatus.BAD_REQUEST).json({ message: "User name or password missing" });
 
-    delete user.password;
+   
 
-    response
-      .cookie("access_token", token, getCookieOptions(extendedSession))
-      .status(200)
-      .json({ token, user });
+  const newUser = await registerUserWithUsernameAndPassword(userName, password);
 
-    return;
-  } catch (error) {
-    console.log("Error while logging in.", error);
-    response.status(500).json({ message: "Internal Server Error" });
-  }
-};
+  const {token, refreshToken} = await getAuthTokens({id: user._id})
 
-export const register = async (request, response) => {
-  try {
-    const { userName, password, extendedSession } = request.body;
-
-    if (!userName || !password) {
-      response.status(400).json({ message: "User name or password missing" });
-
-      return;
-    }
-
-    const salt = await bcrypt.genSalt();
-
-    const passwordHash = bcrypt.hashSync(password, salt);
-
-    const newUser = { userName, password: passwordHash };
-
-    const savedUser = await User.create(newUser);
-
-    const responseObject = savedUser.toObject();
-    delete responseObject.password;
-
-    // const token = Jwt.sign({ id: savedUser._id }, process.env.JWT_KEY);
-    const token = generateToken({ id: savedUser._id });
-    response
-      .cookie("access_token", token, getCookieOptions(extendedSession))
-      .status(201)
-      .json({ token, user: responseObject });
-  } catch (error) {
-    if (error.code === 11000) {
-      response.status(409).json({ message: "User name already exists." });
-    } else {
-      response.status(500).json({ message: "Internal Server Error" });
-    }
-
-    console.log("Error while user registration / signup.", error);
-  }
-};
+  return response
+    .cookie("access_token", token, getCookieOptions(extendedSession))
+    .status(httpStatus.CREATED)
+    .json({ token: refreshToken, user: newUser });
+});

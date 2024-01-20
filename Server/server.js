@@ -8,6 +8,7 @@ import { workspacesRoutes } from "./routes/workspaces.js";
 import validateUserSession from "./middleware/auth.js";
 import { corsOptions } from "./configs/cors.js";
 import cookieParser from "cookie-parser";
+import { errorConverter, errorHandler } from "./middleware/error.js";
 config();
 const app = express();
 app.use(cors(corsOptions));
@@ -16,15 +17,26 @@ app.use(express.json());
 
 app.use('/auth',authRoutes);
 
-app.use('/user',validateUserSession,workspacesRoutes);
+app.use(validateUserSession)
 
-app.use('/workspace',validateUserSession,workspaceRoutes);
+app.use('/user',workspacesRoutes);
+
+app.use('/workspace',workspaceRoutes);
 
 
 app.get("/", (request, response) => {
     console.log(request);
     return response.status(234).send("Welcome to Workspace server.");
   });
+
+  // convert error to ApiError, if needed
+app.use(errorConverter);
+
+// handle error
+app.use(errorHandler);
+
+
+// connect to DB
 
 const mongoDbUri = process.env.MONGO_URI;
 const PORT = process.env.PORT;
