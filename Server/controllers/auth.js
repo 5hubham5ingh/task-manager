@@ -19,12 +19,9 @@ export const logIn = catchAsync(async (request, response) => {
 
   const user = await logInUserWithUsernameAndPassword(userName, password);
 
-  // const token = generateToken({ id: user._id });
-  // const refreshToken = generateRefreshToken({ id: user._id });
-
   const {token, refreshToken} = await getAuthTokens({id: user._id})
 
-  response
+  return response
     .cookie("access_token", token, getCookieOptions(extendedSession))
     .status(httpStatus.OK)
     .json({ token: refreshToken, user });

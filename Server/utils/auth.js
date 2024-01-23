@@ -19,7 +19,7 @@ export const getCookieOptions = (isExtendedSession) => {
   return {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: isExtendedSession ? 24 * 60 * 60 : 1 * 60 * 60,
+    maxAge: isExtendedSession ? 12 * 60 * 60 * 60 : 60 * 60 * 60,
   };
 };
 
