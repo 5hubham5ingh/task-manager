@@ -13,7 +13,7 @@ export default function useWatchNetworkConnection(query){
             snackbarActions.showSnackbar({
               message: "Waiting for internet connection",
               severity: "info",
-              autoHide: false,
+              autoHideDuration: null,
             })
           ) :
           dispatch(
