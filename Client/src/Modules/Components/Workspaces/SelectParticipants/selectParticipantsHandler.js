@@ -7,30 +7,6 @@ export default function SelectParticipantsHandler({ children, participants }) {
   const [options, setOptions] = useState([]);
   const isLoading = isSearching && options.length === 0;
 
-  // useEffect(() => {
-  //   let active = true;
-
-  //   if (!isLoading) {
-  //     return undefined;
-  //   }
-
-  //   (async () => {
-  //     try {
-  //       const response = await request({
-  //         url: `${PARTICIPANTS}?search=`,
-  //         method: "get",
-  //       });
-  //       active && setOptions(response.data);
-  //     } catch (error) {
-  //       console.log("error while fetching participants list", error);
-  //     }
-  //   })();
-
-  //   return () => {
-  //     active = false;
-  //   };
-  // }, [isLoading]);
-
   useEffect(() => {
     if (!isSearching) {
       setOptions([]);

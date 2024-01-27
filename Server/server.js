@@ -9,11 +9,14 @@ import validateUserSession from "./middleware/auth.js";
 import { corsOptions } from "./configs/cors.js";
 import cookieParser from "cookie-parser";
 import { errorConverter, errorHandler } from "./middleware/error.js";
+import authLimiter from "./middleware/rateLimiter.js";
 config();
 const app = express();
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
+
+app.use('/auth',authLimiter)
 
 app.use('/auth',authRoutes);
 
