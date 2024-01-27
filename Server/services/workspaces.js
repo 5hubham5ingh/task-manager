@@ -71,9 +71,9 @@ export const createNewWorkspace = async (userId, workspaceData) => {
 export const searchUsers = async (query) => {
   if (!query) return [];
   const users = await User.find(
-    { userName: { $regex: query, $options: "i" } },
+    { userName: { $regex: query, $options: "i", } },
     "userName _id"
-  );
+  ).limit(5);
   return users;
 };
 
