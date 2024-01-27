@@ -5,6 +5,7 @@ import {
   createNewWorkspace,
   deleteWorkspaceById,
   getUsersWorkSpacesList,
+  searchUsers,
 } from "../services/workspaces.js";
 import ApiError from "../utils/apiError.js";
 
@@ -34,14 +35,16 @@ export async function createWorkspace(request, response) {
 
 export async function getParticipantsList(request, response) {
   console.log("getting participants lists");
-  try {
-    const participantsList = await User.find({}, "userName _id");
+  const participantsList  = await searchUsers(request.query.userName);
+  return response.status(httpStatus.OK).json(participantsList);
+  // try {
+  //   const participantsList = await User.find({}, "userName _id");
 
-    response.status(200).json(participantsList);
-  } catch (error) {
-    console.log("Error while getting participants list:", error);
-    response.status(500).json({ error });
-  }
+  //   response.status(200).json(participantsList);
+  // } catch (error) {
+  //   console.log("Error while getting participants list:", error);
+  //   response.status(500).json({ error });
+  // }
 }
 
 export async function deleteWorkSpace(request, response) {

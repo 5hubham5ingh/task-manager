@@ -12,14 +12,14 @@ export const verifyToken = (token) => {
 };
 
 export const generateToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_KEY, { expiresIn: "1h" });
+  return jwt.sign(payload, process.env.JWT_KEY, { expiresIn: '1h' });
 };
 
 export const getCookieOptions = (isExtendedSession) => {
   return {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: isExtendedSession ? 12 * 60 * 60 * 60 : 60 * 60 * 60,
+    maxAge: isExtendedSession ? 12 * 3600000 : 3600000,
   };
 };
 

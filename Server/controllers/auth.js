@@ -21,8 +21,10 @@ export const logIn = catchAsync(async (request, response) => {
 
   const {token, refreshToken} = await getAuthTokens({id: user._id})
 
+  const cookieOptions = getCookieOptions(extendedSession);
+
   return response
-    .cookie("access_token", token, getCookieOptions(extendedSession))
+    .cookie("access_token", token, cookieOptions)
     .status(httpStatus.OK)
     .json({ token: refreshToken, user });
 });
