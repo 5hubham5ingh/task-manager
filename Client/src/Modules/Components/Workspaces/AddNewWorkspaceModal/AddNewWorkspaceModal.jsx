@@ -6,7 +6,7 @@ import { modalStyle } from "../../../Styles/Common/Modal";
 import { textFieldStyle } from "../../../Styles/Common/TextField";
 import { BluredBackground } from "../../Common/BluredBackground";
 import { useTheme } from "../../Theme/Theme";
-import SelectParticipants from "../SelectParticipants/SelectParticipants";
+import SearchUsers from "../SelectParticipants";
 
 export default function AddNewWorkspaceModal({
   closeModal,
@@ -56,7 +56,7 @@ export default function AddNewWorkspaceModal({
           inputRef={workspaceDescriptionRef}
           sx={textFieldStyle}
         />
-        <SelectParticipants participants={workspaceParticipantsRef} />
+        <SearchUsers participants={workspaceParticipantsRef} />
         <Button
           variant="contained"
           sx={buttonStyle}
