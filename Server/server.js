@@ -12,6 +12,7 @@ import { errorConverter, errorHandler } from "./middleware/error.js";
 import authLimiter from "./middleware/rateLimiter.js";
 import helmet from "helmet";
 import {xss} from "express-xss-sanitizer";
+import mongoSanitize from "express-mongo-sanitize";
 config();
 const app = express();
 
@@ -29,6 +30,11 @@ app.use(express.json());
 
 // sanitize request data
 app.use(xss());
+app.use(mongoSanitize());
+
+// gzip compression
+// app.use(compression());
+
 
 // limit repeated failed requests to auth endpoints
 app.use('/auth',authLimiter)
