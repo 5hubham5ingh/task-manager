@@ -1,4 +1,4 @@
-## Workspace *[MERN]*
+## Workspace
 * Workspace is a minimal yet **production ready** web application.
 * It is created to demonstrate and also learn designing production ready **MVPs** (Minimal viable product).
 * It follows [**S.O.L.I.D**](https://www.freecodecamp.org/news/solid-design-principles-in-software-development/) design priciples.
