@@ -10,12 +10,27 @@ import { corsOptions } from "./configs/cors.js";
 import cookieParser from "cookie-parser";
 import { errorConverter, errorHandler } from "./middleware/error.js";
 import authLimiter from "./middleware/rateLimiter.js";
+import helmet from "helmet";
+import {xss} from "express-xss-sanitizer";
 config();
 const app = express();
+
+// set security HTTP headers
+app.use(helmet());
+
+// enable cors
 app.use(cors(corsOptions));
+
+// parse cookies
 app.use(cookieParser());
+
+// parse json request body
 app.use(express.json());
 
+// sanitize request data
+app.use(xss());
+
+// limit repeated failed requests to auth endpoints
 app.use('/auth',authLimiter)
 
 app.use('/auth',authRoutes);
