@@ -13,6 +13,8 @@ import authLimiter from "./middleware/rateLimiter.js";
 import helmet from "helmet";
 import {xss} from "express-xss-sanitizer";
 import mongoSanitize from "express-mongo-sanitize";
+import compression from "compression";
+
 config();
 const app = express();
 
@@ -26,14 +28,14 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // parse json request body
-app.use(express.json());
+app.use(express.json({ limit: "1kb" }));
 
 // sanitize request data
 app.use(xss());
 app.use(mongoSanitize());
 
 // gzip compression
-// app.use(compression());
+app.use(compression());
 
 
 // limit repeated failed requests to auth endpoints
