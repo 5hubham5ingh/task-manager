@@ -2,6 +2,7 @@ import { User } from "../Models/user.js";
 import ApiError from "../utils/apiError.js";
 import httpStatus from "http-status";
 import bcrypt from "bcrypt";
+import { verifyRefreshToken } from "../utils/auth.js";
 
 export const logInUserWithUsernameAndPassword = async (userName, password) => {
   const user = await User.findOne({ userName }).lean();
