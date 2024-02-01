@@ -1,11 +1,10 @@
 import httpStatus from "http-status";
 import {
   logInUserWithUsernameAndPassword,
-  loginUserWithRefreshToken,
-  registerUserWithUsernameAndPassword,
+  registerUserWithUsernameAndPassword
 } from "../services/auth.js";
 import { getAuthTokens } from "../services/token.js";
-import { getCookieOptions, verifyRefreshToken } from "../utils/auth.js";
+import { getCookieOptions } from "../utils/auth.js";
 import catchAsync from "../utils/catchAsync.js";
 
 export const logIn = catchAsync(async (request, response) => {
@@ -25,7 +24,7 @@ export const logIn = catchAsync(async (request, response) => {
   return response
     .cookie("access_token", token, cookieOptions)
     .status(httpStatus.OK)
-    .json({ token: extendedSession ? refreshToken : null, user });
+    .json({ ...(extendedSession ? {token : refreshToken} : {} ), user });
 });
 
 export const register = catchAsync(async (request, response) => {

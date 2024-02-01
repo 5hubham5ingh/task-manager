@@ -1,37 +1,43 @@
-import { generateToken, getCookieOptions, verifyRefreshToken, verifyToken } from "../utils/auth.js";
+import httpStatus from "http-status";
+import {
+  generateToken,
+  getCookieOptions,
+  verifyRefreshToken,
+  verifyToken,
+} from "../utils/auth.js";
 
 const validateAuthCookie = (request, response, next) => {
   const token = request.cookies.access_token;
-  const refreshToken = request.body.refreshToken;
+  const refreshToken = request.headers.autherisation;
 
-  if(refreshToken){
-    const refreshTokenDetails = verifyRefreshToken(refreshToken);
-    if(refreshTokenDetails){
-      const token = generateToken(refreshTokenDetails.user);
+  if (refreshToken) {
+    try {
+      const refreshTokenDetails = verifyRefreshToken(refreshToken);
+
+      const token = generateToken({ userId: refreshTokenDetails.userId});
       const cookieOptions = getCookieOptions();
       response.cookie("access_token", token, cookieOptions);
       request.userId = refreshTokenDetails.userId;
       return next();
+    } catch(e){
+      console.log(e);
+      return response
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: "Session Expired" });
     }
-    return response.status(403).json({ message: "Invalid Refresh Token" })
   }
 
-
   if (!token) {
-    return response.status(403).json({ message: "Session Expired" });
+    return response.status(httpStatus.UNAUTHORIZED).send();
   }
   try {
     const jwbTokenDetails = verifyToken(token);
-    if (!jwbTokenDetails) {
-      return response.status(403).json({ message: "Invalid Token" });
-    }
+
     request.userId = jwbTokenDetails.userId;
     return next();
   } catch (err) {
-    console.log(err);
-    return response.status(403).json({ message: "Internal Server Error" });
+    return response.status(httpStatus.UNAUTHORIZED).send();
   }
 };
-
 
 export default validateAuthCookie;
