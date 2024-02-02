@@ -1,7 +1,6 @@
 export const userActionsAndReducers = {
   //Action : reducer
   login: (state, action) => {
-    debugger;
     if (action.payload?.token)
       localStorage.setItem("refreshToken", action.payload?.token);
     return { user: action.payload.user };

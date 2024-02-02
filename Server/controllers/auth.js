@@ -6,14 +6,12 @@ import {
 import { getAuthTokens } from "../services/token.js";
 import { getCookieOptions } from "../utils/auth.js";
 import catchAsync from "../utils/catchAsync.js";
+import ApiError from "../utils/apiError.js";
 
 export const logIn = catchAsync(async (request, response) => {
   const { userName, password, extendedSession } = request.body;
 
-  if (!userName || !password)
-    return response
-      .status(httpStatus.BAD_REQUEST)
-      .json({ message: "Username or password missing" });
+  if (!userName || !password) throw new ApiError(httpStatus.BAD_REQUEST, "Username or password missing");
 
   const user = await logInUserWithUsernameAndPassword(userName, password);
 
@@ -30,10 +28,7 @@ export const logIn = catchAsync(async (request, response) => {
 export const register = catchAsync(async (request, response) => {
   const { userName, password, extendedSession } = request.body;
 
-  if (!userName || !password)
-    return response
-      .status(httpStatus.BAD_REQUEST)
-      .json({ message: "User name or password missing" });
+  if (!userName || !password) throw new ApiError(httpStatus.BAD_REQUEST, "Username or password missing");
 
   const newUser = await registerUserWithUsernameAndPassword(userName, password);
 

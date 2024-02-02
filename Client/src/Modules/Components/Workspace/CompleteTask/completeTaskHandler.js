@@ -7,7 +7,7 @@ import { snackbarActions } from "../../../Features/Snackbar/snackbarSlice";
 export default function CompleteTaskHandler({children,taskId}){
     const completeTaskMutation = useTaskCompleteMutation();
     const user = useUser();
-    const dispatch = useDispatch();debugger
+    const dispatch = useDispatch();
     const completedBy = {
       isCompleted: true,
       completedBy: user.userName,

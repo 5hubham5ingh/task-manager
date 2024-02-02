@@ -5,16 +5,16 @@ import { snackbarActions } from "../../Features/Snackbar/snackbarSlice";
 import { userActions } from "../../Features/User/userSlice";
 import request from "../../Utils/AxiosApi";
 import { useEffect } from "react";
-import { useToken } from "../../Features/User/userSelectors";
 
 export default function FormSubmitHandler({ children }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get("session");
 
-  const onLoginSuccess = (response) => {debugger
+  const onLoginSuccess = (response) => {
     dispatch(userActions.login(response.data));
     dispatch(
       snackbarActions.showSnackbar({
