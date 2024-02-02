@@ -13,9 +13,8 @@ export default function FormSubmitHandler({ children }) {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get("session");
-  const refreshToken = localStorage.getItem("refreshToken");
 
-  const onLoginSuccess = (response) => {
+  const onLoginSuccess = (response) => {debugger
     dispatch(userActions.login(response.data));
     dispatch(
       snackbarActions.showSnackbar({
@@ -36,12 +35,7 @@ export default function FormSubmitHandler({ children }) {
   };
 
   useEffect(() => {
-    if (query === "expired" && refreshToken) {
-      dispatch(userActions.logOut());
-      request({ url: LOG_IN, method: "post", data: { refreshToken } })
-        .then(onLoginSuccess)
-        .catch(onLoginError);
-    } else {
+    if (query === "expired") {
       dispatch(userActions.logOut());
       dispatch(
         snackbarActions.showSnackbar({
