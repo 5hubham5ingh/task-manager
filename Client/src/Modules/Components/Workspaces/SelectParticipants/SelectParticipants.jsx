@@ -1,50 +1,18 @@
-import { useEffect, useState, Fragment } from 'react'
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import CircularProgress from '@mui/material/CircularProgress';
-import { textFieldStyle } from '../../../Styles/Common/TextField';
-import { Paper } from '@mui/material';
-import { PARTICIPANTS } from '../../../ApiRoutes/workspaces';
-import request from '../../../Utils/AxiosApi'
+import { Fragment } from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import CircularProgress from "@mui/material/CircularProgress";
+import { textFieldStyle } from "../../../Styles/Common/TextField";
+import { Paper } from "@mui/material";
 
-
-
-export default function SelectParticipants({ participants }) {
-  const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState([]);
-  const loading = open && options.length === 0;
-
-
-  useEffect(() => {
-    let active = true;
-
-    if (!loading) {
-      return undefined;
-    }
-
-    (async () => {
-      try{
-      const response = await request({url:PARTICIPANTS, method: 'get'});
-        active && setOptions(response.data);
-
-    }catch(error){
-      console.log("error while fetching participants list",error);
-    }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
-
-  useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
-  const handleChange = (e, value) => {
-    participants.current = value;
-  }
+export default function SelectParticipants({
+  handleChange,
+  isSearching,
+  searchUser,
+  stopSearch,
+  options,
+  isLoading,
+}) {
   return (
     <Autocomplete
       onChange={handleChange}
@@ -52,29 +20,34 @@ export default function SelectParticipants({ participants }) {
       PaperComponent={({ children }) => (
         <Paper style={{ background: "#abdaed" }}>{children}</Paper>
       )}
-      sx={{ background: 'transparent',borderRadius:'20px' }}
-      open={open}
+      sx={{ background: "transparent", borderRadius: "20px" }}
+      open={isSearching}
       multiple={true}
-      onOpen={() => {
-        setOpen(true);
-      }}
       onClose={() => {
-        setOpen(false);
+        stopSearch(false);
       }}
-      isOptionEqualToValue={(option, value) => option.userName === value.userName}
+      isOptionEqualToValue={(option, value) =>
+        option.userName === value.userName
+      }
       getOptionLabel={(option) => option.userName}
       options={options}
-      loading={loading}
+      loading={isLoading}
       renderInput={(params) => (
         <TextField
           sx={textFieldStyle}
           {...params}
           label="Participants"
+          onChange={(e) => {
+            console.log("change");
+            searchUser(e.target.value);
+          }}
           InputProps={{
             ...params.InputProps,
             endAdornment: (
               <Fragment>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {isLoading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : null}
                 {params.InputProps.endAdornment}
               </Fragment>
             ),

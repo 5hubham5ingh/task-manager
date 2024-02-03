@@ -1,72 +1,41 @@
-import { User } from "../Models/user.js";
-import bcrypt from "bcrypt";
-import Jwt from "jsonwebtoken";
+import httpStatus from "http-status";
+import {
+  logInUserWithUsernameAndPassword,
+  registerUserWithUsernameAndPassword
+} from "../services/auth.js";
+import { getAuthTokens } from "../services/token.js";
+import { getCookieOptions } from "../utils/auth.js";
+import catchAsync from "../utils/catchAsync.js";
+import ApiError from "../utils/apiError.js";
 
-export const logIn = async (request, response) => {
-  try {
-    const { userName, password } = request.body;
+export const logIn = catchAsync(async (request, response) => {
+  const { userName, password, extendedSession } = request.body;
 
-    if (!userName || !password) {
-      response.status(400).json({ message: "Username or password missing" });
-      console.log(request.body);
-      return;
-    }
+  if (!userName || !password) throw new ApiError(httpStatus.BAD_REQUEST, "Username or password missing");
 
-    const user = await User.findOne({ userName }).lean();
+  const user = await logInUserWithUsernameAndPassword(userName, password);
 
-    if (!user) {
-      response.status(404).json({ message: "User not found" });
-      return;
-    }
+  const { token, refreshToken } = await getAuthTokens({ userId: user._id });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+  const cookieOptions = getCookieOptions();
 
-    if (!isMatch) {
-      response.status(400).json({ message: "Invalid password" });
-      return;
-    }
+  return response
+    .cookie("access_token", token, cookieOptions)
+    .status(httpStatus.OK)
+    .json({ ...(extendedSession ? {token : refreshToken} : {} ), user });
+});
 
-    const token = Jwt.sign({ id: user._id }, process.env.JWT_KEY);
+export const register = catchAsync(async (request, response) => {
+  const { userName, password, extendedSession } = request.body;
 
-    delete user.password;
+  if (!userName || !password) throw new ApiError(httpStatus.BAD_REQUEST, "Username or password missing");
 
-    response.status(200).json({ token, user });
-  } catch (error) {
-    console.log("Error while logging in.", error);
-    response.status(500).json({ message: "Internal Server Error" });
-  }
-};
+  const newUser = await registerUserWithUsernameAndPassword(userName, password);
 
-export const register = async (request, response) => {
-  try {
-    const { userName, password } = request.body;
+  const { token, refreshToken } = await getAuthTokens({ userId: user._id });
 
-    if (!userName || !password) {
-      response.status(400).json({ message: "User name or password missing" });
-
-      return;
-    }
-
-    const salt = await bcrypt.genSalt();
-
-    const passwordHash = bcrypt.hashSync(password, salt);
-
-    const newUser = { userName, password: passwordHash };
-
-    const savedUser = await User.create(newUser);
-
-    const responseObject = savedUser.toObject();
-    delete responseObject.password;
-
-    const token = Jwt.sign({ id: savedUser._id }, process.env.JWT_KEY);
-    response.status(201).json({ token, user: responseObject });
-  } catch (error) {
-    if (error.code === 11000) {
-      response.status(409).json({ message: "User name already exists." });
-    } else {
-      response.status(500).json({ message: "Internal Server Error" });
-    }
-
-    console.log("Error while user registration / signup.", error);
-  }
-};
+  return response
+    .cookie("access_token", token, getCookieOptions(extendedSession))
+    .status(httpStatus.CREATED)
+    .json({ token: refreshToken, user: newUser });
+});

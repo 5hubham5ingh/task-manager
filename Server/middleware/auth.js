@@ -1,18 +1,43 @@
-import jwt from "jsonwebtoken";
+import httpStatus from "http-status";
+import {
+  generateToken,
+  getCookieOptions,
+  verifyRefreshToken,
+  verifyToken,
+} from "../utils/auth.js";
 
-export const verifyToken = async (request,response,next)=>{
-    try{
+const validateAuthCookie = (request, response, next) => {
+  const token = request.cookies.access_token;
+  const refreshToken = request.headers.autherisation;
 
-        let token = request.header("Authorization");
+  if (refreshToken) {
+    try {
+      const refreshTokenDetails = verifyRefreshToken(refreshToken);
 
-        if(!token) return response.status(403).send("Auth key missing. Access denied.");
-
-        const verified = jwt.verify(token, process.env.JWT_KEY);
-        request.user = verified;
-        next();
-    }catch(error){
-        console.log("Error while verifying jwt token", error.message);
-
-        response.status(500).json({error})
+      const token = generateToken({ userId: refreshTokenDetails.userId});
+      const cookieOptions = getCookieOptions();
+      response.cookie("access_token", token, cookieOptions);
+      request.userId = refreshTokenDetails.userId;
+      return next();
+    } catch(e){
+      console.log(e);
+      return response
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: "Session Expired" });
     }
-}
+  }
+
+  if (!token) {
+    return response.status(httpStatus.UNAUTHORIZED).send();
+  }
+  try {
+    const jwbTokenDetails = verifyToken(token);
+
+    request.userId = jwbTokenDetails.userId;
+    return next();
+  } catch (err) {
+    return response.status(httpStatus.UNAUTHORIZED).send();
+  }
+};
+
+export default validateAuthCookie;

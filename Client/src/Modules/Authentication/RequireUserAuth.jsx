@@ -1,5 +1,5 @@
-import { useSelector} from 'react-redux'
-import { Navigate } from 'react-router-dom'
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { BackGround } from '../Components/Common/Background';
 
 function RequireUserAuth({children}) {

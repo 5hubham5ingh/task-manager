@@ -7,7 +7,8 @@ export const snackbarSlice = createSlice({
     initialState:{
         message:"",
         severity:"success",
-        visibility: false
+        visibility: false,
+        autoHideDuration: 3000
     },
     reducers:snackbarActionsAndReducers
 });
