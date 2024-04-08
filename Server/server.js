@@ -14,6 +14,7 @@ import helmet from "helmet";
 import {xss} from "express-xss-sanitizer";
 import mongoSanitize from "express-mongo-sanitize";
 import compression from "compression";
+import server_config from "./configs/config.js"
 
 config();
 const app = express();

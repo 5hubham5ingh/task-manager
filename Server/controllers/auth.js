@@ -4,7 +4,7 @@ import {
   registerUserWithUsernameAndPassword
 } from "../services/auth.js";
 import { getAuthTokens } from "../services/token.js";
-import { getCookieOptions } from "../utils/auth.js";
+import { generateToken, getCookieOptions } from "../utils/auth.js";
 import catchAsync from "../utils/catchAsync.js";
 import ApiError from "../utils/apiError.js";
 
@@ -16,6 +16,7 @@ export const logIn = catchAsync(async (request, response) => {
   const user = await logInUserWithUsernameAndPassword(userName, password);
 
   const cookieOptions = getCookieOptions();
+  const token = generateToken({userId: user._id});
 
   return response
     .cookie("access_token", token, cookieOptions)

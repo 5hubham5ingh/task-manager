@@ -17,7 +17,7 @@ export const logInUserWithUsernameAndPassword = async (userName, password) => {
   }
 
   delete user.password;
-
+  user._id = `${user._id}`
   return user;
 };
 
@@ -45,4 +45,4 @@ export const registerUserWithUsernameAndPassword = async (
   return user;
 };
 
-export const logOutUser = () => {};
+export const logOutUser = () => { };

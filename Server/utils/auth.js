@@ -1,15 +1,16 @@
 import jwt from "jsonwebtoken";
+import config from "../configs/config.js"
 
 export const verifyToken = (token) => {
-  const decoded = jwt.verify(token, process.env.JWT_KEY, {
-    maxAge: `${process.env.SESSION_DURATION}`,
+  const decoded = jwt.verify(token, config.JWT_KEY, {
+    maxAge: `${config.SESSION_DURATION}`,
   });
   return decoded;
 };
 
 export const generateToken = (payload) => {
-  console.log("session duration", process.env.SESSION_DURATION);
-  return jwt.sign(payload, process.env.JWT_KEY, { expiresIn: `${process.env.SESSION_DURATION}` });
+  console.log("session duration", config.SESSION_DURATION);
+  return jwt.sign(payload, config.JWT_KEY, { expiresIn: `${config.SESSION_DURATION}` });
 };
 
 export const getCookieOptions = () => {
@@ -21,15 +22,15 @@ export const getCookieOptions = () => {
 };
 
 export const generateRefreshToken = (payload) => {
-  console.log("session duration", process.env.EXTENDED_SESSION_DURATION);
-  return jwt.sign(payload, process.env.JWT_KEY, {
-    expiresIn: `${process.env.EXTENDED_SESSION_DURATION}`,
+  console.log("session duration", config.EXTENDED_SESSION_DURATION);
+  return jwt.sign(payload, config.JWT_KEY, {
+    expiresIn: `${config.EXTENDED_SESSION_DURATION}`,
   });
 };
 
 export const verifyRefreshToken = (refreshToken) => {
-  const decoded = jwt.verify(refreshToken, process.env.JWT_KEY, {
-    maxAge: `${process.env.EXTENDED_SESSION_DURATION}`,
+  const decoded = jwt.verify(refreshToken, config.JWT_KEY, {
+    maxAge: `${config.EXTENDED_SESSION_DURATION}`,
   });
   return decoded;
 };
