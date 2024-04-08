@@ -15,8 +15,6 @@ export const logIn = catchAsync(async (request, response) => {
 
   const user = await logInUserWithUsernameAndPassword(userName, password);
 
-  const { token, refreshToken } = await getAuthTokens({ userId: user._id });
-
   const cookieOptions = getCookieOptions();
 
   return response
