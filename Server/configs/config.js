@@ -2,7 +2,7 @@ import { config } from "dotenv";
 
 config();
 export default {
-  PORT: process.env.PORT || 3000,
+  PORT: process.env.PORT || 5555,
   MONGO_URI: process.env.MONGO_URI || null,
   JWT_KEY: process.env.JWT_KEY || 'workspce',
   JWT_REFRESH_KEY: process.env.JWT_REFRESH_KEY || 'workspace',
