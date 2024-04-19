@@ -1,6 +1,7 @@
 import { Workspace } from "../Models/workspace.js";
+import catchAsync from "../utils/catchAsync.js";
 
-export async function sendTaskList(request, response) {
+export const sendTaskList = catchAsync(async (request, response) => {
   console.log("send task List.");
   try {
     const { workspaceId } = request.params;
@@ -16,10 +17,12 @@ export async function sendTaskList(request, response) {
   } catch (error) {
     console.error("Error in opening one workspace", error);
     response.status(500).json({ message: "Internal Server Error" });
-  }
-}
 
-export async function addTask(request, response) {
+  }
+})
+
+
+export const addTask = catchAsync(async (request, response) => {
   try {
     const { workspaceId } = request.params;
     const task = request.body;
@@ -41,9 +44,10 @@ export async function addTask(request, response) {
     console.error("Error while adding a new task.", error);
     response.status(500).json({ message: "Internal Server Error" });
   }
-}
+})
 
-export async function updateTask(request, response) {
+
+export const updateTask = catchAsync(async (request, response) => {
   try {
     const { workspaceId, taskId } = request.params;
     const updatedTaskData = request.body;
@@ -75,9 +79,10 @@ export async function updateTask(request, response) {
     console.error("Error while updating the task.", error);
     response.status(500).json({ message: "Internal Server Error" });
   }
-}
 
-export async function deleteTask(request, response) {
+})
+
+export const deleteTask = catchAsync(async (request, response) => {
   try {
     const { workspaceId, taskId } = request.params;
 
@@ -103,4 +108,4 @@ export async function deleteTask(request, response) {
     console.error("Error while deleting the task.", error);
     response.status(500).json({ message: "Internal Server Error" });
   }
-}
+})

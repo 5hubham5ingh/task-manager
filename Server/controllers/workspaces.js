@@ -8,8 +8,10 @@ import {
   searchUsers,
 } from "../services/workspaces.js";
 import ApiError from "../utils/apiError.js";
+import catchAsync from "../utils/catchAsync.js";
 
-export async function getUsersWorkSpaces(request, response) {
+
+export const getUsersWorkSpaces = catchAsync(async (request, response) => {
   console.log("getting user workplace");
 
   const { userId } = request.params;
@@ -18,9 +20,10 @@ export async function getUsersWorkSpaces(request, response) {
   const workspaceList = await getUsersWorkSpacesList(userId);
 
   return response.status(httpStatus.OK).json(workspaceList);
-}
+})
 
-export async function createWorkspace(request, response) {
+
+export const createWorkspace = catchAsync(async (request, response) => {
   console.log("creating workspace");
 
   const userId = request.params.userId;
@@ -31,15 +34,19 @@ export async function createWorkspace(request, response) {
   const newWorkspaceId = await createNewWorkspace(userId, request.body);
 
   return response.status(httpStatus.CREATED).json({ _id: newWorkspaceId });
-}
 
-export async function getParticipantsList(request, response) {
+})
+
+
+export const getParticipantsList = catchAsync(async (request, response) => {
   console.log("getting participants lists");
-  const participantsList  = await searchUsers(request.query.userName);
+  const participantsList = await searchUsers(request.query.userName);
   return response.status(httpStatus.OK).json(participantsList);
-}
 
-export async function deleteWorkSpace(request, response) {
+})
+
+
+export const deleteWorkSpace = catchAsync(async (request, response) => {
   console.log("deleting workspace.");
   const { userId, workspaceId } = request.params;
   const isWorkspaceDeleted = await deleteWorkspaceById(userId, workspaceId);
@@ -47,6 +54,7 @@ export async function deleteWorkSpace(request, response) {
   return isWorkspaceDeleted
     ? response.status(204).send()
     : response
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "Error while deleting workspace" });
-}
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: "Error while deleting workspace" });
+
+})
