@@ -6,9 +6,15 @@ import ApiError from "../utils/apiError.js";
 export const getUsersWorkSpacesList = async (userId) => {
   const user = await User.findById(userId, "workspaces");
 
-  if (!user || !user.workspaces.length) {
+  if (!user) {
     throw new ApiError(
       httpStatus.NOT_FOUND,
+      "User does not exists"
+    )
+  }
+  if (!user.workspaces.length) {
+    throw new ApiError(
+      httpStatus.NO_CONTENT,
       "No workspaces exist for this user"
     );
   }
