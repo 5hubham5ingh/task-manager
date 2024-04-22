@@ -1,6 +1,4 @@
 import httpStatus from "http-status";
-import { User } from "../Models/user.js";
-import { Workspace } from "../Models/workspace.js";
 import {
   createNewWorkspace,
   deleteWorkspaceById,
