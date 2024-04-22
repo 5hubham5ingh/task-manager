@@ -18,6 +18,8 @@ export const useWorkspace = (workspaceId) => {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     refetchOnWindowBlur: false,
+    refetchInterval: 1000 * 60,
+    staleTime: 1000 * 60,
     select: (Data) => Data.data,
     enabled: true,
   });
