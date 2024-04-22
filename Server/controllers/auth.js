@@ -31,7 +31,7 @@ export const register = catchAsync(async (request, response) => {
 
   const newUser = await registerUserWithUsernameAndPassword(userName, password);
 
-  const { token, refreshToken } = await getAuthTokens({ userId: user._id });
+  const { token, refreshToken } = await getAuthTokens({ userId: newUser._id });
 
   return response
     .cookie("access_token", token, getCookieOptions(extendedSession))

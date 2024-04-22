@@ -7,13 +7,13 @@ export const logInUserWithUsernameAndPassword = async (userName, password) => {
   const user = await User.findOne({ userName }).lean();
 
   if (!user) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "User not found");
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect password");
+    throw new ApiError(httpStatus.FORBIDDEN, "Incorrect password");
   }
 
   delete user.password;
