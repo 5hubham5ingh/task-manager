@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5555";
+const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL ?? "http://localhost:3333";
 const server = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
