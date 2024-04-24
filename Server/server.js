@@ -37,6 +37,10 @@ app.use(mongoSanitize());
 app.use(compression());
 
 
+app.get("/", (request, response) => {
+  console.log(request);
+  return response.status(234).send("Welcome to Workspace server.");
+});
 // limit repeated failed requests to auth endpoints
 app.use('/auth', authLimiter)
 
@@ -49,10 +53,6 @@ app.use('/user', workspacesRoutes);
 app.use('/workspace', workspaceRoutes);
 
 
-app.get("/", (request, response) => {
-  console.log(request);
-  return response.status(234).send("Welcome to Workspace server.");
-});
 
 // convert error to ApiError, if needed
 app.use(errorConverter);
