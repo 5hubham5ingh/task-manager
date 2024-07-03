@@ -26,4 +26,4 @@
   * [**Yup with Formik**](https://formik.org/docs/guides/validation) for form validation.
   * [**Redux Toolkit Persist**](https://redux-toolkit.js.org/rtk-query/usage/persistence-and-rehydration) for persisting the Redux state between page refreshes and application restarts.
 
-    **Note:** The backend is hosted on free tier of Render so the serve goes to sleep after a eriod of inactivity. So, for firest login or signup, please wait a while for the serve to restart.
+    **Note:** The backend is hosted on a free tier of Render so the server goes to sleep after a period of inactivity. So, for the first login or signup, please wait a while for the server to restart.
