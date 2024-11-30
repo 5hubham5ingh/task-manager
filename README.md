@@ -1,4 +1,7 @@
 ## Workspace
+
+![workspaceDemo-ezgif com-webp-to-gif-converter](https://github.com/user-attachments/assets/fc3a71e3-1f9d-46ba-aa4c-e6a3d3555356)
+
 * Workspace is a minimal yet **production ready** web application.
 * It is created to demonstrate and also learn designing production ready **MVPs** (Minimal viable product).
 * It follows [**S.O.L.I.D**](https://www.freecodecamp.org/news/solid-design-principles-in-software-development/) design priciples.
